@@ -26,7 +26,6 @@ var HomePage = React.createClass({
   	}
 
   	var borderTest = {
-  		// border:"1px solid red"
   	}
 
     var pizzaz = {
@@ -39,18 +38,18 @@ var HomePage = React.createClass({
 	        <div>
 	        	<h1 style={thingcolor}><span style={pizzaz}>Responsive</span> Front<span style={pizzaz}>-</span>End Development</h1>
 	        </div>
-		</div>
-		<div className="row">
-			<div style={thingcolor}>
-				<ul style={resetMarginPadding}>
-					<li className="first" style={liStyle}>HTML</li>
-					<li className="second" style={liStyle}>CSS</li>
-					<li className="third" style={liStyle}>JavaScript</li>
-					<li className="fourth" style={liStyle}>ReactJS</li>
-					<li className="fifth" style={liStyle}>Redux</li>
-				</ul>
-			</div>
-		</div>
+    		</div>
+    		<div className="row">
+    			<div style={thingcolor}>
+    				<ul style={resetMarginPadding}>
+    					<li className="first" style={liStyle}>HTML</li>
+    					<li className="second" style={liStyle}>CSS</li>
+    					<li className="third" style={liStyle}>JavaScript</li>
+    					<li className="fourth" style={liStyle}>ReactJS</li>
+    					<li className="fifth" style={liStyle}>Redux</li>
+    				</ul>
+    			</div>
+    		</div>
       </div>
     );
   }

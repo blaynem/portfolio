@@ -46,8 +46,9 @@ var BasePage = React.createClass({
       paddingTop: 0
     }
 
-    var headerStyle = {
-      height:"200px"
+    var childrenStyles = {
+      marginTop:"150px",
+      marginBottom:"100px"
     }
 
     return(
@@ -57,12 +58,10 @@ var BasePage = React.createClass({
               baseColor={this.props.route.baseColor}
               mainColor={this.props.route.mainColor}
               navLinks={navLinks}/>
-          <div style={headerStyle}>
-          </div>
-          <div id="middleContainer">
+          <div id="middleContainer" style={childrenStyles}>
             {this.props.children}
           </div>
-          <div>
+          <div style={{paddingBottom:"20px"}}>
             <Footer
                 baseColor={this.props.route.baseColor}
                 mainColor={this.props.route.mainColor}

@@ -22,6 +22,11 @@ var NavItem = React.createClass({
       fontSize: "1.3em"
     }
 
+    var paraStyle = {
+      textShadow: "1px 1px 8px gray, 0 0 15px black",
+      fontSize: ".8em"
+    }
+
     if (this.state.hover){
       hoverText.color = (this.props.mainColor)
       hoverText.background = "rgba(0,0,0,0)"
@@ -34,8 +39,10 @@ var NavItem = React.createClass({
         className={this.state.hover ? "active":""}
         onMouseOver={this.mouseOver}
         onMouseOut={this.mouseOut}>
-        <Link className="linkWithHover" style={hoverText} to={this.props.href}>{this.props.title}</Link>
-        <p>{this.props.content}</p>
+        <Link className="linkWithHover" style={hoverText} to={this.props.href}>
+          {this.props.title}
+          <p style={paraStyle}>{this.props.content}</p>
+        </Link>
       </li>
     );
   }

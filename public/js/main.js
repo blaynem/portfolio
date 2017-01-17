@@ -3000,6 +3000,92 @@ process.umask = function() { return 0; };
 var strictUriEncode = require('strict-uri-encode');
 var objectAssign = require('object-assign');
 
+function encoderForArrayFormat(opts) {
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, index) {
+				return value === null ? [
+					encode(key, opts),
+					'[',
+					index,
+					']'
+				].join('') : [
+					encode(key, opts),
+					'[',
+					encode(index, opts),
+					']=',
+					encode(value, opts)
+				].join('');
+			};
+
+		case 'bracket':
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [
+					encode(key, opts),
+					'[]=',
+					encode(value, opts)
+				].join('');
+			};
+
+		default:
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [
+					encode(key, opts),
+					'=',
+					encode(value, opts)
+				].join('');
+			};
+	}
+}
+
+function parserForArrayFormat(opts) {
+	var result;
+
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, accumulator) {
+				result = /\[(\d*)]$/.exec(key);
+
+				key = key.replace(/\[\d*]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = {};
+				}
+
+				accumulator[key][result[1]] = value;
+			};
+
+		case 'bracket':
+			return function (key, value, accumulator) {
+				result = /(\[])$/.exec(key);
+
+				key = key.replace(/\[]$/, '');
+
+				if (!result || accumulator[key] === undefined) {
+					accumulator[key] = value;
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+
+		default:
+			return function (key, value, accumulator) {
+				if (accumulator[key] === undefined) {
+					accumulator[key] = value;
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+	}
+}
+
 function encode(value, opts) {
 	if (opts.encode) {
 		return opts.strict ? strictUriEncode(value) : encodeURIComponent(value);
@@ -3008,11 +3094,29 @@ function encode(value, opts) {
 	return value;
 }
 
+function keysSorter(input) {
+	if (Array.isArray(input)) {
+		return input.sort();
+	} else if (typeof input === 'object') {
+		return keysSorter(Object.keys(input)).sort(function (a, b) {
+			return Number(a) - Number(b);
+		}).map(function (key) {
+			return input[key];
+		});
+	}
+
+	return input;
+}
+
 exports.extract = function (str) {
 	return str.split('?')[1] || '';
 };
 
-exports.parse = function (str) {
+exports.parse = function (str, opts) {
+	opts = objectAssign({arrayFormat: 'none'}, opts);
+
+	var formatter = parserForArrayFormat(opts);
+
 	// Create an object with no prototype
 	// https://github.com/sindresorhus/query-string/issues/47
 	var ret = Object.create(null);
@@ -3034,31 +3138,36 @@ exports.parse = function (str) {
 		var key = parts.shift();
 		var val = parts.length > 0 ? parts.join('=') : undefined;
 
-		key = decodeURIComponent(key);
-
 		// missing `=` should be `null`:
 		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
 		val = val === undefined ? null : decodeURIComponent(val);
 
-		if (ret[key] === undefined) {
-			ret[key] = val;
-		} else if (Array.isArray(ret[key])) {
-			ret[key].push(val);
-		} else {
-			ret[key] = [ret[key], val];
-		}
+		formatter(decodeURIComponent(key), val, ret);
 	});
 
-	return ret;
+	return Object.keys(ret).sort().reduce(function (result, key) {
+		var val = ret[key];
+		if (Boolean(val) && typeof val === 'object' && !Array.isArray(val)) {
+			// Sort object keys, not values
+			result[key] = keysSorter(val);
+		} else {
+			result[key] = val;
+		}
+
+		return result;
+	}, Object.create(null));
 };
 
 exports.stringify = function (obj, opts) {
 	var defaults = {
 		encode: true,
-		strict: true
+		strict: true,
+		arrayFormat: 'none'
 	};
 
 	opts = objectAssign(defaults, opts);
+
+	var formatter = encoderForArrayFormat(opts);
 
 	return obj ? Object.keys(obj).sort().map(function (key) {
 		var val = obj[key];
@@ -3079,11 +3188,7 @@ exports.stringify = function (obj, opts) {
 					return;
 				}
 
-				if (val2 === null) {
-					result.push(encode(key, opts));
-				} else {
-					result.push(encode(key, opts) + '=' + encode(val2, opts));
-				}
+				result.push(formatter(key, val2, result.length));
 			});
 
 			return result.join('&');
@@ -6850,17 +6955,6 @@ var fourArgumentPooler = function (a1, a2, a3, a4) {
   }
 };
 
-var fiveArgumentPooler = function (a1, a2, a3, a4, a5) {
-  var Klass = this;
-  if (Klass.instancePool.length) {
-    var instance = Klass.instancePool.pop();
-    Klass.call(instance, a1, a2, a3, a4, a5);
-    return instance;
-  } else {
-    return new Klass(a1, a2, a3, a4, a5);
-  }
-};
-
 var standardReleaser = function (instance) {
   var Klass = this;
   !(instance instanceof Klass) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Trying to release an instance into a pool of a different type.') : _prodInvariant('25') : void 0;
@@ -6900,8 +6994,7 @@ var PooledClass = {
   oneArgumentPooler: oneArgumentPooler,
   twoArgumentPooler: twoArgumentPooler,
   threeArgumentPooler: threeArgumentPooler,
-  fourArgumentPooler: fourArgumentPooler,
-  fiveArgumentPooler: fiveArgumentPooler
+  fourArgumentPooler: fourArgumentPooler
 };
 
 module.exports = PooledClass;
@@ -7704,7 +7797,7 @@ var ReactCompositeComponent = {
       // Since plain JS classes are defined without any special initialization
       // logic, we can not catch common errors early. Therefore, we have to
       // catch them here, at initialization time, instead.
-      process.env.NODE_ENV !== 'production' ? warning(!inst.getInitialState || inst.getInitialState.isReactClassApproved, 'getInitialState was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Did you mean to define a state property instead?', this.getName() || 'a component') : void 0;
+      process.env.NODE_ENV !== 'production' ? warning(!inst.getInitialState || inst.getInitialState.isReactClassApproved || inst.state, 'getInitialState was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Did you mean to define a state property instead?', this.getName() || 'a component') : void 0;
       process.env.NODE_ENV !== 'production' ? warning(!inst.getDefaultProps || inst.getDefaultProps.isReactClassApproved, 'getDefaultProps was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Use a static property to define defaultProps instead.', this.getName() || 'a component') : void 0;
       process.env.NODE_ENV !== 'production' ? warning(!inst.propTypes, 'propTypes was defined as an instance property on %s. Use a static ' + 'property to define propTypes instead.', this.getName() || 'a component') : void 0;
       process.env.NODE_ENV !== 'production' ? warning(!inst.contextTypes, 'contextTypes was defined as an instance property on %s. Use a ' + 'static property to define contextTypes instead.', this.getName() || 'a component') : void 0;
@@ -9170,12 +9263,18 @@ ReactDOMComponent.Mixin = {
     } else {
       var contentToUse = CONTENT_TYPES[typeof props.children] ? props.children : null;
       var childrenToUse = contentToUse != null ? null : props.children;
+      // TODO: Validate that text is allowed as a child of this node
       if (contentToUse != null) {
-        // TODO: Validate that text is allowed as a child of this node
-        if (process.env.NODE_ENV !== 'production') {
-          setAndValidateContentChildDev.call(this, contentToUse);
+        // Avoid setting textContent when the text is empty. In IE11 setting
+        // textContent on a text area will cause the placeholder to not
+        // show within the textarea until it has been focused and blurred again.
+        // https://github.com/facebook/react/issues/6731#issuecomment-254874553
+        if (contentToUse !== '') {
+          if (process.env.NODE_ENV !== 'production') {
+            setAndValidateContentChildDev.call(this, contentToUse);
+          }
+          DOMLazyTree.queueText(lazyTree, contentToUse);
         }
-        DOMLazyTree.queueText(lazyTree, contentToUse);
       } else if (childrenToUse != null) {
         var mountImages = this.mountChildren(childrenToUse, transaction, context);
         for (var i = 0; i < mountImages.length; i++) {
@@ -9527,6 +9626,13 @@ var Flags = ReactDOMComponentFlags;
 var internalInstanceKey = '__reactInternalInstance$' + Math.random().toString(36).slice(2);
 
 /**
+ * Check if a given node should be cached.
+ */
+function shouldPrecacheNode(node, nodeID) {
+  return node.nodeType === 1 && node.getAttribute(ATTR_NAME) === String(nodeID) || node.nodeType === 8 && node.nodeValue === ' react-text: ' + nodeID + ' ' || node.nodeType === 8 && node.nodeValue === ' react-empty: ' + nodeID + ' ';
+}
+
+/**
  * Drill down (through composites and empty components) until we get a host or
  * host text component.
  *
@@ -9591,7 +9697,7 @@ function precacheChildNodes(inst, node) {
     }
     // We assume the child nodes are in the same order as the child instances.
     for (; childNode !== null; childNode = childNode.nextSibling) {
-      if (childNode.nodeType === 1 && childNode.getAttribute(ATTR_NAME) === String(childID) || childNode.nodeType === 8 && childNode.nodeValue === ' react-text: ' + childID + ' ' || childNode.nodeType === 8 && childNode.nodeValue === ' react-empty: ' + childID + ' ') {
+      if (shouldPrecacheNode(childNode, childID)) {
         precacheNode(childInst, childNode);
         continue outer;
       }
@@ -9999,7 +10105,17 @@ var ReactDOMInput = {
       }
     } else {
       if (props.value == null && props.defaultValue != null) {
-        node.defaultValue = '' + props.defaultValue;
+        // In Chrome, assigning defaultValue to certain input types triggers input validation.
+        // For number inputs, the display value loses trailing decimal points. For email inputs,
+        // Chrome raises "The specified value <x> is not a valid email address".
+        //
+        // Here we check to see if the defaultValue has actually changed, avoiding these problems
+        // when the user is inputting text
+        //
+        // https://github.com/facebook/react/issues/7253
+        if (node.defaultValue !== '' + props.defaultValue) {
+          node.defaultValue = '' + props.defaultValue;
+        }
       }
       if (props.checked == null && props.defaultChecked != null) {
         node.defaultChecked = !!props.defaultChecked;
@@ -11094,9 +11210,15 @@ var ReactDOMTextarea = {
     // This is in postMount because we need access to the DOM node, which is not
     // available until after the component has mounted.
     var node = ReactDOMComponentTree.getNodeFromInstance(inst);
+    var textContent = node.textContent;
 
-    // Warning: node.value may be the empty string at this point (IE11) if placeholder is set.
-    node.value = node.textContent; // Detach value from defaultValue
+    // Only set node.value if textContent is equal to the expected
+    // initial value. In IE10/IE11 there is a bug where the placeholder attribute
+    // will populate textContent as well.
+    // https://developer.microsoft.com/microsoft-edge/platform/issues/101525/
+    if (textContent === inst._wrapperState.initialValue) {
+      node.value = textContent;
+    }
   }
 };
 
@@ -12231,14 +12353,11 @@ module.exports = ReactFeatureFlags;
 
 'use strict';
 
-var _prodInvariant = require('./reactProdInvariant'),
-    _assign = require('object-assign');
+var _prodInvariant = require('./reactProdInvariant');
 
 var invariant = require('fbjs/lib/invariant');
 
 var genericComponentClass = null;
-// This registry keeps track of wrapper classes around host tags.
-var tagToComponentClass = {};
 var textComponentClass = null;
 
 var ReactHostComponentInjection = {
@@ -12251,11 +12370,6 @@ var ReactHostComponentInjection = {
   // rendered as props.
   injectTextComponentClass: function (componentClass) {
     textComponentClass = componentClass;
-  },
-  // This accepts a keyed object with classes as values. Each key represents a
-  // tag. That particular tag will use this class instead of the generic one.
-  injectComponentClasses: function (componentClasses) {
-    _assign(tagToComponentClass, componentClasses);
   }
 };
 
@@ -12295,7 +12409,7 @@ var ReactHostComponent = {
 
 module.exports = ReactHostComponent;
 }).call(this,require('_process'))
-},{"./reactProdInvariant":166,"_process":44,"fbjs/lib/invariant":16,"object-assign":43}],104:[function(require,module,exports){
+},{"./reactProdInvariant":166,"_process":44,"fbjs/lib/invariant":16}],104:[function(require,module,exports){
 /**
  * Copyright 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -14990,7 +15104,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '15.4.1';
+module.exports = '15.4.2';
 },{}],125:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18012,7 +18126,17 @@ function instantiateReactComponent(node, shouldHaveDebugID) {
     instance = ReactEmptyComponent.create(instantiateReactComponent);
   } else if (typeof node === 'object') {
     var element = node;
-    !(element && (typeof element.type === 'function' || typeof element.type === 'string')) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', element.type == null ? element.type : typeof element.type, getDeclarationErrorAddendum(element._owner)) : _prodInvariant('130', element.type == null ? element.type : typeof element.type, getDeclarationErrorAddendum(element._owner)) : void 0;
+    var type = element.type;
+    if (typeof type !== 'function' && typeof type !== 'string') {
+      var info = '';
+      if (process.env.NODE_ENV !== 'production') {
+        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
+        }
+      }
+      info += getDeclarationErrorAddendum(element._owner);
+      !false ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', type == null ? type : typeof type, info) : _prodInvariant('130', type == null ? type : typeof type, info) : void 0;
+    }
 
     // Special case string values
     if (typeof element.type === 'string') {
@@ -19545,7 +19669,7 @@ var Link = _react2.default.createClass({
 
     if (router) {
       // If user does not specify a `to` prop, return an empty anchor tag.
-      if (to == null) {
+      if (!to) {
         return _react2.default.createElement('a', props);
       }
 
@@ -19602,7 +19726,7 @@ function _compilePattern(pattern) {
 
   var match = void 0,
       lastIndex = 0,
-      matcher = /:([a-zA-Z_$][a-zA-Z0-9_$]*)|\*\*|\*|\(|\)/g;
+      matcher = /:([a-zA-Z_$][a-zA-Z0-9_$]*)|\*\*|\*|\(|\)|\\\(|\\\)/g;
   while (match = matcher.exec(pattern)) {
     if (match.index !== lastIndex) {
       tokens.push(pattern.slice(lastIndex, match.index));
@@ -19622,6 +19746,10 @@ function _compilePattern(pattern) {
       regexpSource += '(?:';
     } else if (match[0] === ')') {
       regexpSource += ')?';
+    } else if (match[0] === '\\(') {
+      regexpSource += '\\(';
+    } else if (match[0] === '\\)') {
+      regexpSource += '\\)';
     }
 
     tokens.push(match[0]);
@@ -19776,6 +19904,10 @@ function formatPattern(pattern, params) {
       parenCount -= 1;
 
       if (parenCount) parenHistory[parenCount - 1] += parenText;else pathname += parenText;
+    } else if (token === '\\(') {
+      pathname += '(';
+    } else if (token === '\\)') {
+      pathname += ')';
     } else if (token.charAt(0) === ':') {
       paramName = token.substring(1);
       paramValue = params[paramName];
@@ -20570,7 +20702,7 @@ function runEnterHooks(routes, nextState, callback) {
   return runTransitionHooks(hooks.length, function (index, replace, next) {
     var wrappedNext = function wrappedNext() {
       if (enterHooks.has(hooks[index])) {
-        next();
+        next.apply(undefined, arguments);
         enterHooks.remove(hooks[index]);
       }
     };
@@ -20594,7 +20726,7 @@ function runChangeHooks(routes, state, nextState, callback) {
   return runTransitionHooks(hooks.length, function (index, replace, next) {
     var wrappedNext = function wrappedNext() {
       if (changeHooks.has(hooks[index])) {
-        next();
+        next.apply(undefined, arguments);
         changeHooks.remove(hooks[index]);
       }
     };
@@ -21610,9 +21742,14 @@ function getIndexRoute(route, location, paramNames, paramValues, callback) {
     if ((0, _PromiseUtils.isPromise)(indexRoutesReturn)) indexRoutesReturn.then(function (indexRoute) {
       return callback(null, (0, _RouteUtils.createRoutes)(indexRoute)[0]);
     }, callback);
-  } else if (route.childRoutes) {
-    (function () {
-      var pathless = route.childRoutes.filter(function (childRoute) {
+  } else if (route.childRoutes || route.getChildRoutes) {
+    var onChildRoutes = function onChildRoutes(error, childRoutes) {
+      if (error) {
+        callback(error);
+        return;
+      }
+
+      var pathless = childRoutes.filter(function (childRoute) {
         return !childRoute.path;
       });
 
@@ -21628,7 +21765,12 @@ function getIndexRoute(route, location, paramNames, paramValues, callback) {
       }, function (err, routes) {
         callback(null, routes);
       });
-    })();
+    };
+
+    var result = getChildRoutes(route, location, paramNames, paramValues, onChildRoutes);
+    if (result) {
+      onChildRoutes.apply(undefined, result);
+    }
   } else {
     callback();
   }
@@ -21682,7 +21824,7 @@ function matchRouteDeep(route, location, remainingPathname, paramNames, paramVal
     // By assumption, pattern is non-empty here, which is the prerequisite for
     // actually terminating a match.
     if (remainingPathname === '') {
-      var _ret2 = function () {
+      var _ret = function () {
         var match = {
           routes: [route],
           params: createParams(paramNames, paramValues)
@@ -21713,7 +21855,7 @@ function matchRouteDeep(route, location, remainingPathname, paramNames, paramVal
         };
       }();
 
-      if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+      if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
     }
   }
 
@@ -21902,6 +22044,10 @@ function withRouter(WrappedComponent, options) {
       var _this = this;
 
       var router = this.props.router || this.context.router;
+      if (!router) {
+        return _react2.default.createElement(WrappedComponent, this.props);
+      }
+
       var params = router.params,
           location = router.location,
           routes = router.routes;
@@ -24100,7 +24246,14 @@ var ReactElementValidator = {
     // We warn in this case but don't throw. We expect the element creation to
     // succeed and there will likely be errors in render.
     if (!validType) {
-      process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type should not be null, undefined, boolean, or ' + 'number. It should be a string (for DOM elements) or a ReactClass ' + '(for composite components).%s', getDeclarationErrorAddendum()) : void 0;
+      if (typeof type !== 'function' && typeof type !== 'string') {
+        var info = '';
+        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
+        }
+        info += getDeclarationErrorAddendum();
+        process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', type == null ? type : typeof type, info) : void 0;
+      }
     }
 
     var element = ReactElement.createElement.apply(this, arguments);
@@ -25175,11 +25328,9 @@ var mainColor = "#3097d1";
 var secondaryColor = "";
 var baseColor = "rgba(0,0,0,0)";
 var backgroundColor = "url('images/tunnels.jpg')";
-// var backgroundColor = "gray"
 
 var BasePage = require('./pages/BasePage.jsx');
 var HomePage = require('./pages/HomePage.jsx');
-var ProductPage = require('./pages/ProductPage.jsx');
 var ComingSoonPage = require('./pages/ComingSoonPage.jsx');
 var HireMePage = require('./pages/HireMePage.jsx');
 
@@ -25200,20 +25351,18 @@ var Routes = React.createElement(
       backgroundColor: backgroundColor,
       component: HomePage }),
     React.createElement(Route, {
-      path: '/product/:productId',
-      component: ProductPage }),
-    React.createElement(Route, {
       path: '/coming-soon',
       component: ComingSoonPage }),
     React.createElement(Route, {
       path: '/hire-me',
+      mainColor: mainColor,
       component: HireMePage })
   )
 );
 
 module.exports = Routes;
 
-},{"./pages/BasePage.jsx":239,"./pages/ComingSoonPage.jsx":240,"./pages/HireMePage.jsx":241,"./pages/HomePage.jsx":242,"./pages/ProductPage.jsx":243,"react":230,"react-router":199}],234:[function(require,module,exports){
+},{"./pages/BasePage.jsx":239,"./pages/ComingSoonPage.jsx":240,"./pages/HireMePage.jsx":241,"./pages/HomePage.jsx":242,"react":230,"react-router":199}],234:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25283,8 +25432,12 @@ var Footer = React.createClass({
 
 		var rowStyle = {
 			background: this.props.baseColor,
-			margin: "0 auto",
+			margin: "0",
 			color: "white"
+		};
+
+		var connectStyle = {
+			paddingTop: "220px"
 		};
 
 		var listStyle = {
@@ -25302,7 +25455,7 @@ var Footer = React.createClass({
 			{ id: 'footer', style: rowStyle, className: 'row' },
 			React.createElement(
 				'div',
-				{ className: 'col-xs-offset-2 col-xs-4 col-sm-offset-3 col-sm-3' },
+				{ style: connectStyle, className: 'col-xs-offset-2 col-xs-4 col-sm-offset-3 col-sm-3' },
 				React.createElement(ConnectLinks, { mainColor: this.props.mainColor })
 			),
 			React.createElement(
@@ -25446,6 +25599,11 @@ var NavItem = React.createClass({
       fontSize: "1.3em"
     };
 
+    var paraStyle = {
+      textShadow: "1px 1px 8px gray, 0 0 15px black",
+      fontSize: ".8em"
+    };
+
     if (this.state.hover) {
       hoverText.color = this.props.mainColor;
       hoverText.background = "rgba(0,0,0,0)";
@@ -25461,12 +25619,12 @@ var NavItem = React.createClass({
       React.createElement(
         Link,
         { className: 'linkWithHover', style: hoverText, to: this.props.href },
-        this.props.title
-      ),
-      React.createElement(
-        'p',
-        null,
-        this.props.content
+        this.props.title,
+        React.createElement(
+          'p',
+          { style: paraStyle },
+          this.props.content
+        )
       )
     );
   }
@@ -25526,8 +25684,9 @@ var BasePage = React.createClass({
       paddingTop: 0
     };
 
-    var headerStyle = {
-      height: "200px"
+    var childrenStyles = {
+      marginTop: "150px",
+      marginBottom: "100px"
     };
 
     return React.createElement(
@@ -25540,15 +25699,14 @@ var BasePage = React.createClass({
           baseColor: this.props.route.baseColor,
           mainColor: this.props.route.mainColor,
           navLinks: navLinks }),
-        React.createElement('div', { style: headerStyle }),
         React.createElement(
           'div',
-          { id: 'middleContainer' },
+          { id: 'middleContainer', style: childrenStyles },
           this.props.children
         ),
         React.createElement(
           'div',
-          null,
+          { style: { paddingBottom: "20px" } },
           React.createElement(Footer, {
             baseColor: this.props.route.baseColor,
             mainColor: this.props.route.mainColor,
@@ -25579,7 +25737,6 @@ var ComingSoonPage = React.createClass({
 		var whoops = {
 			fontSize: "80px",
 			textAlign: "center",
-			borderBottom: "3px solid white",
 			color: "white"
 		};
 
@@ -25632,33 +25789,45 @@ var HireMePage = React.createClass({
 	render: function () {
 
 		var container = {
-			minWidth: "100%",
+			// minWidth: "100%",
 			overflowX: "hidden",
 			display: "inline-block",
-			background: "rgba(0,0,0,0.6)"
+			background: "rgba(0,0,0,0.6)",
+			marginBottom: "50px"
 		};
 
 		var whoops = {
 			fontSize: "80px",
 			textAlign: "center",
-			borderBottom: "3px solid white",
-			color: "white"
+			color: this.props.route.mainColor
 		};
 
 		var paraStyle = {
 			color: "white",
-			textAlign: "center"
+			textAlign: "left",
+			margin: "0 0 10px 0"
+		};
+
+		var pizzaz = {
+			color: this.props.route.mainColor
+		};
+
+		var arrowStyle = {
+			margin: 0,
+			color: this.props.route.mainColor,
+			textAlign: "center",
+			fontSize: "30px"
 		};
 
 		return React.createElement(
 			"div",
-			{ id: "comingSoonContainer", style: container, className: "container" },
+			{ id: "comingSoonContainer", style: container, className: "col-sm-offset-1 col-sm-6" },
 			React.createElement(
 				"div",
 				{ className: "row" },
 				React.createElement(
 					"div",
-					{ className: "col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4" },
+					{ className: "col-xs-12" },
 					React.createElement(
 						"h1",
 						{ style: whoops },
@@ -25671,21 +25840,65 @@ var HireMePage = React.createClass({
 				{ className: "row" },
 				React.createElement(
 					"div",
-					{ className: "col-lg-offset-3 col-lg-6" },
+					{ className: "col-lg-offset-1 col-lg-10" },
 					React.createElement(
 						"h3",
 						{ style: paraStyle },
-						"No seriously, hire me. Please. Will update this later before I go to bed, but who knows, maybe someone will accidentally come across this beautiful page."
+						"No seriously, ",
+						React.createElement(
+							"span",
+							{ style: pizzaz },
+							"hire me"
+						),
+						". Please."
 					),
 					React.createElement(
 						"h3",
 						{ style: paraStyle },
-						"You can reach me at my email: Blayne.Marjama@gmail.com"
+						"I am interested in ",
+						React.createElement(
+							"span",
+							{ style: pizzaz },
+							"Front-End Development"
+						),
+						", or ",
+						React.createElement(
+							"span",
+							{ style: pizzaz },
+							"QA"
+						),
+						" positions"
 					),
 					React.createElement(
 						"h3",
 						{ style: paraStyle },
-						"Or my phone number: (701)630-9449"
+						"I currently live in ",
+						React.createElement(
+							"span",
+							{ style: pizzaz },
+							"Portland, OR"
+						),
+						". Though I am open to a remote position, I much prefer being around my peers in a team environment. If you'd like to go over a potential remote position, feel free to reach out via email."
+					),
+					React.createElement(
+						"h3",
+						{ style: paraStyle },
+						React.createElement(
+							"span",
+							{ style: pizzaz },
+							"Email"
+						),
+						": Blayne.Marjama@gmail.com"
+					),
+					React.createElement(
+						"h3",
+						{ style: paraStyle },
+						"I can also be reached at one of the social media links below."
+					),
+					React.createElement(
+						"h3",
+						{ style: arrowStyle },
+						React.createElement("i", { className: "glyphicon glyphicon-chevron-down" })
 					)
 				)
 			)
@@ -25725,9 +25938,7 @@ var HomePage = React.createClass({
       color: "white"
     };
 
-    var borderTest = {
-      // border:"1px solid red"
-    };
+    var borderTest = {};
 
     var pizzaz = {
       color: this.props.route.mainColor
@@ -25803,31 +26014,4 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"../components/ConnectLinks.jsx":234,"react":230,"react-router":199}],243:[function(require,module,exports){
-var React = require('react');
-
-var ProductPage = React.createClass({
-  displayName: "ProductPage",
-
-  getInitialState: function () {
-    return { pid: "" };
-  },
-  componentDidMount: function () {
-    this.setState({ pid: this.props.params.productId });
-  },
-  componentWillReceiveProps: function (nextProps) {
-    this.setState({ pid: nextProps.params.productId });
-  },
-  render: function () {
-    return React.createElement(
-      "h1",
-      null,
-      "Hi, I'm product number ",
-      this.state.pid
-    );
-  }
-});
-
-module.exports = ProductPage;
-
-},{"react":230}]},{},[238]);
+},{"../components/ConnectLinks.jsx":234,"react":230,"react-router":199}]},{},[238]);

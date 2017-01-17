@@ -13,7 +13,6 @@ var ComingSoonPage = React.createClass({
 		var whoops = {
 			fontSize: "80px",
 			textAlign: "center",
-			borderBottom: "3px solid white",
 			color: "white"
 		}
 

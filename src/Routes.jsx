@@ -14,7 +14,6 @@ var backgroundColor = "url('images/tunnels.jpg')"
 
 var BasePage = require('./pages/BasePage.jsx');
 var HomePage = require('./pages/HomePage.jsx');
-var ProductPage = require('./pages/ProductPage.jsx');
 var ComingSoonPage = require('./pages/ComingSoonPage.jsx');
 var HireMePage = require('./pages/HireMePage.jsx');
 
@@ -32,13 +31,11 @@ var Routes = (
       	backgroundColor={backgroundColor}
       	component={HomePage} />
       <Route
-      	path="/product/:productId"
-      	component={ProductPage} />
-      <Route
       	path="/coming-soon"
       	component={ComingSoonPage} />
       <Route
         path="/hire-me"
+        mainColor={mainColor}
         component={HireMePage} />
     </Route>
   </Router>

@@ -8,8 +8,12 @@ var Footer = React.createClass({
 
 		var rowStyle = {
 			background:(this.props.baseColor),
-			margin:"0 auto",
+			margin:"0",
 			color: "white"
+		}
+
+		var connectStyle = {
+			paddingTop: "220px"
 		}
 
 		var listStyle = {
@@ -24,7 +28,7 @@ var Footer = React.createClass({
 
 		return(
 			<div id="footer" style={rowStyle} className="row">
-				<div className="col-xs-offset-2 col-xs-4 col-sm-offset-3 col-sm-3">
+				<div style={connectStyle} className="col-xs-offset-2 col-xs-4 col-sm-offset-3 col-sm-3">
 					<ConnectLinks mainColor={this.props.mainColor}/>
 				</div>
 				<div className="col-xs-offset-1 col-xs-5 col-sm-offset-2 col-sm-3">
