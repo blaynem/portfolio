@@ -1,0 +1,181 @@
+* {
+  /*border: 1px red solid;*/
+}
+
+body {
+  background: #fafafa;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+/*allows the coming soon page to fit view height of page based on height of device view*/
+/*the -351px is based on the height of header/footer*/
+#middleContainer {
+  height: calc(100vh - 400px);
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 768px) {
+  /* Navbar positioning foo */
+
+  .featurette-heading {
+    font-size: 50px;
+  }
+  #searchBar {
+    top: 40px;
+  }
+}
+
+@media (min-width: 992px) {
+  .featurette-heading {
+    margin-top: 120px;
+  }
+  .collapse {
+       display: none !important;
+   }
+   .navbar-right {
+    margin-right: 8.333%;
+   }
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  border-color: rgba(0,0,0,0);
+}
+
+/*navbar hover styles*/
+.navbar-right .linkWithHover:before,
+.navbar-right .linkWithHover:after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: white;
+}
+
+.navbar-right .linkWithHover {
+  padding: 0 0 8px 0;
+}
+
+.navbar-right li {
+  margin: 15px;
+}
+
+.navbar-right .linkWithHover:before {
+  opacity: 0;
+  -webkit-transform: translateY(-8px);
+  -ms-transform: translateY(-8px);
+  transform: translateY(-8px);
+  -webkit-transition: -webkit-transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+  transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
+}
+
+.navbar-right .linkWithHover:after {
+  opacity: 0;
+  -webkit-transform: translateY(4px);
+  -ms-transform: translateY(4px);
+  transform: translateY(4px);
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+}
+
+.navbar-right .linkWithHover:hover:before,
+.navbar-right .linkWithHover:hover:after,
+.navbar-right .linkWithHover:focus:before,
+.navbar-right .linkWithHover:focus:after {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.navbar-right .linkWithHover:hover:before,
+.navbar-right .linkWithHover:focus:before {
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+}
+
+.navbar-right .linkWithHover:hover:after,
+.navbar-right .linkWithHover:focus:after {
+  -webkit-transition: -webkit-transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+  transition: transform 0s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s 0.2s;
+}
+
+
+/*why am i doing this i dont know*/
+.first {
+-webkit-animation:first 5s infinite;
+animation:first 5s infinite;   
+}
+
+@-webkit-keyframes first
+{
+0% {color:white;}
+20% {color:#3097d1;}
+}
+@keyframes first {
+  0% {color:white;}
+  20% {color:#3097d1;}
+}
+
+.second {
+-webkit-animation:second 5s infinite;
+animation:second 5s infinite;   
+}
+
+@-webkit-keyframes second
+{
+20% {color:white;}
+40% {color:#3097d1;}
+}
+@keyframes second {
+  20% {color:white;}
+  40% {color:#3097d1;}
+}
+
+.third {
+-webkit-animation:third 5s infinite;
+animation:third 5s infinite;   
+}
+
+@-webkit-keyframes third
+{
+40% {color:white;}
+60% {color:#3097d1;}
+}
+@keyframes third {
+  40% {color:white;}
+  60% {color:#3097d1;}
+}
+
+.fourth {
+-webkit-animation:fourth 5s infinite;
+animation:fourth 5s infinite;   
+}
+
+@-webkit-keyframes fourth
+{
+60% {color:white;}
+80% {color:#3097d1;}
+}
+@keyframes fourth {
+  60% {color:white;}
+  80% {color:#3097d1;}
+}
+
+.fifth {
+-webkit-animation:fifth 5s infinite;
+animation:fifth 5s infinite;   
+}
+
+@-webkit-keyframes fifth
+{
+80% {color:white;}
+100% {color:#3097d1;}
+}
+@keyframes fifth {
+  80% {color:white;}
+  100% {color:#3097d1;}
+}
