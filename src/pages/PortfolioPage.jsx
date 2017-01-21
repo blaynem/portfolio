@@ -11,7 +11,7 @@ const PortfolioPage = React.createClass({
 			textAlign: "center"
 		}
 		const descripStyle = {
-			color: "white"
+			color: "white"	
 		}
 		return (
 			<div>
@@ -26,7 +26,7 @@ const PortfolioPage = React.createClass({
 							<li>Gathering Data from an API</li>
 							<li>A lot about reusability</li>
 						</ul>
-						<h3 style={descripStyle}>You view the source code <a style={{color:(this.props.route.mainColor)}} href="https://github.com/blaynem/react-weather-api">here</a></h3>
+						<h3 style={descripStyle}>You view the source code <a style={{color:(this.props.route.mainColor)}} href="https://github.com/blaynem/portfolio/tree/master/src/components/portfolioPageApps/weatherApp" target="_blank">here</a></h3>
 					</div>
 				</div>
 				<div className="col-md-6">

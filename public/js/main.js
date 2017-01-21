@@ -27128,7 +27128,7 @@ const PortfolioPage = React.createClass({
 						'You view the source code ',
 						React.createElement(
 							'a',
-							{ style: { color: this.props.route.mainColor }, href: 'https://github.com/blaynem/react-weather-api' },
+							{ style: { color: this.props.route.mainColor }, href: 'https://github.com/blaynem/portfolio/tree/master/src/components/portfolioPageApps/weatherApp', target: '_blank' },
 							'here'
 						)
 					)
