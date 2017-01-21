@@ -25315,6 +25315,441 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 },{"_process":44}],233:[function(require,module,exports){
+(function(self) {
+  'use strict';
+
+  if (self.fetch) {
+    return
+  }
+
+  var support = {
+    searchParams: 'URLSearchParams' in self,
+    iterable: 'Symbol' in self && 'iterator' in Symbol,
+    blob: 'FileReader' in self && 'Blob' in self && (function() {
+      try {
+        new Blob()
+        return true
+      } catch(e) {
+        return false
+      }
+    })(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  }
+
+  function normalizeName(name) {
+    if (typeof name !== 'string') {
+      name = String(name)
+    }
+    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+      throw new TypeError('Invalid character in header field name')
+    }
+    return name.toLowerCase()
+  }
+
+  function normalizeValue(value) {
+    if (typeof value !== 'string') {
+      value = String(value)
+    }
+    return value
+  }
+
+  // Build a destructive iterator for the value list
+  function iteratorFor(items) {
+    var iterator = {
+      next: function() {
+        var value = items.shift()
+        return {done: value === undefined, value: value}
+      }
+    }
+
+    if (support.iterable) {
+      iterator[Symbol.iterator] = function() {
+        return iterator
+      }
+    }
+
+    return iterator
+  }
+
+  function Headers(headers) {
+    this.map = {}
+
+    if (headers instanceof Headers) {
+      headers.forEach(function(value, name) {
+        this.append(name, value)
+      }, this)
+
+    } else if (headers) {
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name])
+      }, this)
+    }
+  }
+
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name)
+    value = normalizeValue(value)
+    var list = this.map[name]
+    if (!list) {
+      list = []
+      this.map[name] = list
+    }
+    list.push(value)
+  }
+
+  Headers.prototype['delete'] = function(name) {
+    delete this.map[normalizeName(name)]
+  }
+
+  Headers.prototype.get = function(name) {
+    var values = this.map[normalizeName(name)]
+    return values ? values[0] : null
+  }
+
+  Headers.prototype.getAll = function(name) {
+    return this.map[normalizeName(name)] || []
+  }
+
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name))
+  }
+
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = [normalizeValue(value)]
+  }
+
+  Headers.prototype.forEach = function(callback, thisArg) {
+    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+      this.map[name].forEach(function(value) {
+        callback.call(thisArg, value, name, this)
+      }, this)
+    }, this)
+  }
+
+  Headers.prototype.keys = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push(name) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.values = function() {
+    var items = []
+    this.forEach(function(value) { items.push(value) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.entries = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push([name, value]) })
+    return iteratorFor(items)
+  }
+
+  if (support.iterable) {
+    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+  }
+
+  function consumed(body) {
+    if (body.bodyUsed) {
+      return Promise.reject(new TypeError('Already read'))
+    }
+    body.bodyUsed = true
+  }
+
+  function fileReaderReady(reader) {
+    return new Promise(function(resolve, reject) {
+      reader.onload = function() {
+        resolve(reader.result)
+      }
+      reader.onerror = function() {
+        reject(reader.error)
+      }
+    })
+  }
+
+  function readBlobAsArrayBuffer(blob) {
+    var reader = new FileReader()
+    reader.readAsArrayBuffer(blob)
+    return fileReaderReady(reader)
+  }
+
+  function readBlobAsText(blob) {
+    var reader = new FileReader()
+    reader.readAsText(blob)
+    return fileReaderReady(reader)
+  }
+
+  function Body() {
+    this.bodyUsed = false
+
+    this._initBody = function(body) {
+      this._bodyInit = body
+      if (typeof body === 'string') {
+        this._bodyText = body
+      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+        this._bodyBlob = body
+      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+        this._bodyFormData = body
+      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+        this._bodyText = body.toString()
+      } else if (!body) {
+        this._bodyText = ''
+      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+        // Only support ArrayBuffers for POST method.
+        // Receiving ArrayBuffers happens via Blobs, instead.
+      } else {
+        throw new Error('unsupported BodyInit type')
+      }
+
+      if (!this.headers.get('content-type')) {
+        if (typeof body === 'string') {
+          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+        } else if (this._bodyBlob && this._bodyBlob.type) {
+          this.headers.set('content-type', this._bodyBlob.type)
+        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+        }
+      }
+    }
+
+    if (support.blob) {
+      this.blob = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return Promise.resolve(this._bodyBlob)
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as blob')
+        } else {
+          return Promise.resolve(new Blob([this._bodyText]))
+        }
+      }
+
+      this.arrayBuffer = function() {
+        return this.blob().then(readBlobAsArrayBuffer)
+      }
+
+      this.text = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return readBlobAsText(this._bodyBlob)
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as text')
+        } else {
+          return Promise.resolve(this._bodyText)
+        }
+      }
+    } else {
+      this.text = function() {
+        var rejected = consumed(this)
+        return rejected ? rejected : Promise.resolve(this._bodyText)
+      }
+    }
+
+    if (support.formData) {
+      this.formData = function() {
+        return this.text().then(decode)
+      }
+    }
+
+    this.json = function() {
+      return this.text().then(JSON.parse)
+    }
+
+    return this
+  }
+
+  // HTTP methods whose capitalization should be normalized
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+  function normalizeMethod(method) {
+    var upcased = method.toUpperCase()
+    return (methods.indexOf(upcased) > -1) ? upcased : method
+  }
+
+  function Request(input, options) {
+    options = options || {}
+    var body = options.body
+    if (Request.prototype.isPrototypeOf(input)) {
+      if (input.bodyUsed) {
+        throw new TypeError('Already read')
+      }
+      this.url = input.url
+      this.credentials = input.credentials
+      if (!options.headers) {
+        this.headers = new Headers(input.headers)
+      }
+      this.method = input.method
+      this.mode = input.mode
+      if (!body) {
+        body = input._bodyInit
+        input.bodyUsed = true
+      }
+    } else {
+      this.url = input
+    }
+
+    this.credentials = options.credentials || this.credentials || 'omit'
+    if (options.headers || !this.headers) {
+      this.headers = new Headers(options.headers)
+    }
+    this.method = normalizeMethod(options.method || this.method || 'GET')
+    this.mode = options.mode || this.mode || null
+    this.referrer = null
+
+    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+      throw new TypeError('Body not allowed for GET or HEAD requests')
+    }
+    this._initBody(body)
+  }
+
+  Request.prototype.clone = function() {
+    return new Request(this)
+  }
+
+  function decode(body) {
+    var form = new FormData()
+    body.trim().split('&').forEach(function(bytes) {
+      if (bytes) {
+        var split = bytes.split('=')
+        var name = split.shift().replace(/\+/g, ' ')
+        var value = split.join('=').replace(/\+/g, ' ')
+        form.append(decodeURIComponent(name), decodeURIComponent(value))
+      }
+    })
+    return form
+  }
+
+  function headers(xhr) {
+    var head = new Headers()
+    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
+    pairs.forEach(function(header) {
+      var split = header.trim().split(':')
+      var key = split.shift().trim()
+      var value = split.join(':').trim()
+      head.append(key, value)
+    })
+    return head
+  }
+
+  Body.call(Request.prototype)
+
+  function Response(bodyInit, options) {
+    if (!options) {
+      options = {}
+    }
+
+    this.type = 'default'
+    this.status = options.status
+    this.ok = this.status >= 200 && this.status < 300
+    this.statusText = options.statusText
+    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+    this.url = options.url || ''
+    this._initBody(bodyInit)
+  }
+
+  Body.call(Response.prototype)
+
+  Response.prototype.clone = function() {
+    return new Response(this._bodyInit, {
+      status: this.status,
+      statusText: this.statusText,
+      headers: new Headers(this.headers),
+      url: this.url
+    })
+  }
+
+  Response.error = function() {
+    var response = new Response(null, {status: 0, statusText: ''})
+    response.type = 'error'
+    return response
+  }
+
+  var redirectStatuses = [301, 302, 303, 307, 308]
+
+  Response.redirect = function(url, status) {
+    if (redirectStatuses.indexOf(status) === -1) {
+      throw new RangeError('Invalid status code')
+    }
+
+    return new Response(null, {status: status, headers: {location: url}})
+  }
+
+  self.Headers = Headers
+  self.Request = Request
+  self.Response = Response
+
+  self.fetch = function(input, init) {
+    return new Promise(function(resolve, reject) {
+      var request
+      if (Request.prototype.isPrototypeOf(input) && !init) {
+        request = input
+      } else {
+        request = new Request(input, init)
+      }
+
+      var xhr = new XMLHttpRequest()
+
+      function responseURL() {
+        if ('responseURL' in xhr) {
+          return xhr.responseURL
+        }
+
+        // Avoid security warnings on getResponseHeader when not allowed by CORS
+        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+          return xhr.getResponseHeader('X-Request-URL')
+        }
+
+        return
+      }
+
+      xhr.onload = function() {
+        var options = {
+          status: xhr.status,
+          statusText: xhr.statusText,
+          headers: headers(xhr),
+          url: responseURL()
+        }
+        var body = 'response' in xhr ? xhr.response : xhr.responseText
+        resolve(new Response(body, options))
+      }
+
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.ontimeout = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.open(request.method, request.url, true)
+
+      if (request.credentials === 'include') {
+        xhr.withCredentials = true
+      }
+
+      if ('responseType' in xhr && support.blob) {
+        xhr.responseType = 'blob'
+      }
+
+      request.headers.forEach(function(value, name) {
+        xhr.setRequestHeader(name, value)
+      })
+
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+    })
+  }
+  self.fetch.polyfill = true
+})(typeof self !== 'undefined' ? self : this);
+
+},{}],234:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 
@@ -25331,6 +25766,8 @@ var backgroundColor = "url('images/tunnels.jpg')";
 
 var BasePage = require('./pages/BasePage.jsx');
 var HomePage = require('./pages/HomePage.jsx');
+var AboutPage = require('./pages/AboutPage.jsx');
+var PortfolioPage = require('./pages/PortfolioPage.jsx');
 var ComingSoonPage = require('./pages/ComingSoonPage.jsx');
 var HireMePage = require('./pages/HireMePage.jsx');
 
@@ -25351,6 +25788,14 @@ var Routes = React.createElement(
       backgroundColor: backgroundColor,
       component: HomePage }),
     React.createElement(Route, {
+      path: '/about',
+      mainColor: mainColor,
+      component: AboutPage }),
+    React.createElement(Route, {
+      path: '/portfolio',
+      mainColor: mainColor,
+      component: PortfolioPage }),
+    React.createElement(Route, {
       path: '/coming-soon',
       component: ComingSoonPage }),
     React.createElement(Route, {
@@ -25362,7 +25807,7 @@ var Routes = React.createElement(
 
 module.exports = Routes;
 
-},{"./pages/BasePage.jsx":239,"./pages/ComingSoonPage.jsx":240,"./pages/HireMePage.jsx":241,"./pages/HomePage.jsx":242,"react":230,"react-router":199}],234:[function(require,module,exports){
+},{"./pages/AboutPage.jsx":245,"./pages/BasePage.jsx":246,"./pages/ComingSoonPage.jsx":247,"./pages/HireMePage.jsx":248,"./pages/HomePage.jsx":249,"./pages/PortfolioPage.jsx":250,"react":230,"react-router":199}],235:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25420,7 +25865,7 @@ var ConnectLinks = React.createClass({
 
 module.exports = ConnectLinks;
 
-},{"react":230,"react-router":199}],235:[function(require,module,exports){
+},{"react":230,"react-router":199}],236:[function(require,module,exports){
 var React = require('react');
 var NavItem = require('./nav/NavItem.jsx');
 var ConnectLinks = require('../components/ConnectLinks.jsx');
@@ -25473,7 +25918,7 @@ var Footer = React.createClass({
 
 module.exports = Footer;
 
-},{"../components/ConnectLinks.jsx":234,"./nav/NavItem.jsx":237,"react":230}],236:[function(require,module,exports){
+},{"../components/ConnectLinks.jsx":235,"./nav/NavItem.jsx":238,"react":230}],237:[function(require,module,exports){
 var React = require('react');
 var NavItem = require('./NavItem.jsx');
 
@@ -25572,7 +26017,7 @@ var NavBar = React.createClass({
 
 module.exports = NavBar;
 
-},{"./NavItem.jsx":237,"react":230,"react-router":199}],237:[function(require,module,exports){
+},{"./NavItem.jsx":238,"react":230,"react-router":199}],238:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25632,14 +26077,615 @@ var NavItem = React.createClass({
 
 module.exports = NavItem;
 
-},{"react":230,"react-router":199}],238:[function(require,module,exports){
+},{"react":230,"react-router":199}],239:[function(require,module,exports){
+var React = require('react');
+
+var SearchButton = React.createClass({
+	displayName: 'SearchButton',
+
+
+	// this takes the city typed into search bar, searches for it, then replaces it with 'search'
+	handleSubmit: function (e) {
+		e.preventDefault();
+
+		this.props.searchNewCity(this.refs.searchInput.value);
+		this.refs.searchInput.value = '';
+	},
+
+	render: function () {
+
+		// the search buttons style
+		var searchButtonStyle = {
+			paddingTop: "10px"
+		};
+
+		return React.createElement(
+			'div',
+			{ style: searchButtonStyle },
+			React.createElement(
+				'form',
+				{ onSubmit: this.handleSubmit, className: 'search-form' },
+				React.createElement(
+					'div',
+					{ className: 'form-group has-feedback' },
+					React.createElement(
+						'label',
+						{ className: 'sr-only' },
+						'Search'
+					),
+					React.createElement('input', { type: 'text', className: 'form-control', ref: 'searchInput', placeholder: 'Search' }),
+					React.createElement('span', { className: 'glyphicon glyphicon-search form-control-feedback' })
+				)
+			)
+		);
+	}
+});
+
+module.exports = SearchButton;
+
+},{"react":230}],240:[function(require,module,exports){
+var React = require('react');
+var WeatherListItem = require('./WeatherListItem.jsx');
+var WeatherToday = require('./WeatherToday.jsx');
+var HTTP = require('../services/httpservice');
+
+//starting city
+
+var WeatherApp = React.createClass({
+  displayName: 'WeatherApp',
+
+  // initializes the app with the base cities weather
+  // base city can be changed by replacing var city
+  getInitialState: function () {
+    city = this.props.startCity;
+    return {
+      location: city
+    };
+  },
+  // this gathers the information from the API based on the city that was searched for
+  handleSearch: function (search) {
+    HTTP.get(search).then(function (data) {
+      this.setState({
+        location: data.city.name,
+        //This is for todays temperatures
+        windSpeed: Math.round(data.list[0].wind.speed / 0.44704),
+        tempsDay1: Math.round(data.list[0].main.temp - 273.15),
+        cloudIcon1: data.list[0].weather[0].id,
+        dateDay1: data.list[0].dt_txt.substring(8, 10),
+        dateMonth1: data.list[0].dt_txt.substring(5, 7),
+        dateYear1: data.list[0].dt_txt.substring(0, 4),
+        windDirection: data.list[0].wind.deg,
+
+        //These are for the following days in the 5 day forecast.
+        tempsDay2: Math.round(data.list[8].main.temp - 273.15),
+        cloudIcon2: data.list[8].weather[0].id,
+        dateDay2: data.list[8].dt_txt.substring(8, 10),
+        dateMonth2: data.list[8].dt_txt.substring(5, 7),
+        tempsDay3: Math.round(data.list[16].main.temp - 273.15),
+        cloudIcon3: data.list[16].weather[0].id,
+        dateDay3: data.list[16].dt_txt.substring(8, 10),
+        dateMonth3: data.list[16].dt_txt.substring(5, 7),
+        tempsDay4: Math.round(data.list[24].main.temp - 273.15),
+        cloudIcon4: data.list[24].weather[0].id,
+        dateDay4: data.list[24].dt_txt.substring(8, 10),
+        dateMonth4: data.list[24].dt_txt.substring(5, 7),
+        tempsDay5: Math.round(data.list[32].main.temp - 273.15),
+        cloudIcon5: data.list[32].weather[0].id,
+        dateDay5: data.list[32].dt_txt.substring(8, 10),
+        dateMonth5: data.list[32].dt_txt.substring(5, 7)
+      });
+    }.bind(this));
+  },
+  // this gathers the information from the API based on the starting city
+  componentWillMount: function () {
+    HTTP.get(city).then(function (data) {
+      this.setState({
+        location: data.city.name,
+        //This is for todays temperatures
+        windSpeed: Math.round(data.list[0].wind.speed / 0.44704),
+        tempsDay1: Math.round(data.list[0].main.temp - 273.15),
+        cloudIcon1: data.list[0].weather[0].id,
+        dateDay1: data.list[0].dt_txt.substring(8, 10),
+        dateMonth1: data.list[0].dt_txt.substring(5, 7),
+        dateYear1: data.list[0].dt_txt.substring(0, 4),
+        windDirection: data.list[0].wind.deg,
+
+        //These are for the following days in the 5 day forecast.
+        tempsDay2: Math.round(data.list[8].main.temp - 273.15),
+        cloudIcon2: data.list[8].weather[0].id,
+        dateDay2: data.list[8].dt_txt.substring(8, 10),
+        dateMonth2: data.list[8].dt_txt.substring(5, 7),
+        tempsDay3: Math.round(data.list[16].main.temp - 273.15),
+        cloudIcon3: data.list[16].weather[0].id,
+        dateDay3: data.list[16].dt_txt.substring(8, 10),
+        dateMonth3: data.list[16].dt_txt.substring(5, 7),
+        tempsDay4: Math.round(data.list[24].main.temp - 273.15),
+        cloudIcon4: data.list[24].weather[0].id,
+        dateDay4: data.list[24].dt_txt.substring(8, 10),
+        dateMonth4: data.list[24].dt_txt.substring(5, 7),
+        tempsDay5: Math.round(data.list[32].main.temp - 273.15),
+        cloudIcon5: data.list[32].weather[0].id,
+        dateDay5: data.list[32].dt_txt.substring(8, 10),
+        dateMonth5: data.list[32].dt_txt.substring(5, 7)
+      });
+    }.bind(this));
+  },
+  render: function () {
+
+    //removes the top padding from the panel body.
+    var panelBodyStyle = {
+      paddingTop: "0"
+    };
+
+    if (this.props.appSize) {
+      appSize = this.props.appSize;
+    } else {
+      appSize = "col-xs-12";
+    };
+
+    return React.createElement(
+      'div',
+      { className: appSize },
+      React.createElement(
+        'div',
+        { className: 'panel panel-default' },
+        React.createElement(WeatherToday, {
+          headingColor: this.props.appColor,
+          currentCity: this.state.location,
+          dateDay: this.state.dateDay1,
+          dateMonth: this.state.dateMonth1,
+          dateYear: this.state.dateYear1,
+          cloudIcon: this.state.cloudIcon1,
+          todayTemp: this.state.tempsDay1,
+          windDegrees: this.state.windDirection,
+          windSpeed: this.state.windSpeed,
+          searchNewCity: this.handleSearch }),
+        React.createElement(
+          'div',
+          { style: panelBodyStyle, className: 'panel-body' },
+          React.createElement(WeatherListItem, {
+            listColor: '#EBEBEB',
+            dateDay: this.state.dateDay2,
+            dateMonth: this.state.dateMonth2,
+            cloudIcon: this.state.cloudIcon2,
+            temps: this.state.tempsDay2 }),
+          React.createElement(WeatherListItem, {
+            listColor: '#F5F5F5',
+            dateDay: this.state.dateDay3,
+            dateMonth: this.state.dateMonth3,
+            cloudIcon: this.state.cloudIcon3,
+            temps: this.state.tempsDay3 }),
+          React.createElement(WeatherListItem, {
+            listColor: '#EBEBEB',
+            dateDay: this.state.dateDay4,
+            dateMonth: this.state.dateMonth4,
+            cloudIcon: this.state.cloudIcon4,
+            temps: this.state.tempsDay4 }),
+          React.createElement(WeatherListItem, {
+            listColor: '#F5F5F5',
+            dateDay: this.state.dateDay5,
+            dateMonth: this.state.dateMonth5,
+            cloudIcon: this.state.cloudIcon5,
+            temps: this.state.tempsDay5 })
+        )
+      )
+    );
+  }
+});
+
+module.exports = WeatherApp;
+
+},{"../services/httpservice":243,"./WeatherListItem.jsx":241,"./WeatherToday.jsx":242,"react":230}],241:[function(require,module,exports){
+var React = require('react');
+
+var WeatherListItem = React.createClass({
+  displayName: "WeatherListItem",
+
+  render: function () {
+
+    // changes degrees from Celsius to Fahrenheit
+    var todaysTempC = this.props.temps;
+    var todayTempF = Math.round(todaysTempC * 9 / 5 + 32);
+
+    // returns the name of the month depending on the given month number
+    var monthName = function (month) {
+      if (month == "01") {
+        return "January";
+      } else if (month == "02") {
+        return "February";
+      } else if (month == "03") {
+        return "March";
+      } else if (month == "04") {
+        return "April";
+      } else if (month == "05") {
+        return "May";
+      } else if (month == "06") {
+        return "June";
+      } else if (month == "07") {
+        return "July";
+      } else if (month == "08") {
+        return "August";
+      } else if (month == "09") {
+        return "September";
+      } else if (month == "10") {
+        return "October";
+      } else if (month == "11") {
+        return "November";
+      } else {
+        return "December";
+      }
+    };
+
+    var listStyle = {
+      color: "BCBCBC",
+      height: "40px",
+      background: this.props.listColor,
+      textAlign: "center",
+      fontSize: "1.4em"
+    };
+
+    var fontSizes = {
+      fontSize: "1em"
+    };
+    var cloudStyle = {
+      padding: "10px 0 10px 0"
+    };
+
+    // this will return a different cloud icon depending on the type of weather
+    var cloudIconPic = "wi wi-owm-" + this.props.cloudIcon;
+
+    return React.createElement(
+      "div",
+      { style: listStyle, className: "row" },
+      React.createElement(
+        "div",
+        { className: "col-xs-4" },
+        React.createElement(
+          "h4",
+          { style: fontSizes },
+          this.props.dateDay,
+          " ",
+          monthName(this.props.dateMonth)
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "col-xs-4" },
+        React.createElement("i", { style: cloudStyle, className: cloudIconPic })
+      ),
+      React.createElement(
+        "div",
+        { className: "col-xs-4" },
+        React.createElement(
+          "h4",
+          { style: fontSizes },
+          todaysTempC,
+          "\xB0 / ",
+          todayTempF,
+          "\xB0"
+        )
+      )
+    );
+  }
+});
+
+module.exports = WeatherListItem;
+
+},{"react":230}],242:[function(require,module,exports){
+var React = require('react');
+var SearchButton = require('./SearchButton.jsx');
+
+var WeatherToday = React.createClass({
+  displayName: 'WeatherToday',
+
+
+  // handleSearch: function(search) {
+  //   console.log(search);
+  // },
+
+
+  render: function () {
+
+    var headingstyles = {
+      color: "white",
+      background: this.props.headingColor,
+      paddingTop: "0"
+    };
+
+    var currentCityStyle = {
+      textAlign: "left"
+    };
+
+    var currentCityh4 = {
+      marginBottom: "0",
+      fontSize: "1.4em",
+      fontWeight: "bold"
+    };
+
+    var currentCityh5 = {
+      marginTop: '5px'
+    };
+
+    var cloudSize = {
+      textAlign: "left",
+      paddingLeft: "40px"
+      // fontSize: "1.4em"
+    };
+
+    var tempStyle = {
+      fontSize: "1em",
+      marginTop: "15px",
+      paddingRight: "25px",
+      textAlign: "right",
+      fontWeight: "bold"
+    };
+
+    var currentTempStyle = {
+      fontSize: "8em"
+    };
+
+    var windStyle = {
+      fontSize: "1.4em",
+      paddingLeft: "25px"
+    };
+
+    var windSpeedStyle = {
+      textAlign: "right",
+      paddingRight: "40px"
+    };
+
+    var cloudIconPic = "wi wi-owm-" + this.props.cloudIcon;
+
+    // returns the name of the month depending on the given month number
+    var monthName = function (month) {
+      if (month == "01") {
+        return "January";
+      } else if (month == "02") {
+        return "February";
+      } else if (month == "03") {
+        return "March";
+      } else if (month == "04") {
+        return "April";
+      } else if (month == "05") {
+        return "May";
+      } else if (month == "06") {
+        return "June";
+      } else if (month == "07") {
+        return "July";
+      } else if (month == "08") {
+        return "August";
+      } else if (month == "09") {
+        return "September";
+      } else if (month == "10") {
+        return "October";
+      } else if (month == "11") {
+        return "November";
+      } else {
+        return "December";
+      }
+    };
+
+    // this returns the angle and correct compass style depending on the wind direction from the api
+    var windDirection = function (deg) {
+      var angle = deg;
+      var object = {
+        direction: "",
+        compassClass: ""
+      };
+      if (angle <= "22.5") {
+        object.direction = "North";
+        object.compassClass = "wi wi-wind wi-towards-n";
+      } else if (angle <= "67.5") {
+        object.direction = "North East";
+        object.compassClass = "wi wi-wind wi-towards-ne";
+      } else if (angle <= "112.5") {
+        object.direction = "East";
+        object.compassClass = "wi wi-wind wi-towards-e";
+      } else if (angle <= "157.5") {
+        object.direction = "South East";
+        object.compassClass = "wi wi-wind wi-towards-se";
+      } else if (angle <= "202.5") {
+        object.direction = "South";
+        object.compassClass = "wi wi-wind wi-towards-s";
+      } else if (angle <= "247.5") {
+        object.direction = "South West";
+        object.compassClass = "wi wi-wind wi-towards-sw";
+      } else if (angle <= "292.5") {
+        object.direction = "West";
+        object.compassClass = "wi wi-wind wi-towards-w";
+      } else if (angle <= "337.5") {
+        object.direction = "North West";
+        object.compassClass = "wi wi-wind wi-towards-nw";
+      } else {
+        object.direction = "North";
+        object.compassClass = "wi wi-wind wi-towards-n";
+      }
+      return object;
+    };
+
+    // changes degrees from Celsius to Fahrenheit
+    var todaysTempC = this.props.todayTemp;
+    var todayTempF = Math.round(todaysTempC * 9 / 5 + 32);
+
+    return React.createElement(
+      'div',
+      { style: headingstyles, className: 'panel-heading' },
+      React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          'div',
+          { style: currentCityStyle, className: 'col-xs-6' },
+          React.createElement(
+            'h4',
+            { style: currentCityh4 },
+            this.props.currentCity.toUpperCase()
+          ),
+          React.createElement(
+            'h5',
+            { style: currentCityh5 },
+            this.props.dateDay,
+            ' ',
+            monthName(this.props.todayMonth).toUpperCase(),
+            ' ',
+            this.props.dateYear
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-xs-6' },
+          React.createElement(SearchButton, { searchNewCity: this.props.searchNewCity })
+        )
+      ),
+      React.createElement(
+        'div',
+        { style: currentTempStyle, className: 'row' },
+        React.createElement(
+          'div',
+          { style: cloudSize, className: 'col-xs-6' },
+          React.createElement('i', { className: cloudIconPic })
+        ),
+        React.createElement(
+          'div',
+          { className: 'col-xs-6' },
+          React.createElement(
+            'h3',
+            { style: tempStyle },
+            todayTempF,
+            '\xB0'
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { style: windStyle, className: 'row' },
+        React.createElement(
+          'div',
+          { className: 'col-xs-6' },
+          React.createElement('i', { className: windDirection(this.props.windDegrees).compassClass }),
+          React.createElement(
+            'span',
+            null,
+            windDirection(this.props.windDegrees).direction
+          )
+        ),
+        React.createElement(
+          'div',
+          { style: windSpeedStyle, className: 'col-xs-6' },
+          React.createElement(
+            'span',
+            null,
+            React.createElement('i', { className: 'wi wi-strong-wind' }),
+            React.createElement(
+              'span',
+              null,
+              this.props.windSpeed,
+              ' MPH'
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = WeatherToday;
+
+},{"./SearchButton.jsx":239,"react":230}],243:[function(require,module,exports){
+var Fetch = require('whatwg-fetch');
+var baseUrl = 'http://api.openweathermap.org/data/2.5/forecast/weather?q=';
+var apiUrl = '&APPID=a07f627d8d593dfe2e91c117ba8f195d';
+
+var service = {
+  get: function (place) {
+    return fetch(baseUrl + place + apiUrl).then(function (response) {
+      return response.json();
+    });
+  }
+};
+
+module.exports = service;
+
+},{"whatwg-fetch":233}],244:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":233,"react":230,"react-dom":46}],239:[function(require,module,exports){
+},{"./Routes.jsx":234,"react":230,"react-dom":46}],245:[function(require,module,exports){
+var React = require('react');
+
+var AboutPage = React.createClass({
+	displayName: "AboutPage",
+
+	render: function () {
+
+		var container = {
+			// minWidth: "100%",
+			overflowX: "hidden",
+			display: "inline-block",
+			background: "rgba(0,0,0,0.6)",
+			marginBottom: "50px"
+		};
+
+		var whoops = {
+			fontSize: "80px",
+			textAlign: "center",
+			color: this.props.route.mainColor
+		};
+
+		var paraStyle = {
+			color: "white",
+			textAlign: "left",
+			margin: "0 0 10px 0"
+		};
+
+		var pizzaz = {
+			color: this.props.route.mainColor
+		};
+
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"div",
+				{ className: "col-sm-offset-2 col-sm-3" },
+				React.createElement("img", { style: { height: "600px" }, className: "img-responsive", src: "images/me.jpg" })
+			),
+			React.createElement(
+				"div",
+				{ style: container, className: "col-xs-offset-1 col-sm-offset-0 col-sm-5" },
+				React.createElement(
+					"div",
+					{ className: "row" },
+					React.createElement(
+						"div",
+						{ className: "col-xs-12" },
+						React.createElement(
+							"h1",
+							{ style: whoops },
+							"About Me"
+						)
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "row" },
+					React.createElement(
+						"div",
+						{ className: "col-lg-offset-1 col-lg-10" },
+						React.createElement("h3", { style: paraStyle })
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = AboutPage;
+
+},{"react":230}],246:[function(require,module,exports){
 var React = require('react');
 var NavBar = require('../components/nav/NavBar.jsx');
 var Footer = require('../components/Footer.jsx');
@@ -25648,11 +26694,11 @@ var Footer = require('../components/Footer.jsx');
 var navLinks = [{
   title: "About",
   content: "Learn more about me",
-  href: "/coming-soon"
+  href: "/about"
 }, {
   title: "Portfolio",
   content: "View my portfolio",
-  href: "/coming-soon"
+  href: "/portfolio"
 }, {
   title: "Testimonials",
   content: "Read about how awesome people think I am",
@@ -25719,7 +26765,7 @@ var BasePage = React.createClass({
 
 module.exports = BasePage;
 
-},{"../components/Footer.jsx":235,"../components/nav/NavBar.jsx":236,"react":230}],240:[function(require,module,exports){
+},{"../components/Footer.jsx":236,"../components/nav/NavBar.jsx":237,"react":230}],247:[function(require,module,exports){
 var React = require('react');
 
 var ComingSoonPage = React.createClass({
@@ -25780,7 +26826,7 @@ var ComingSoonPage = React.createClass({
 
 module.exports = ComingSoonPage;
 
-},{"react":230}],241:[function(require,module,exports){
+},{"react":230}],248:[function(require,module,exports){
 var React = require('react');
 
 var HireMePage = React.createClass({
@@ -25816,7 +26862,8 @@ var HireMePage = React.createClass({
 			margin: 0,
 			color: this.props.route.mainColor,
 			textAlign: "center",
-			fontSize: "30px"
+			fontSize: "30px",
+			marginBottom: "15px"
 		};
 
 		return React.createElement(
@@ -25908,7 +26955,7 @@ var HireMePage = React.createClass({
 
 module.exports = HireMePage;
 
-},{"react":230}],242:[function(require,module,exports){
+},{"react":230}],249:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -26014,4 +27061,91 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"../components/ConnectLinks.jsx":234,"react":230,"react-router":199}]},{},[238]);
+},{"../components/ConnectLinks.jsx":235,"react":230,"react-router":199}],250:[function(require,module,exports){
+var React = require('react');
+var WeatherApp = require('../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx');
+
+const PortfolioPage = React.createClass({
+	displayName: 'PortfolioPage',
+
+	render: function () {
+		const descripDivStyle = {
+			background: "rgba(0,0,0,.5)"
+		};
+		const headerStyle = {
+			color: this.props.route.mainColor,
+			textAlign: "center"
+		};
+		const descripStyle = {
+			color: "white"
+		};
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'div',
+				{ className: 'col-md-6' },
+				React.createElement(
+					'div',
+					{ style: descripDivStyle, className: 'col-xs-12' },
+					React.createElement(
+						'h1',
+						{ style: headerStyle },
+						'Weather App w/ Api'
+					),
+					React.createElement(
+						'h3',
+						{ style: descripStyle },
+						'I built this app using the openweathermap API. It was one of the first projects I completed with React. I definitely need to go back over the project and refactor it, as well as update to ES6.'
+					),
+					React.createElement(
+						'h3',
+						{ style: descripStyle },
+						'I learned how to use:'
+					),
+					React.createElement(
+						'ul',
+						{ style: { color: "white", fontSize: "1.3em" } },
+						React.createElement(
+							'li',
+							null,
+							'HTTP Requests'
+						),
+						React.createElement(
+							'li',
+							null,
+							'Gathering Data from an API'
+						),
+						React.createElement(
+							'li',
+							null,
+							'A lot about reusability'
+						)
+					),
+					React.createElement(
+						'h3',
+						{ style: descripStyle },
+						'You view the source code ',
+						React.createElement(
+							'a',
+							{ style: { color: this.props.route.mainColor }, href: 'https://github.com/blaynem/react-weather-api' },
+							'here'
+						)
+					)
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'col-md-6' },
+				React.createElement(WeatherApp, {
+					appSize: '',
+					appColor: this.props.route.mainColor,
+					startCity: 'Portland' })
+			)
+		);
+	}
+});
+
+module.exports = PortfolioPage;
+
+},{"../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx":240,"react":230}]},{},[244]);

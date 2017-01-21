@@ -31,7 +31,8 @@ var HireMePage = React.createClass({
 			margin: 0,
 			color: (this.props.route.mainColor),
 			textAlign: "center",
-			fontSize: "30px"
+			fontSize: "30px",
+			marginBottom: "15px"
 		}
 
 		return(

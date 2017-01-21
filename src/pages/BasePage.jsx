@@ -7,12 +7,12 @@ var navLinks = [
   {
     title: "About",
     content: "Learn more about me",
-    href: "/coming-soon"
+    href: "/about"
   },
   {
     title: "Portfolio",
     content: "View my portfolio",
-    href: "/coming-soon"
+    href: "/portfolio"
   },
   {
     title: "Testimonials",
