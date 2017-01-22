@@ -12,13 +12,27 @@ body {
   color: white;
 }
 
-/*allows the coming soon page to fit view height of page based on height of device view*/
-/*the -623px is based on the height of header/footer*/
 #middleContainer {
-  height: calc(100vh - 623px);
+  min-height: calc(100vh - 153px);
 }
-/*make sure to edit the max of the @media*/
 
+@media (max-width: 1484px) {
+  #middleContainer {
+    min-height: calc(100vh - 153px);
+  }
+}
+
+@media (max-width: 1363px) {
+  #middleContainer {
+    min-height: calc(100vh - 173px);
+  }
+}
+
+@media ( max-width: 1310px) {
+  #middleContainer {
+    min-height: calc(100vh - 196px);
+  }
+}
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
@@ -43,12 +57,6 @@ body {
    .navbar-right {
     margin-right: 8.333%;
    }
-}
-
-@media (max-width: 1250px) {
-  #middleContainer {
-    height: calc(100vh - 642px);
-  }
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {

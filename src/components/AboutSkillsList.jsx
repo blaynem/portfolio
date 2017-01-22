@@ -17,13 +17,13 @@ var AboutSkillsList = React.createClass({
 		}
 		return(
 			<div id="AboutSkillsList" className="col-xs-12">
-				<div className="row">
+				<div>
 					<div style={paraStyle} className="col-xs-12">
 						<h3 style={{marginTop:"10px", marginBottom:0}} >Some of the skills I'm proficient with:</h3>
 					</div>
 				</div>
 				<div style={paraStyle} className="col-xs-4">
-					<h3 style={skillHeaderStyle}>Web Deveopment:</h3>
+					<h3 style={skillHeaderStyle}>Web Development:</h3>
 					<ul style={ulStyles}>
 						<li><span>JavaScript</span></li>
 						<li><span>HTML/CSS</span></li>

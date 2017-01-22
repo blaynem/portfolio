@@ -16,13 +16,8 @@ var navLinks = [
   },
   {
     title: "Testimonials",
-    content: "Read about how awesome people think I am",
-    href: "/coming-soon"
-  },
-  {
-    title: "Contact",
-    content: "Send me a message",
-    href: "/coming-soon"
+    content: "Read what clients have said",
+    href: "/testimonials"
   },
   {
     title: "Hire Me",
@@ -46,26 +41,23 @@ var BasePage = React.createClass({
       paddingTop: 0
     }
 
-    var childrenStyles = {
-      marginTop:"150px",
-      marginBottom:"100px"
-    }
-
     return(
       <div style={background}>
         <div>
-          <NavBar
+          <div>
+            <NavBar
               baseColor={this.props.route.baseColor}
               mainColor={this.props.route.mainColor}
               navLinks={navLinks}/>
-          <div id="middleContainer" style={childrenStyles}>
+            </div>
+          <div id="middleContainer">
             {this.props.children}
           </div>
-          <div style={{paddingBottom:"20px"}}>
+          <div >
             <Footer
-                baseColor={this.props.route.baseColor}
-                mainColor={this.props.route.mainColor}
-                navLinks={navLinks}/>
+              baseColor={this.props.route.baseColor}
+              mainColor={this.props.route.mainColor}
+              navLinks={navLinks}/>
           </div>
         </div>
       </div>

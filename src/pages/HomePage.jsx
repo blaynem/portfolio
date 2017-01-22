@@ -7,27 +7,28 @@ var HomePage = React.createClass({
 
   render:function() {
 
-  	var resetMarginPadding = {
-  		margin:0,
-  		padding:0,
-  	}
-  	var thingcolor = {
-  		color:"white",
-  		padding: 0,
-  		marginTop: 0,
-  		marginBottom: 0,
-  		textAlign: "center"
-  	}
-  	var liStyle = {
-  		margin: "0 10px 0 10px",
-  		fontSize: "1.5em",
-  		display: "inline-block",
-  		color: "white"
-  	}
-
   	var borderTest = {
+      // border:"1px solid red",
+      paddingTop: "15vh"
   	}
-
+    var thingcolor = {
+      color:"white",
+      padding: 0,
+      marginTop: 0,
+      marginBottom: 0,
+      textAlign: "center",
+      fontSize:"4em"
+    }
+    var resetMarginPadding = {
+      margin:0,
+      padding:0,
+    }
+    var liStyle = {
+      margin: "0 10px 0 10px",
+      fontSize: ".65em",
+      display: "inline-block",
+      color: "white"
+    }
     var pizzaz = {
       color:(this.props.route.mainColor)
     }

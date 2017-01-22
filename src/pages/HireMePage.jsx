@@ -8,7 +8,8 @@ var HireMePage = React.createClass({
 			overflowX: "hidden",
 			display: "inline-block",
 			background: "rgba(0,0,0,0.6)",
-			marginBottom: "50px"
+			marginBottom: "50px",
+			marginTop: "15vh"
 		}
 
 		var whoops = {

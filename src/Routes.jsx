@@ -16,7 +16,7 @@ var BasePage = require('./pages/BasePage.jsx');
 var HomePage = require('./pages/HomePage.jsx');
 var AboutPage = require('./pages/AboutPage.jsx');
 var PortfolioPage = require('./pages/PortfolioPage.jsx');
-var ComingSoonPage = require('./pages/ComingSoonPage.jsx');
+var Testimonials = require('./pages/Testimonials.jsx');
 var HireMePage = require('./pages/HireMePage.jsx');
 
 var Routes = (
@@ -41,8 +41,8 @@ var Routes = (
         mainColor={mainColor}
         component={PortfolioPage} />
       <Route
-      	path="/coming-soon"
-      	component={ComingSoonPage} />
+      	path="/testimonials"
+      	component={Testimonials} />
       <Route
         path="/hire-me"
         mainColor={mainColor}

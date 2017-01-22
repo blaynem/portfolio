@@ -14,7 +14,7 @@ const PortfolioPage = React.createClass({
 			color: "white"	
 		}
 		return (
-			<div>
+			<div style={{paddingTop:"15vh"}}>
 				<div className="col-md-6">
 					<div style={descripDivStyle} className="col-xs-12">
 						<h1 style={headerStyle}>Weather App w/ Api</h1>

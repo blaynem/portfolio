@@ -44,15 +44,15 @@ var ConnectLinks = React.createClass({
 		// function that creates the social media icons
 		var createSocialIcons = function(item, index) {
 	      return (
-	      	<Link key={item.title + index} href={item.href} style={{padding:0, paddingRight:"12px"}} className="btn">
-	      		<span style={{color:(mainColor)}} className={item.faClass + " " + faSize}/>
+	      	<Link key={item.title + index} href={item.href} style={{padding:"10px 8px 0 0"}} className="btn">
+	      		<span style={{color:"(mainColor)"}} className={item.faClass + " " + faSize}/>
 	      	</Link>
 	      	);
 	    }
 
 		return(
 			<div>
-				<div className="row">
+				<div>
 					{socialMediaLinks.map(createSocialIcons)}
 				</div>
 			</div>

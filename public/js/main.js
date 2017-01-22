@@ -25768,7 +25768,7 @@ var BasePage = require('./pages/BasePage.jsx');
 var HomePage = require('./pages/HomePage.jsx');
 var AboutPage = require('./pages/AboutPage.jsx');
 var PortfolioPage = require('./pages/PortfolioPage.jsx');
-var ComingSoonPage = require('./pages/ComingSoonPage.jsx');
+var Testimonials = require('./pages/Testimonials.jsx');
 var HireMePage = require('./pages/HireMePage.jsx');
 
 var Routes = React.createElement(
@@ -25796,8 +25796,8 @@ var Routes = React.createElement(
       mainColor: mainColor,
       component: PortfolioPage }),
     React.createElement(Route, {
-      path: '/coming-soon',
-      component: ComingSoonPage }),
+      path: '/testimonials',
+      component: Testimonials }),
     React.createElement(Route, {
       path: '/hire-me',
       mainColor: mainColor,
@@ -25807,7 +25807,7 @@ var Routes = React.createElement(
 
 module.exports = Routes;
 
-},{"./pages/AboutPage.jsx":246,"./pages/BasePage.jsx":247,"./pages/ComingSoonPage.jsx":248,"./pages/HireMePage.jsx":249,"./pages/HomePage.jsx":250,"./pages/PortfolioPage.jsx":251,"react":230,"react-router":199}],235:[function(require,module,exports){
+},{"./pages/AboutPage.jsx":246,"./pages/BasePage.jsx":247,"./pages/HireMePage.jsx":248,"./pages/HomePage.jsx":249,"./pages/PortfolioPage.jsx":250,"./pages/Testimonials.jsx":251,"react":230,"react-router":199}],235:[function(require,module,exports){
 var React = require('react');
 
 var AboutSkillsList = React.createClass({
@@ -25832,7 +25832,7 @@ var AboutSkillsList = React.createClass({
 			{ id: "AboutSkillsList", className: "col-xs-12" },
 			React.createElement(
 				"div",
-				{ className: "row" },
+				null,
 				React.createElement(
 					"div",
 					{ style: paraStyle, className: "col-xs-12" },
@@ -25849,7 +25849,7 @@ var AboutSkillsList = React.createClass({
 				React.createElement(
 					"h3",
 					{ style: skillHeaderStyle },
-					"Web Deveopment:"
+					"Web Development:"
 				),
 				React.createElement(
 					"ul",
@@ -26112,8 +26112,8 @@ var ConnectLinks = React.createClass({
 		var createSocialIcons = function (item, index) {
 			return React.createElement(
 				Link,
-				{ key: item.title + index, href: item.href, style: { padding: 0, paddingRight: "12px" }, className: 'btn' },
-				React.createElement('span', { style: { color: mainColor }, className: item.faClass + " " + faSize })
+				{ key: item.title + index, href: item.href, style: { padding: "10px 8px 0 0" }, className: 'btn' },
+				React.createElement('span', { style: { color: "(mainColor)" }, className: item.faClass + " " + faSize })
 			);
 		};
 
@@ -26122,7 +26122,7 @@ var ConnectLinks = React.createClass({
 			null,
 			React.createElement(
 				'div',
-				{ className: 'row' },
+				null,
 				socialMediaLinks.map(createSocialIcons)
 			)
 		);
@@ -26143,13 +26143,15 @@ var Footer = React.createClass({
 
 		var rowStyle = {
 			background: this.props.baseColor,
-			margin: "0",
-			color: "white"
+			margin: 0,
+			color: "white",
+			paddingLeft: "1%",
+			paddingRight: "1%",
+			textAlign: "center",
+			paddingBottom: "20px"
 		};
 
-		var connectStyle = {
-			paddingTop: "220px"
-		};
+		var connectStyle = {};
 
 		var listStyle = {
 			listStyle: "none",
@@ -26158,7 +26160,11 @@ var Footer = React.createClass({
 
 		var mainColor = this.props.mainColor;
 		var createLinkItem = function (item, index) {
-			return React.createElement(NavItem, { key: item.title + index, href: item.href, title: item.title, content: item.content, mainColor: mainColor });
+			return React.createElement(
+				'div',
+				{ key: item.title + index, className: 'col-xs-2' },
+				React.createElement(NavItem, { href: item.href, title: item.title, content: item.content, mainColor: mainColor })
+			);
 		};
 
 		return React.createElement(
@@ -26166,15 +26172,15 @@ var Footer = React.createClass({
 			{ id: 'footer', style: rowStyle, className: 'row' },
 			React.createElement(
 				'div',
-				{ style: connectStyle, className: 'col-xs-offset-2 col-xs-4 col-sm-offset-3 col-sm-3' },
+				{ style: connectStyle, className: 'col-xs-offset-1 col-xs-2' },
 				React.createElement(ConnectLinks, { mainColor: this.props.mainColor })
 			),
 			React.createElement(
 				'div',
-				{ className: 'col-xs-offset-1 col-xs-5 col-sm-offset-2 col-sm-3' },
+				null,
 				React.createElement(
 					'ul',
-					{ style: listStyle },
+					null,
 					this.props.navLinks.map(createLinkItem)
 				)
 			)
@@ -26201,7 +26207,8 @@ var NavBar = React.createClass({
       MozBoxShadow: "0 0 4px rgba(0,0,0,0)",
       boxShadow: "0 0 4px rgba(0,0,0,0)",
       border: 0,
-      paddingBottom: "10px"
+      paddingBottom: 0,
+      margin: 0
     };
 
     var titleStyle = {};
@@ -26252,7 +26259,7 @@ var NavBar = React.createClass({
             ),
             React.createElement(
               'p',
-              { style: { fontSize: ".7em" } },
+              { style: { fontSize: ".7em", margin: 0 } },
               'Junior Developer'
             )
           ),
@@ -26305,6 +26312,11 @@ var NavItem = React.createClass({
   },
   render: function () {
 
+    var listStyle = {
+      listStyleType: "none",
+      display: "inline-block"
+    };
+
     var hoverText = {
       color: "#FFF",
       fontSize: "1.3em"
@@ -26324,6 +26336,7 @@ var NavItem = React.createClass({
     return React.createElement(
       'li',
       {
+        style: listStyle,
         className: this.state.hover ? "active" : "",
         onMouseOver: this.mouseOver,
         onMouseOut: this.mouseOut },
@@ -26889,6 +26902,17 @@ var AboutPage = React.createClass({
 	render: function () {
 
 		var container = {
+			// height: "600px"
+			height: "700px",
+			paddingTop: "2%"
+		};
+
+		var aboutContainerH = {
+			// height: "100%"
+			paddingTop: "2%"
+		};
+
+		var aboutContainer = {
 			background: "rgba(0,0,0,0.6)"
 		};
 
@@ -26902,10 +26926,16 @@ var AboutPage = React.createClass({
 			color: this.props.route.mainColor
 		};
 
+		const paragraphStyles = {
+			color: "white",
+			paddingLeft: "20px",
+			paddingRight: "20px"
+		};
+
 		const backgroundstyle = {
 			position: "relative",
 			padding: 0,
-			height: "600px",
+			height: "100%",
 			backgroundPosition: "50% 50%",
 			backgroundRepeat: "no-repeat",
 			backgroundSize: "contain",
@@ -26914,51 +26944,55 @@ var AboutPage = React.createClass({
 		// <img style={{height:"450px"}} className="img-responsive" src="images/me.jpg" />
 		return React.createElement(
 			'div',
-			null,
-			React.createElement('div', { style: backgroundstyle, className: 'col-md-6 col-lg-offset-1 col-lg-4' }),
+			{ style: container },
+			React.createElement('div', { style: backgroundstyle, className: 'col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-6 col-lg-offset-1 col-lg-4' }),
 			React.createElement(
 				'div',
-				{ style: container, className: 'col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-6' },
+				{ style: aboutContainerH, className: 'col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-6 col-lg-6' },
 				React.createElement(
 					'div',
-					{ className: 'row' },
+					{ style: aboutContainer },
 					React.createElement(
 						'div',
-						{ className: 'col-xs-12' },
+						{ style: { marginLeft: 0, marginRight: 0 }, className: 'row' },
 						React.createElement(
-							'h1',
-							{ style: headerStyle },
-							'About Me'
+							'div',
+							{ className: 'col-xs-12' },
+							React.createElement(
+								'h1',
+								{ style: headerStyle },
+								'About Me'
+							)
 						)
-					)
-				),
-				React.createElement(
-					'div',
-					{ className: 'row' },
+					),
 					React.createElement(
 						'div',
-						{ className: 'col-xs-12' },
+						{ style: { marginLeft: 0, marginRight: 0 }, className: 'row' },
 						React.createElement(
-							'h3',
-							{ style: { color: "white" } },
-							'Junior Web Developer/QA Tester.'
-						),
-						React.createElement(
-							'h4',
-							{ style: { color: "white" } },
-							'I began learning web development around 2 years ago. It started off with HTML/CSS and then expanded to learning the basics of JavaScript, Ruby, Rails, C#, and some Java for Anroid. I kept switching back and forth between what was "the best" thing to learn for a beginner. The struggle most self-taught developers know well.'
-						),
-						React.createElement(
-							'h4',
-							{ style: { color: "white" } },
-							'I ultimately settled on learning Front-End development. I began flying through FreeCodeCamps challenges, helping out in the gitter chat channel as much as I possibly could. After completing a few projects I came across ReactJS. After completing a few courses through CodeAcademy and Udemy, I knew I found the language for me.'
+							'div',
+							{ className: 'col-xs-12' },
+							React.createElement(
+								'h3',
+								{ style: paragraphStyles },
+								'Junior Web Developer/QA Tester.'
+							),
+							React.createElement(
+								'h4',
+								{ style: paragraphStyles },
+								'I began learning web development around 2 years ago. It started off with HTML/CSS and then expanded to learning the basics of JavaScript, Ruby, Rails, C#, and some Java for Android. I kept switching back and forth between what was "the best" thing to learn for a beginner. The struggle most self-taught developers know well.'
+							),
+							React.createElement(
+								'h4',
+								{ style: paragraphStyles },
+								'I ultimately settled on learning Front-End development. I began flying through FreeCodeCamps challenges, helping out in the gitter chat channel as much as I possibly could. After completing a few projects I came across ReactJS. After completing a few courses through CodeAcademy and Udemy, I knew I found the language for me.'
+							)
 						)
+					),
+					React.createElement(
+						'div',
+						{ style: { marginLeft: 0, marginRight: 0 }, className: 'row' },
+						React.createElement(AboutSkillsList, { mainColor: this.props.route.mainColor })
 					)
-				),
-				React.createElement(
-					'div',
-					{ className: 'row' },
-					React.createElement(AboutSkillsList, { mainColor: this.props.route.mainColor })
 				)
 			)
 		);
@@ -26983,12 +27017,8 @@ var navLinks = [{
   href: "/portfolio"
 }, {
   title: "Testimonials",
-  content: "Read about how awesome people think I am",
-  href: "/coming-soon"
-}, {
-  title: "Contact",
-  content: "Send me a message",
-  href: "/coming-soon"
+  content: "Read what clients have said",
+  href: "/testimonials"
 }, {
   title: "Hire Me",
   content: "Currently looking for work",
@@ -27012,29 +27042,28 @@ var BasePage = React.createClass({
       paddingTop: 0
     };
 
-    var childrenStyles = {
-      marginTop: "150px",
-      marginBottom: "100px"
-    };
-
     return React.createElement(
       'div',
       { style: background },
       React.createElement(
         'div',
         null,
-        React.createElement(NavBar, {
-          baseColor: this.props.route.baseColor,
-          mainColor: this.props.route.mainColor,
-          navLinks: navLinks }),
         React.createElement(
           'div',
-          { id: 'middleContainer', style: childrenStyles },
+          null,
+          React.createElement(NavBar, {
+            baseColor: this.props.route.baseColor,
+            mainColor: this.props.route.mainColor,
+            navLinks: navLinks })
+        ),
+        React.createElement(
+          'div',
+          { id: 'middleContainer' },
           this.props.children
         ),
         React.createElement(
           'div',
-          { style: { paddingBottom: "20px" } },
+          null,
           React.createElement(Footer, {
             baseColor: this.props.route.baseColor,
             mainColor: this.props.route.mainColor,
@@ -27050,67 +27079,6 @@ module.exports = BasePage;
 },{"../components/Footer.jsx":237,"../components/nav/NavBar.jsx":238,"react":230}],248:[function(require,module,exports){
 var React = require('react');
 
-var ComingSoonPage = React.createClass({
-	displayName: "ComingSoonPage",
-
-	render: function () {
-
-		var container = {
-			minWidth: "100%",
-			overflowX: "hidden",
-			display: "inline-block",
-			background: "rgba(0,0,0,0.6)"
-		};
-
-		var whoops = {
-			fontSize: "80px",
-			textAlign: "center",
-			color: "white"
-		};
-
-		var paraStyle = {
-			color: "white",
-			textAlign: "center"
-		};
-
-		return React.createElement(
-			"div",
-			{ id: "comingSoonContainer", style: container, className: "container" },
-			React.createElement(
-				"div",
-				{ className: "row" },
-				React.createElement(
-					"div",
-					{ className: "col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4" },
-					React.createElement(
-						"h1",
-						{ style: whoops },
-						"Whoops!"
-					)
-				)
-			),
-			React.createElement(
-				"div",
-				{ className: "row" },
-				React.createElement(
-					"div",
-					{ className: "col-lg-offset-3 col-lg-6" },
-					React.createElement(
-						"h3",
-						{ style: paraStyle },
-						"Looks like you navigated to a page that's not quite up yet. Sorry about that. Feel free to click on my name to take you back to the HomePage."
-					)
-				)
-			)
-		);
-	}
-});
-
-module.exports = ComingSoonPage;
-
-},{"react":230}],249:[function(require,module,exports){
-var React = require('react');
-
 var HireMePage = React.createClass({
 	displayName: "HireMePage",
 
@@ -27121,7 +27089,8 @@ var HireMePage = React.createClass({
 			overflowX: "hidden",
 			display: "inline-block",
 			background: "rgba(0,0,0,0.6)",
-			marginBottom: "50px"
+			marginBottom: "50px",
+			marginTop: "15vh"
 		};
 
 		var whoops = {
@@ -27237,7 +27206,7 @@ var HireMePage = React.createClass({
 
 module.exports = HireMePage;
 
-},{"react":230}],250:[function(require,module,exports){
+},{"react":230}],249:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -27249,26 +27218,28 @@ var HomePage = React.createClass({
 
   render: function () {
 
-    var resetMarginPadding = {
-      margin: 0,
-      padding: 0
+    var borderTest = {
+      // border:"1px solid red",
+      paddingTop: "15vh"
     };
     var thingcolor = {
       color: "white",
       padding: 0,
       marginTop: 0,
       marginBottom: 0,
-      textAlign: "center"
+      textAlign: "center",
+      fontSize: "4em"
+    };
+    var resetMarginPadding = {
+      margin: 0,
+      padding: 0
     };
     var liStyle = {
       margin: "0 10px 0 10px",
-      fontSize: "1.5em",
+      fontSize: ".65em",
       display: "inline-block",
       color: "white"
     };
-
-    var borderTest = {};
-
     var pizzaz = {
       color: this.props.route.mainColor
     };
@@ -27343,7 +27314,7 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"../components/ConnectLinks.jsx":236,"react":230,"react-router":199}],251:[function(require,module,exports){
+},{"../components/ConnectLinks.jsx":236,"react":230,"react-router":199}],250:[function(require,module,exports){
 var React = require('react');
 var WeatherApp = require('../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx');
 
@@ -27363,7 +27334,7 @@ const PortfolioPage = React.createClass({
 		};
 		return React.createElement(
 			'div',
-			null,
+			{ style: { paddingTop: "15vh" } },
 			React.createElement(
 				'div',
 				{ className: 'col-md-6' },
@@ -27430,4 +27401,71 @@ const PortfolioPage = React.createClass({
 
 module.exports = PortfolioPage;
 
-},{"../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx":241,"react":230}]},{},[245]);
+},{"../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx":241,"react":230}],251:[function(require,module,exports){
+var React = require('react');
+
+var Testimonials = React.createClass({
+	displayName: "Testimonials",
+
+	render: function () {
+
+		var container = {
+			minWidth: "100%",
+			overflowX: "hidden",
+			display: "inline-block",
+			background: "rgba(0,0,0,0.6)",
+			marginTop: "8%"
+		};
+
+		var whoops = {
+			fontSize: "80px",
+			textAlign: "center",
+			color: "white"
+		};
+
+		var paraStyle = {
+			color: "white",
+			textAlign: "center"
+		};
+
+		return React.createElement(
+			"div",
+			{ id: "comingSoonContainer", style: container, className: "container" },
+			React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4" },
+					React.createElement(
+						"h1",
+						{ style: whoops },
+						"Whoops!"
+					)
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ className: "col-lg-offset-3 col-lg-6" },
+					React.createElement(
+						"h3",
+						{ style: paraStyle },
+						"Looks like you navigated to a page that's not quite up yet. Sorry about that. Feel free to click on my name to take you back to the HomePage."
+					),
+					React.createElement(
+						"h3",
+						{ style: paraStyle },
+						"I promise there will be great testimonials, the best testimonials. From only the best people. They have such bigly things to say, it's going to be great let me tell you."
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = Testimonials;
+
+},{"react":230}]},{},[245]);

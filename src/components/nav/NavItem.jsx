@@ -17,14 +17,19 @@ var NavItem = React.createClass({
   },
   render: function() {
 
+    var listStyle = {
+      listStyleType:"none",
+      display: "inline-block"
+    }
+
     var hoverText = {
       color: "#FFF",
-      fontSize: "1.3em"
+      fontSize: "1.3em",
     }
 
     var paraStyle = {
       textShadow: "1px 1px 8px gray, 0 0 15px black",
-      fontSize: ".8em"
+      fontSize: ".8em",
     }
 
     if (this.state.hover){
@@ -36,6 +41,7 @@ var NavItem = React.createClass({
 
     return (
       <li
+        style={listStyle}
         className={this.state.hover ? "active":""}
         onMouseOver={this.mouseOver}
         onMouseOut={this.mouseOut}>

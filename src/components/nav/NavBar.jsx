@@ -12,7 +12,8 @@ var NavBar = React.createClass({
       MozBoxShadow: "0 0 4px rgba(0,0,0,0)",
       boxShadow: "0 0 4px rgba(0,0,0,0)",
       border: 0,
-      paddingBottom: "10px"
+      paddingBottom: 0,
+      margin: 0
     }
 
     var titleStyle = {}
@@ -45,7 +46,7 @@ var NavBar = React.createClass({
           <div className="navbar-header col-sm-offset-1 col-sm-2">
             <Link style={nameStyle} className="navbar-brand" to="/">
               <span style={{fontSize:"1.3em"}}><span style={titleStyle}>Blayne</span>Marjama</span>
-              <p style={{fontSize:".7em"}}>Junior Developer</p>
+              <p style={{fontSize:".7em", margin:0}}>Junior Developer</p>
             </Link>
             <button type="button"
               className="navbar-toggle collapsed"
