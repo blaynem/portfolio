@@ -36,7 +36,7 @@ var HireMePage = React.createClass({
 		}
 
 		return(
-			<div id="comingSoonContainer" style={container} className="col-sm-offset-1 col-sm-6">
+			<div id="comingSoonContainer" style={container} className="col-xs-12 col-md-offset-2 col-md-8">
 				<div className="row">
 					<div className="col-xs-12">
 						<h1 style={whoops}>Hire Me!</h1>
@@ -50,7 +50,7 @@ var HireMePage = React.createClass({
 							a remote position, I much prefer being around my peers in a team environment. 
 							If you'd like to go over a potential remote position, feel free to 
 							reach out via email.</h3>
-						<h3 style={paraStyle}><span style={pizzaz}>Email</span>: Blayne.Marjama@gmail.com</h3>
+						<h3 style={paraStyle}><span style={pizzaz}>Email:</span> Blayne.Marjama@gmail.com</h3>
 						<h3 style={paraStyle}>I can also be reached at one of the social media links below.</h3>
 						<h3 style={arrowStyle}><i className="glyphicon glyphicon-chevron-down"></i></h3>
 					</div>

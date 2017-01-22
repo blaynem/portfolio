@@ -8,6 +8,10 @@ body {
   height: 100%;
 }
 
+#AboutSkillsList span{
+  color: white;
+}
+
 /*allows the coming soon page to fit view height of page based on height of device view*/
 /*the -623px is based on the height of header/footer*/
 #middleContainer {

@@ -25807,7 +25807,268 @@ var Routes = React.createElement(
 
 module.exports = Routes;
 
-},{"./pages/AboutPage.jsx":245,"./pages/BasePage.jsx":246,"./pages/ComingSoonPage.jsx":247,"./pages/HireMePage.jsx":248,"./pages/HomePage.jsx":249,"./pages/PortfolioPage.jsx":250,"react":230,"react-router":199}],235:[function(require,module,exports){
+},{"./pages/AboutPage.jsx":246,"./pages/BasePage.jsx":247,"./pages/ComingSoonPage.jsx":248,"./pages/HireMePage.jsx":249,"./pages/HomePage.jsx":250,"./pages/PortfolioPage.jsx":251,"react":230,"react-router":199}],235:[function(require,module,exports){
+var React = require('react');
+
+var AboutSkillsList = React.createClass({
+	displayName: "AboutSkillsList",
+
+	render: function () {
+		var skillHeaderStyle = {
+			color: this.props.mainColor,
+			marginTop: "10px"
+		};
+
+		var paraStyle = {
+			color: "white"
+		};
+
+		var ulStyles = {
+			float: "left",
+			color: this.props.mainColor
+		};
+		return React.createElement(
+			"div",
+			{ id: "AboutSkillsList", className: "col-xs-12" },
+			React.createElement(
+				"div",
+				{ className: "row" },
+				React.createElement(
+					"div",
+					{ style: paraStyle, className: "col-xs-12" },
+					React.createElement(
+						"h3",
+						{ style: { marginTop: "10px", marginBottom: 0 } },
+						"Some of the skills I'm proficient with:"
+					)
+				)
+			),
+			React.createElement(
+				"div",
+				{ style: paraStyle, className: "col-xs-4" },
+				React.createElement(
+					"h3",
+					{ style: skillHeaderStyle },
+					"Web Deveopment:"
+				),
+				React.createElement(
+					"ul",
+					{ style: ulStyles },
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"JavaScript"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"HTML/CSS"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"APIs"
+						)
+					)
+				),
+				React.createElement(
+					"ul",
+					{ style: ulStyles },
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"ReactJS"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"React-Router"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Redux"
+						)
+					)
+				)
+			),
+			React.createElement(
+				"div",
+				{ style: paraStyle, className: "col-xs-8" },
+				React.createElement(
+					"h3",
+					{ style: skillHeaderStyle },
+					"QA Testing:"
+				),
+				React.createElement(
+					"ul",
+					{ style: ulStyles },
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Types:"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Ad Hoc"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Black-Box"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Data Driven"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Automation"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Regression(light)"
+						)
+					)
+				),
+				React.createElement(
+					"ul",
+					{ style: ulStyles },
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Automation(least exp)"
+						),
+						":"
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"WATIR"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Selenium"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Firebug"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"RSpec"
+						)
+					)
+				),
+				React.createElement(
+					"ul",
+					{ style: ulStyles },
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"Tools:"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"JIRA"
+						)
+					),
+					React.createElement(
+						"li",
+						null,
+						React.createElement(
+							"span",
+							null,
+							"DaPulse"
+						)
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = AboutSkillsList;
+
+},{"react":230}],236:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25831,6 +26092,11 @@ var socialMediaLinks = [{
 	title: "facebook",
 	faClass: "fa fa-facebook-square",
 	href: "https://www.facebook.com/blayne.marjama",
+	styles: ""
+}, {
+	title: "twitter",
+	faClass: "fa fa-twitter-square",
+	href: "https://twitter.com/drilkmops",
 	styles: ""
 }];
 // NEED TO MAKE SURE LINKS OPEN THE APPS ON PHONES.
@@ -25865,7 +26131,7 @@ var ConnectLinks = React.createClass({
 
 module.exports = ConnectLinks;
 
-},{"react":230,"react-router":199}],236:[function(require,module,exports){
+},{"react":230,"react-router":199}],237:[function(require,module,exports){
 var React = require('react');
 var NavItem = require('./nav/NavItem.jsx');
 var ConnectLinks = require('../components/ConnectLinks.jsx');
@@ -25918,7 +26184,7 @@ var Footer = React.createClass({
 
 module.exports = Footer;
 
-},{"../components/ConnectLinks.jsx":235,"./nav/NavItem.jsx":238,"react":230}],237:[function(require,module,exports){
+},{"../components/ConnectLinks.jsx":236,"./nav/NavItem.jsx":239,"react":230}],238:[function(require,module,exports){
 var React = require('react');
 var NavItem = require('./NavItem.jsx');
 
@@ -26017,7 +26283,7 @@ var NavBar = React.createClass({
 
 module.exports = NavBar;
 
-},{"./NavItem.jsx":238,"react":230,"react-router":199}],238:[function(require,module,exports){
+},{"./NavItem.jsx":239,"react":230,"react-router":199}],239:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -26077,7 +26343,7 @@ var NavItem = React.createClass({
 
 module.exports = NavItem;
 
-},{"react":230,"react-router":199}],239:[function(require,module,exports){
+},{"react":230,"react-router":199}],240:[function(require,module,exports){
 var React = require('react');
 
 var SearchButton = React.createClass({
@@ -26123,7 +26389,7 @@ var SearchButton = React.createClass({
 
 module.exports = SearchButton;
 
-},{"react":230}],240:[function(require,module,exports){
+},{"react":230}],241:[function(require,module,exports){
 var React = require('react');
 var WeatherListItem = require('./WeatherListItem.jsx');
 var WeatherToday = require('./WeatherToday.jsx');
@@ -26275,7 +26541,7 @@ var WeatherApp = React.createClass({
 
 module.exports = WeatherApp;
 
-},{"../services/httpservice":243,"./WeatherListItem.jsx":241,"./WeatherToday.jsx":242,"react":230}],241:[function(require,module,exports){
+},{"../services/httpservice":244,"./WeatherListItem.jsx":242,"./WeatherToday.jsx":243,"react":230}],242:[function(require,module,exports){
 var React = require('react');
 
 var WeatherListItem = React.createClass({
@@ -26371,7 +26637,7 @@ var WeatherListItem = React.createClass({
 
 module.exports = WeatherListItem;
 
-},{"react":230}],242:[function(require,module,exports){
+},{"react":230}],243:[function(require,module,exports){
 var React = require('react');
 var SearchButton = require('./SearchButton.jsx');
 
@@ -26591,7 +26857,7 @@ var WeatherToday = React.createClass({
 
 module.exports = WeatherToday;
 
-},{"./SearchButton.jsx":239,"react":230}],243:[function(require,module,exports){
+},{"./SearchButton.jsx":240,"react":230}],244:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 var baseUrl = 'http://api.openweathermap.org/data/2.5/forecast/weather?q=';
 var apiUrl = '&APPID=a07f627d8d593dfe2e91c117ba8f195d';
@@ -26606,77 +26872,93 @@ var service = {
 
 module.exports = service;
 
-},{"whatwg-fetch":233}],244:[function(require,module,exports){
+},{"whatwg-fetch":233}],245:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":234,"react":230,"react-dom":46}],245:[function(require,module,exports){
+},{"./Routes.jsx":234,"react":230,"react-dom":46}],246:[function(require,module,exports){
 var React = require('react');
+var AboutSkillsList = require('../components/AboutSkillsList.jsx');
 
 var AboutPage = React.createClass({
-	displayName: "AboutPage",
+	displayName: 'AboutPage',
 
 	render: function () {
 
 		var container = {
-			// minWidth: "100%",
-			overflowX: "hidden",
-			display: "inline-block",
-			background: "rgba(0,0,0,0.6)",
-			marginBottom: "50px"
+			background: "rgba(0,0,0,0.6)"
 		};
 
-		var whoops = {
-			fontSize: "80px",
+		var headerStyle = {
+			fontSize: "4vw",
 			textAlign: "center",
 			color: this.props.route.mainColor
-		};
-
-		var paraStyle = {
-			color: "white",
-			textAlign: "left",
-			margin: "0 0 10px 0"
 		};
 
 		var pizzaz = {
 			color: this.props.route.mainColor
 		};
 
+		const backgroundstyle = {
+			position: "relative",
+			padding: 0,
+			height: "600px",
+			backgroundPosition: "50% 50%",
+			backgroundRepeat: "no-repeat",
+			backgroundSize: "contain",
+			backgroundImage: "url(images/me.jpg)"
+		};
+		// <img style={{height:"450px"}} className="img-responsive" src="images/me.jpg" />
 		return React.createElement(
-			"div",
+			'div',
 			null,
+			React.createElement('div', { style: backgroundstyle, className: 'col-md-6 col-lg-offset-1 col-lg-4' }),
 			React.createElement(
-				"div",
-				{ className: "col-sm-offset-2 col-sm-3" },
-				React.createElement("img", { style: { height: "600px" }, className: "img-responsive", src: "images/me.jpg" })
-			),
-			React.createElement(
-				"div",
-				{ style: container, className: "col-xs-offset-1 col-sm-offset-0 col-sm-5" },
+				'div',
+				{ style: container, className: 'col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-6' },
 				React.createElement(
-					"div",
-					{ className: "row" },
+					'div',
+					{ className: 'row' },
 					React.createElement(
-						"div",
-						{ className: "col-xs-12" },
+						'div',
+						{ className: 'col-xs-12' },
 						React.createElement(
-							"h1",
-							{ style: whoops },
-							"About Me"
+							'h1',
+							{ style: headerStyle },
+							'About Me'
 						)
 					)
 				),
 				React.createElement(
-					"div",
-					{ className: "row" },
+					'div',
+					{ className: 'row' },
 					React.createElement(
-						"div",
-						{ className: "col-lg-offset-1 col-lg-10" },
-						React.createElement("h3", { style: paraStyle })
+						'div',
+						{ className: 'col-xs-12' },
+						React.createElement(
+							'h3',
+							{ style: { color: "white" } },
+							'Junior Web Developer/QA Tester.'
+						),
+						React.createElement(
+							'h4',
+							{ style: { color: "white" } },
+							'I began learning web development around 2 years ago. It started off with HTML/CSS and then expanded to learning the basics of JavaScript, Ruby, Rails, C#, and some Java for Anroid. I kept switching back and forth between what was "the best" thing to learn for a beginner. The struggle most self-taught developers know well.'
+						),
+						React.createElement(
+							'h4',
+							{ style: { color: "white" } },
+							'I ultimately settled on learning Front-End development. I began flying through FreeCodeCamps challenges, helping out in the gitter chat channel as much as I possibly could. After completing a few projects I came across ReactJS. After completing a few courses through CodeAcademy and Udemy, I knew I found the language for me.'
+						)
 					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'row' },
+					React.createElement(AboutSkillsList, { mainColor: this.props.route.mainColor })
 				)
 			)
 		);
@@ -26685,7 +26967,7 @@ var AboutPage = React.createClass({
 
 module.exports = AboutPage;
 
-},{"react":230}],246:[function(require,module,exports){
+},{"../components/AboutSkillsList.jsx":235,"react":230}],247:[function(require,module,exports){
 var React = require('react');
 var NavBar = require('../components/nav/NavBar.jsx');
 var Footer = require('../components/Footer.jsx');
@@ -26765,7 +27047,7 @@ var BasePage = React.createClass({
 
 module.exports = BasePage;
 
-},{"../components/Footer.jsx":236,"../components/nav/NavBar.jsx":237,"react":230}],247:[function(require,module,exports){
+},{"../components/Footer.jsx":237,"../components/nav/NavBar.jsx":238,"react":230}],248:[function(require,module,exports){
 var React = require('react');
 
 var ComingSoonPage = React.createClass({
@@ -26826,7 +27108,7 @@ var ComingSoonPage = React.createClass({
 
 module.exports = ComingSoonPage;
 
-},{"react":230}],248:[function(require,module,exports){
+},{"react":230}],249:[function(require,module,exports){
 var React = require('react');
 
 var HireMePage = React.createClass({
@@ -26868,7 +27150,7 @@ var HireMePage = React.createClass({
 
 		return React.createElement(
 			"div",
-			{ id: "comingSoonContainer", style: container, className: "col-sm-offset-1 col-sm-6" },
+			{ id: "comingSoonContainer", style: container, className: "col-xs-12 col-md-offset-2 col-md-8" },
 			React.createElement(
 				"div",
 				{ className: "row" },
@@ -26933,9 +27215,9 @@ var HireMePage = React.createClass({
 						React.createElement(
 							"span",
 							{ style: pizzaz },
-							"Email"
+							"Email:"
 						),
-						": Blayne.Marjama@gmail.com"
+						" Blayne.Marjama@gmail.com"
 					),
 					React.createElement(
 						"h3",
@@ -26955,7 +27237,7 @@ var HireMePage = React.createClass({
 
 module.exports = HireMePage;
 
-},{"react":230}],249:[function(require,module,exports){
+},{"react":230}],250:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -27061,7 +27343,7 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"../components/ConnectLinks.jsx":235,"react":230,"react-router":199}],250:[function(require,module,exports){
+},{"../components/ConnectLinks.jsx":236,"react":230,"react-router":199}],251:[function(require,module,exports){
 var React = require('react');
 var WeatherApp = require('../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx');
 
@@ -27148,4 +27430,4 @@ const PortfolioPage = React.createClass({
 
 module.exports = PortfolioPage;
 
-},{"../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx":240,"react":230}]},{},[244]);
+},{"../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx":241,"react":230}]},{},[245]);

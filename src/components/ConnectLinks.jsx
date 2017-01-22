@@ -25,6 +25,12 @@ var socialMediaLinks = [
 	    faClass: "fa fa-facebook-square",
 	    href: "https://www.facebook.com/blayne.marjama",
 	    styles: ""
+	},
+	{
+	    title: "twitter",
+	    faClass: "fa fa-twitter-square",
+	    href: "https://twitter.com/drilkmops",
+	    styles: ""
 	}
 ];
 // NEED TO MAKE SURE LINKS OPEN THE APPS ON PHONES.
