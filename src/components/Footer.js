@@ -1,11 +1,10 @@
-var React = require('react');
-var NavItem = require('./nav/NavItem.jsx');
-var ConnectLinks = require('../components/ConnectLinks.jsx');
+import React, { Component } from 'react';
+import NavItem from './NavBar/NavItem';
+import ConnectLinks from './ConnectLinks';
 
 
-var Footer = React.createClass({
-	render: function() {
-
+export default class Footer extends Component {
+	render() {
 		var rowStyle = {
 			background:(this.props.baseColor),
 			margin: 0,
@@ -17,11 +16,6 @@ var Footer = React.createClass({
 		}
 
 		var connectStyle = {
-		}
-
-		var listStyle = {
-			listStyle: "none",
-			padding: "0",
 		}
 
 		var mainColor = (this.props.mainColor)
@@ -46,6 +40,4 @@ var Footer = React.createClass({
 			</div>
 		);
 	}
-});
-
-module.exports = Footer;
+}

@@ -1,8 +1,8 @@
-var React = require('react');
-var WeatherApp = require('../components/portfolioPageApps/weatherApp/components/WeatherApp.jsx');
+import React, { Component } from 'react';
+import WeatherApp from './weatherApp/components/WeatherApp.jsx';
 
-const PortfolioPage = React.createClass({
-	render: function() {
+export default class PortfolioPage extends Component {
+	render() {
 		const descripDivStyle = {
 			background: "rgba(0,0,0,.5)",
 		}
@@ -38,6 +38,4 @@ const PortfolioPage = React.createClass({
 			</div>
 		);
 	}
-});
-
-module.exports = PortfolioPage;
+};

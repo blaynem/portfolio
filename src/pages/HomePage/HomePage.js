@@ -1,17 +1,13 @@
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
-var ConnectLinks = require('../components/ConnectLinks.jsx');
+import React, { Component } from 'react';
 
-var HomePage = React.createClass({
+export default class HomePage extends Component {
 
-  render:function() {
+  render() {
 
-  	var borderTest = {
-      // border:"1px solid red",
+  	const borderTest = {
       paddingTop: "15vh"
   	}
-    var thingcolor = {
+    const thingcolor = {
       color:"white",
       padding: 0,
       marginTop: 0,
@@ -19,17 +15,17 @@ var HomePage = React.createClass({
       textAlign: "center",
       fontSize:"4em"
     }
-    var resetMarginPadding = {
+    const resetMarginPadding = {
       margin:0,
       padding:0,
     }
-    var liStyle = {
+    const liStyle = {
       margin: "0 10px 0 10px",
       fontSize: ".65em",
       display: "inline-block",
       color: "white"
     }
-    var pizzaz = {
+    const pizzaz = {
       color:(this.props.route.mainColor)
     }
 
@@ -54,6 +50,4 @@ var HomePage = React.createClass({
       </div>
     );
   }
-});
-
-module.exports = HomePage;
+}

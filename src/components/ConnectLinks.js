@@ -1,13 +1,12 @@
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
+import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 // The 'Connect' component, allows a user to click on a social media icon to reach out to us.
 
 // change fasize to increase/decrease size of icons
 // add or remove icons by adding to socialMediaLinks 
-var faSize = "fa-3x"
-var socialMediaLinks = [
+const faSize = "fa-3x"
+const socialMediaLinks = [
 	{
 	    title: "github",
 	    faClass: "fa fa-github-square",
@@ -36,8 +35,8 @@ var socialMediaLinks = [
 // NEED TO MAKE SURE LINKS OPEN THE APPS ON PHONES.
 
 
-var ConnectLinks = React.createClass({
-	render: function() {
+export default class ConnectLinks extends Component {
+	render() {
 
 
 		var mainColor = (this.props.mainColor)
@@ -45,7 +44,7 @@ var ConnectLinks = React.createClass({
 		var createSocialIcons = function(item, index) {
 	      return (
 	      	<Link key={item.title + index} href={item.href} style={{padding:"10px 8px 0 0"}} className="btn">
-	      		<span style={{color:"(mainColor)"}} className={item.faClass + " " + faSize}/>
+	      		<span style={{color:(mainColor)}} className={item.faClass + " " + faSize}/>
 	      	</Link>
 	      	);
 	    }
@@ -58,6 +57,5 @@ var ConnectLinks = React.createClass({
 			</div>
 		);
 	}
-});
+};
 
-module.exports = ConnectLinks;

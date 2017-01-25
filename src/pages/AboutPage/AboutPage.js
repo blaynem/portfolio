@@ -1,33 +1,25 @@
-var React = require('react');
-var AboutSkillsList = require('../components/AboutSkillsList.jsx');
+import React, { Component } from 'react';
+import AboutSkillsList from './AboutSkillsList';
 
-var AboutPage = React.createClass({
-	render: function() {
-
+export default class AboutPage extends Component {
+	render() {
 		var container = {
-			// height: "600px"
 			height: "700px",
 			paddingTop: "2%"
 		}
 
 		var aboutContainerH = {
-			// height: "100%"
 			paddingTop: "2%"
 		}
 
 		var aboutContainer = {
 			background: "rgba(0,0,0,0.6)",
-			// height: "100%"
 		}
 
 		var headerStyle = {
 			fontSize: "4vw",
 			textAlign: "center",
 			color:(this.props.route.mainColor)
-		}
-
-		var pizzaz = {
-			color: (this.props.route.mainColor)
 		}
 
 		const paragraphStyles = {
@@ -45,7 +37,6 @@ var AboutPage = React.createClass({
 		    backgroundSize: "contain",
 		    backgroundImage: "url(images/me.jpg)"
 		}
-					// <img style={{height:"450px"}} className="img-responsive" src="images/me.jpg" />
 		return(
 			<div style={container}>
 				<div style={backgroundstyle} className="col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-6 col-lg-offset-1 col-lg-4"></div>
@@ -75,6 +66,4 @@ var AboutPage = React.createClass({
 			</div>
 		);
 	}
-});
-
-module.exports = AboutPage;
+}

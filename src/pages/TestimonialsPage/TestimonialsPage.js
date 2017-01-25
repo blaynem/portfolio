@@ -1,9 +1,9 @@
-var React = require('react');
+import React, { Component } from 'react';
 
-var Testimonials = React.createClass({
-	render: function() {
+export default class Testimonials extends Component {
+	render() {
 
-		var container = {
+		const container = {
 			minWidth: "100%",
 			overflowX: "hidden",
 			display: "inline-block",
@@ -11,13 +11,13 @@ var Testimonials = React.createClass({
 			marginTop: "8%"
 		}
 
-		var whoops = {
+		const whoops = {
 			fontSize: "80px",
 			textAlign: "center",
 			color: "white"
 		}
 
-		var paraStyle = {
+		const paraStyle = {
 			color: "white",
 			textAlign: "center"
 		}
@@ -40,6 +40,4 @@ var Testimonials = React.createClass({
 			</div>
 		);
 	}
-});
-
-module.exports = Testimonials;
+};

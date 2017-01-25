@@ -1,17 +1,17 @@
-var React = require('react');
+import React, { Component } from 'react';
 
-var AboutSkillsList = React.createClass({
-	render: function() {
-		var skillHeaderStyle = {
+export default class AboutSkillsList extends Component {
+	render() {
+		const skillHeaderStyle = {
 			color: (this.props.mainColor),
 			marginTop: "10px"
 		}
 
-		var paraStyle = {
+		const paraStyle = {
 			color:"white"
 		}
 
-		var ulStyles = {
+		const ulStyles = {
 			float: "left",
 			color: (this.props.mainColor)
 		}
@@ -61,6 +61,4 @@ var AboutSkillsList = React.createClass({
 			</div>
 		);
 	}
-});
-
-module.exports = AboutSkillsList;
+};

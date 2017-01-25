@@ -5,11 +5,12 @@ var HTTP = require('../services/httpservice');
 
 //starting city
 
+var city
 var WeatherApp = React.createClass({
   // initializes the app with the base cities weather
   // base city can be changed by replacing var city
   getInitialState: function() {
-    city=(this.props.startCity)
+    city = (this.props.startCity)
     return {
       location: city
     };
@@ -92,7 +93,7 @@ var WeatherApp = React.createClass({
     }
 
     if (this.props.appSize) {
-      appSize = (this.props.appSize)
+      var appSize = (this.props.appSize)
     } else {
       appSize = "col-xs-12"
     };

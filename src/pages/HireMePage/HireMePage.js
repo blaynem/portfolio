@@ -1,10 +1,9 @@
-var React = require('react');
+import React, { Component } from 'react';
 
-var HireMePage = React.createClass({
-	render: function() {
+export default class HireMePage extends Component {
+	render() {
 
 		var container = {
-			// minWidth: "100%",
 			overflowX: "hidden",
 			display: "inline-block",
 			background: "rgba(0,0,0,0.6)",
@@ -59,6 +58,4 @@ var HireMePage = React.createClass({
 			</div>
 		);
 	}
-});
-
-module.exports = HireMePage;
+};
