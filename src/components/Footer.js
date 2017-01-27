@@ -18,6 +18,11 @@ export default class Footer extends Component {
 		var connectStyle = {
 		}
 
+		var listStyle = {
+			listStyle: "none",
+			padding: "0",
+		}
+
 		var mainColor = (this.props.mainColor)
 		var createLinkItem = function(item, index) {
 	      return (

@@ -44,7 +44,7 @@ export default class ConnectLinks extends Component {
 		var createSocialIcons = function(item, index) {
 	      return (
 	      	<Link key={item.title + index} href={item.href} style={{padding:"10px 8px 0 0"}} className="btn">
-	      		<span style={{color:(mainColor)}} className={item.faClass + " " + faSize}/>
+	      		<span style={{color:"(mainColor)"}} className={item.faClass + " " + faSize}/>
 	      	</Link>
 	      	);
 	    }
