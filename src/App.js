@@ -130,13 +130,3 @@ export default class App extends Component{
 		)
 	}
 };
-
-// throwing this down here in case I want to change it later
-// <div className="col-xs-offset-0 col-xs-12 colorChangeRow">
-// 	<span style={{color:"white", paddingRight:"4vw"}}>Don't like the current <span style={{color:(theColor)}}>color</span>?
-// 	Click over here <span style={{color:(theColor)}}>---></span></span>
-//   	<button style={redButton} onClick={this.handleColorRed}>Red</button>
-//   	<button style={orangeButton} onClick={this.handleColorOrange}>Orange</button>
-//   	<button style={greenButton} onClick={this.handleColorGreen}>Green</button>
-//   	<button style={blueButton} onClick={this.handleColorBlue}>Blue</button>
-// </div>
