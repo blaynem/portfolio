@@ -31,6 +31,7 @@ var WeatherApp = React.createClass({
           windDirection: data.list[0].wind.deg,
 
           //These are for the following days in the 5 day forecast.
+          // I had to change them from 32 to 31 because something got changed, will fix later
           tempsDay2: Math.round(data.list[8].main.temp - 273.15),
           cloudIcon2: data.list[8].weather[0].id,
           dateDay2: data.list[8].dt_txt.substring(8, 10),
@@ -43,10 +44,10 @@ var WeatherApp = React.createClass({
           cloudIcon4: data.list[24].weather[0].id,
           dateDay4: data.list[24].dt_txt.substring(8, 10),
           dateMonth4: data.list[24].dt_txt.substring(5, 7),
-          tempsDay5: Math.round(data.list[32].main.temp - 273.15),
-          cloudIcon5: data.list[32].weather[0].id,
-          dateDay5: data.list[32].dt_txt.substring(8, 10),
-          dateMonth5: data.list[32].dt_txt.substring(5, 7)
+          tempsDay5: Math.round(data.list[31].main.temp - 273.15),
+          cloudIcon5: data.list[31].weather[0].id,
+          dateDay5: data.list[31].dt_txt.substring(8, 10),
+          dateMonth5: data.list[31].dt_txt.substring(5, 7)
         });
       }.bind(this));
   },
@@ -66,6 +67,7 @@ var WeatherApp = React.createClass({
           windDirection: data.list[0].wind.deg,
 
           //These are for the following days in the 5 day forecast.
+          // I had to change them from 32 to 31 because something got changed, will fix later
           tempsDay2: Math.round(data.list[8].main.temp - 273.15),
           cloudIcon2: data.list[8].weather[0].id,
           dateDay2: data.list[8].dt_txt.substring(8, 10),
@@ -78,10 +80,10 @@ var WeatherApp = React.createClass({
           cloudIcon4: data.list[24].weather[0].id,
           dateDay4: data.list[24].dt_txt.substring(8, 10),
           dateMonth4: data.list[24].dt_txt.substring(5, 7),
-          tempsDay5: Math.round(data.list[32].main.temp - 273.15),
-          cloudIcon5: data.list[32].weather[0].id,
-          dateDay5: data.list[32].dt_txt.substring(8, 10),
-          dateMonth5: data.list[32].dt_txt.substring(5, 7)
+          tempsDay5: Math.round(data.list[31].main.temp - 273.15),
+          cloudIcon5: data.list[31].weather[0].id,
+          dateDay5: data.list[31].dt_txt.substring(8, 10),
+          dateMonth5: data.list[31].dt_txt.substring(5, 7)
         });
       }.bind(this));
   },
