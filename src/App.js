@@ -75,7 +75,7 @@ export default class App extends Component{
 			margin: 0,
 			paddingTop: "5px",
 			paddingBottom: "5px",
-			backgroundColor: "rgba(0,0,0,0.7)",
+			backgroundColor: "rgba(0,0,0,0)",
 			textAlign: "center"
 		}
 		const redButton = {
@@ -102,16 +102,6 @@ export default class App extends Component{
 		return (
 			<div style={background}>
 		        <div>
-			        <div style={colorChangerRowStyle} className="row">
-			          	<div className="col-xs-offset-0 col-xs-12 colorChangeRow">
-			          		<span style={{color:"white", paddingRight:"4vw"}}>Don't like the current <span style={{color:(theColor)}}>color</span>?
-			          		Click over here <span style={{color:(theColor)}}>---></span></span>
-				          	<button style={redButton} onClick={this.handleColorRed}>Red</button>
-				          	<button style={orangeButton} onClick={this.handleColorOrange}>Orange</button>
-				          	<button style={greenButton} onClick={this.handleColorGreen}>Green</button>
-				          	<button style={blueButton} onClick={this.handleColorBlue}>Blue</button>
-			          	</div>
-			        </div>
 			        <div>
 			            <NavBar
 		            		baseColor={this.props.route.baseColor}
@@ -127,8 +117,26 @@ export default class App extends Component{
 				        	theColor={theColor}
 				        	navLinks={navLinks}/>
 			        </div>
+			        <div style={colorChangerRowStyle} className="row">
+			          	<div className="col-xs-12 col-sm-4 colorChangeRow">
+				          	<button style={redButton} onClick={this.handleColorRed}>Red</button>
+				          	<button style={orangeButton} onClick={this.handleColorOrange}>Orange</button>
+				          	<button style={greenButton} onClick={this.handleColorGreen}>Green</button>
+				          	<button style={blueButton} onClick={this.handleColorBlue}>Blue</button>
+			          	</div>
+			        </div>
 		        </div>
 		    </div>
 		)
 	}
 };
+
+// throwing this down here in case I want to change it later
+// <div className="col-xs-offset-0 col-xs-12 colorChangeRow">
+// 	<span style={{color:"white", paddingRight:"4vw"}}>Don't like the current <span style={{color:(theColor)}}>color</span>?
+// 	Click over here <span style={{color:(theColor)}}>---></span></span>
+//   	<button style={redButton} onClick={this.handleColorRed}>Red</button>
+//   	<button style={orangeButton} onClick={this.handleColorOrange}>Orange</button>
+//   	<button style={greenButton} onClick={this.handleColorGreen}>Green</button>
+//   	<button style={blueButton} onClick={this.handleColorBlue}>Blue</button>
+// </div>
