@@ -6,19 +6,19 @@ import ConnectLinks from './ConnectLinks';
 export default class Footer extends Component {
 	render() {
 		var rowStyle = {
-			background:(this.props.baseColor),
+			background:"rgba(0,0,0,0)",
 			margin: 0,
 			color: "white",
 			paddingLeft: "1%",
 			paddingRight: "1%",
 			textAlign:"center",
-			paddingBottom: "20px"
-		}
-
-		var connectStyle = {
+			paddingTop: "10px",
+			paddingBottom: "10px"
 		}
 		
 		var theColor = (this.props.theColor)
+		// this creates the footer link items depending on what I want shown can be changed in
+		// App.js under the navLinks const
 		var createLinkItem = function(item, index) {
 	      return (
 	      	<div key={item.title + index} className="col-xs-2">
@@ -29,7 +29,7 @@ export default class Footer extends Component {
 
 		return(
 			<div id="footer" style={rowStyle} className="row">
-				<div id="footerConnectLinks" style={connectStyle} className="col-xs-offset-0 col-xs-4">
+				<div id="footerConnectLinks" className="col-xs-offset-0 col-xs-4">
 					<ConnectLinks theColor={this.props.theColor}/>
 				</div>
 				<div id="footerParagraphs">

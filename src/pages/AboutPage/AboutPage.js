@@ -41,6 +41,9 @@ export default class AboutPage extends Component {
 			marginLeft:0,
 			marginRight:0,
 		}
+		const pizzaz = {
+			color:(this.props.theColor)
+		}
 		return(
 			<div style={container}>
 				<div style={backgroundstyle} className="col-sm-offset-1 col-sm-10 col-md-offset-0 col-md-6 col-lg-offset-1 col-lg-4"></div>
@@ -53,13 +56,16 @@ export default class AboutPage extends Component {
 						</div>
 						<div style={rowStyle} className="row">
 							<div className="col-xs-12">
-								<h3 style={paragraphStyles}>Junior Web Developer/QA Tester.</h3>
-								<h4 style={paragraphStyles}>I began learning web development around 2 years ago. It started off with HTML/CSS and then expanded
-								to learning the basics of JavaScript, Ruby, Rails, C#, and some Java for Android. I kept switching back and forth between what was "the best" thing
-								to learn for a beginner. The struggle most self-taught developers know well.</h4>
-								<h4 style={paragraphStyles}>I ultimately settled on learning Front-End development. I began flying through FreeCodeCamps challenges, helping out in
-								the gitter chat channel as much as I possibly could. After completing a few projects I came across ReactJS. After completing a few courses through
-								CodeAcademy and Udemy, I knew I found the language for me.</h4>
+								<h3 style={paragraphStyles}>Web Developer<span style={pizzaz}>/</span>QA Tester</h3>
+								<h4 style={paragraphStyles}>I began learning web development around 2 years ago. It started off with HTML
+								<span style={pizzaz}>/</span>CSS and then expanded to learning the basics of JavaScript, Ruby, Rails, 
+								C<span style={pizzaz}>#</span>, and some Java for Android. I kept switching back and forth between what was
+								<span style={pizzaz}> "the best"</span> thing to learn for a beginner. The struggle most self<span style={pizzaz}>-</span>
+								taught developers know well.</h4>
+								<h4 style={paragraphStyles}>I ultimately settled on learning Front<span style={pizzaz}>-</span>End development.
+								I began flying through FreeCodeCamps challenges, helping out in the gitter chat channel as much as I possibly could.
+								While working on FreeCodeCamp projects, React<span style={pizzaz}>JS</span> caught my eye and after completing a few
+								courses through CodeAcademy<span style={pizzaz}>/</span>Udemy, I knew I found the language for me.</h4>
 							</div>
 						</div>
 						<div style={rowStyle} className="row">

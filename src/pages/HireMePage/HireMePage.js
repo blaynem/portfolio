@@ -43,7 +43,8 @@ export default class HireMePage extends Component {
 				</div>
 				<div className="row">
 					<div className="col-lg-offset-1 col-lg-10">
-						<h3 style={paraStyle}>I prefer working on <span style={pizzaz}>Front-End Development</span> but enjoy <span style={pizzaz}>QA Testing</span> as well.</h3>
+						<h3 style={paraStyle}>I prefer working on <span style={pizzaz}>Front-End Development</span> but enjoy
+						<span style={pizzaz}>QA Testing</span> as well.</h3>
 						<h3 style={paraStyle}>I'm currently enjoying the beautiful nature scenery of <span style={pizzaz}>Portland, OR</span>,
 							but am open to relocating or potentially working remotely. If you'd like to go over a potential opportunity or remote
 							position feel free to reach out via email.</h3>

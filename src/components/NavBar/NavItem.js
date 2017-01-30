@@ -17,12 +17,16 @@ export default class NavItem extends Component{
 	}
 	render() {
 		var listStyle = {
-		  listStyleType:"none",
-		  display: "inline-block"
+			listStyleType:"none",
+			display: "inline-block"
 		}
 
 		var hoverText = {
-		  color: "#FFF",
+			color: "#FFF",
+		}
+
+		const pizzaz = {
+			color:(this.props.theColor)
 		}
 
 		if (this.state.hover){
@@ -37,8 +41,8 @@ export default class NavItem extends Component{
 			    onMouseOver={this.mouseOver}
 			    onMouseOut={this.mouseOut}>
 			    <Link className="linkWithHover" style={hoverText} to={this.props.href}>
-			      {this.props.title}
-			      <p className="linkWithHoverParagraphs">{this.props.content}</p>
+			    	{this.props.title}
+			    	<p style={pizzaz} className="linkWithHoverParagraphs">{this.props.content}</p>
 			    </Link>
 			</li>
 		);

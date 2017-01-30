@@ -24,7 +24,6 @@ export default class AboutSkillsList extends Component {
 	}
 	render() {
 		const showWebDevSkills = this.state.showWebDevSkills;
-		// const showQaSkills = this.state.showQaSkills;
 		const webDevStyle = {
 			margin:"auto"
 		}
@@ -40,6 +39,8 @@ export default class AboutSkillsList extends Component {
 			borderRadius: 0,
 		}
 
+		// this changes which skill set is shown depending on button pressed
+		// then changes the style of the button to be unpressed or not
 		if (showWebDevSkills) {
 			webDevStyle.display = "inline";
 			webDevBtnStyle.backgroundColor = (this.props.theColor)
@@ -55,7 +56,6 @@ export default class AboutSkillsList extends Component {
 			qaBtnStyle.backgroundColor = (this.props.theColor)
 			qaBtnStyle.color = "white"
 		}
-
 		const headerStylerThinger = {
 			marginTop:"10px",
 			marginBottom:0
@@ -63,7 +63,6 @@ export default class AboutSkillsList extends Component {
 		const paraStyle = {
 			padding: 0
 		}
-
 		const ulStyles = {
 			float: "left",
 			color: "white",
@@ -73,6 +72,9 @@ export default class AboutSkillsList extends Component {
 		const listHeadingStyles = {
 			color: (this.props.theColor),
 			borderBottom: `1px solid ${this.props.theColor}`
+		}
+		const pizzaz = {
+			color:(this.props.theColor)
 		}
 		return(
 			<div id="AboutSkillsList" className="col-xs-12">
@@ -105,7 +107,7 @@ export default class AboutSkillsList extends Component {
 					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
 						<li><span style={listHeadingStyles}>Libraries:</span></li>
 						<li>ReactJS</li>
-						<li>React-Router</li>
+						<li>React<span style={pizzaz}>-</span>Router</li>
 						<li>Redux</li>
 						<li>JQuery</li>
 						<li>Bootstrap</li>
@@ -122,7 +124,7 @@ export default class AboutSkillsList extends Component {
 					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
 						<li><span style={listHeadingStyles}>Types:</span></li>
 						<li>Ad Hoc</li>
-						<li>Black-Box</li>
+						<li>Black<span style={pizzaz}>-</span>Box</li>
 						<li>Data Driven</li>
 						<li>Automation</li>
 						<li>Regression</li>

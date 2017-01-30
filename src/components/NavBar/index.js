@@ -15,27 +15,27 @@ export default class NavBar extends Component {
 
     const nameStyle = {
       color:"white",
-      padding: "15px 0 0 0"
+      padding: "15px 0 0 0",
+      textShadow: "none"
+    }
+    const pizzaz = {
+      color:(this.props.theColor)
     }
     
-    const linkStyle = {}
-
     const titleStyle = {}
+    // asks if you set a bakground for the nav, and if you did, change the color accordingly.
+    // can be changed in routes.js, but it's set to invisible
     if (this.props.baseColor) {
       navStyle.background = this.props.baseColor;
     }
-
+    // asks for a title color to be given can be changed in App.js
     if (this.props.theColor) {
       titleStyle.color = this.props.theColor;
     }
 
-    if (this.props.linkColor) {
-      linkStyle.color = this.props.linkColor;
-    }
-
     const theColor = (this.props.theColor)
     const createLinkItem = function(item, index) {
-      return <NavItem key={item.title + index} href={item.href} title={item.title} aStyle={linkStyle} theColor={theColor}/>;
+      return <NavItem key={item.title + index} href={item.href} title={item.title} theColor={theColor}/>;
     }
     const nameStyleTitle = {
       margin: "2px 0 0 0"
@@ -46,7 +46,7 @@ export default class NavBar extends Component {
           <div style={{zIndex:1}} className="navbar-header col-sm-offset-1 col-xs-3">
             <Link style={nameStyle} className="navbar-brand" to="/">
               <span><span style={titleStyle}>Blayne</span>Marjama</span>
-              <p style={nameStyleTitle}>ReactJS Developer</p>
+              <p style={nameStyleTitle}>React<span style={pizzaz}>JS</span> Developer</p>
             </Link>
           </div>
           <div className="navbar">
@@ -57,26 +57,3 @@ export default class NavBar extends Component {
     );
 	}
 }
-
-      // <div>
-      //     <nav style={navStyle} className="navbar navbar-default">
-      //       <div className="navbar-header col-sm-offset-1 col-sm-2">
-      //         <Link style={nameStyle} className="navbar-brand" to="/">
-      //           <span><span style={titleStyle}>Blayne</span>Marjama</span>
-      //           <p style={nameStyleTitle}>Junior Developer</p>
-      //         </Link>
-      //         <button type="button"
-      //           className="navbar-toggle collapsed"
-      //           data-toggle="collapse"
-      //           data-target="#nav-collapse">
-      //           <span className="icon-bar"></span>
-      //           <span className="icon-bar"></span>
-      //           <span className="icon-bar"></span>
-      //         </button>
-      //       </div>
-      //       <div className="collapse navbar-collapse" id="nav-collapse">
-      //         <ul className="nav navbar-nav navbar-right">{this.props.navLinks.map(createLinkItem)}</ul>
-      //       </div>
-      //     </nav>
-      // </div>
-      //   

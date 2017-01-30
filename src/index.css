@@ -3,7 +3,7 @@
 }
 
 body {
-  background: #fff;
+  /*background: red;*/
   font-family: 'Ubuntu', sans-serif;
   height: 100%;
 }
@@ -22,6 +22,12 @@ body {
 
 .navbar-nav.navbar-right:last-child{
   margin-right: 15px !important;
+}
+
+/*top color change nav*/
+/*----------------------------------------*/
+.colorChangeRow, .colorChangeRow h4 {
+  font-size: 1em;
 }
 
 /*navbar styles*/
@@ -76,18 +82,21 @@ body {
 }
 
 #middleContainer {
-  min-height: calc(100vh - 155px);
+  min-height: calc(100vh - 188px);
 }
 
 @media (max-width: 1363px) {
   #middleContainer {
-    min-height: calc(100vh - 175px);
+    min-height: calc(100vh - 208px);
   }
 }
 
 @media ( max-width: 910px) {
   #middleContainer {
-    min-height: calc(100vh - 167px);
+    min-height: calc(100vh - 199px);
+  }
+  .colorChangeRow, .colorChangeRow h4 {
+    font-size: 0.9em;
   }
   .navbar-brand {
     font-size: 1.65em;
@@ -114,13 +123,16 @@ body {
 
 @media ( max-width: 772px) {
   #middleContainer {
-    min-height: calc(100vh - 159px);
+    min-height: calc(100vh - 190px);
   }
   #footerParagraphs {
     display: none;
   }
   #footerConnectLinks{
     width: 100%;
+  }
+  .colorChangeRow, .colorChangeRow h4 {
+    font-size: 0.85em;
   }
   .navbar-brand {
     font-size: 1.5em;
@@ -147,19 +159,22 @@ body {
 
 @media ( max-width: 767px) {
   #middleContainer {
-    min-height: calc(100vh - 174px);
+    min-height: calc(100vh - 205px);
   }
 }
 
 @media ( max-width: 557px) {
   #middleContainer {
-    min-height: calc(100vh - 144px);
+    min-height: calc(100vh - 174px);
+  }
+  .colorChangeRow, .colorChangeRow h4 {
+    font-size: 2vw;
   }
   .navbar-brand {
     font-size: 4vw;
   }
   .navbar-brand p {
-    font-size: 3vw;
+    font-size: 2.5vw;
   }
   .linkWithHover {
     font-size: 2.5vw;
@@ -177,6 +192,37 @@ body {
     font-size: 2.7em;
   }
 }
+
+@media ( max-width: 545px) {
+  #middleContainer {
+    min-height: calc(100vh - 173px);
+  }
+}
+@media ( max-width: 506px) {
+  #middleContainer {
+    min-height: calc(100vh - 172px);
+  }
+}
+@media ( max-width: 467px) {
+  #middleContainer {
+    min-height: calc(100vh - 171px);
+  }
+}
+@media ( max-width: 427px) {
+  #middleContainer {
+    min-height: calc(100vh - 170px);
+  }
+}
+@media ( max-width: 388px) {
+  #middleContainer {
+    min-height: calc(100vh - 169px);
+  }
+}
+@media ( max-width: 388px) {
+  #middleContainer {
+    min-height: calc(100vh - 168px);
+  }
+}
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
@@ -184,13 +230,6 @@ body {
   #searchBar {
     top: 40px;
   }
-}
-
-@media (min-width: 692px) {
-  
-   .navbar-right {
-    margin-right: 8.333%;
-   }
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
@@ -263,23 +302,22 @@ body {
 -webkit-animation:first 5s infinite;
 animation:first 5s infinite;   
 }
-
 @-webkit-keyframes first
 {
-0% {color:white;}
+0% {color:#C8C2AE;}
 20% {color:#3097d1;}
 40% {color:#F39237;}
 60% {color:#D63230;}
-80% {color:#8AB9B5;}
-100% {color:white;}
+80% {color:#32BA88;}
+100% {color:#C8C2AE;}
 }
 @keyframes first {
-  0% {color:white;}
+  0% {color:#C8C2AE;}
   20% {color:#3097d1;}
   40% {color:#F39237;}
   60% {color:#D63230;}
-  80% {color:#8AB9B5;}
-  100% {color:white;}
+  80% {color:#32BA88;}
+  100% {color:#C8C2AE;}
 }
 
 .second {
@@ -292,7 +330,7 @@ animation:second 5s infinite;
 0% {color:#3097d1;}
 20% {color:#F39237;}
 40% {color:#D63230;}
-60% {color:#8AB9B5;}
+60% {color:#32BA88;}
 80% {color:#C8C2AE;}
 100% {color:#3097d1;}
 }
@@ -300,9 +338,9 @@ animation:second 5s infinite;
   0% {color:#3097d1;}
   20% {color:#F39237;}
   40% {color:#D63230;}
-  60% {color:#8AB9B5;}
+  60% {color:#32BA88;}
   80% {color:#C8C2AE;}
-  100% {color:#3097d1;}
+  100% {color:#3097d1;} 
 }
 
 .third {
@@ -314,17 +352,17 @@ animation:third 5s infinite;
 {
 0% {color:#F39237;}
 20% {color:#D63230;}
-40% {color:#8AB9B5;}
+40% {color:#32BA88;}
 60% {color:#C8C2AE;}
-80% {color:white;}
+80% {color:#3097d1;}
 100% {color:#F39237;}
 }
 @keyframes third {
   0% {color:#F39237;}
   20% {color:#D63230;}
-  40% {color:#8AB9B5;}
-  60% {color:#C8C2AE;}
-  80% {color:white;}
+  40% {color:#32BA88;}
+  60% {color:#C8C2AE;}  
+  80% {color:#3097d1;}
   100% {color:#F39237;}
 }
 
@@ -336,18 +374,18 @@ animation:fourth 5s infinite;
 @-webkit-keyframes fourth
 {
 0% {color:#D63230;}
-20% {color:#8AB9B5;}
+20% {color:#32BA88;}
 40% {color:#C8C2AE;}
-60% {color:white;}
-80% {color:#3097d1;}
+60% {color:#3097d1;}
+80% {color:#F39237;}
 100% {color:#D63230;}
 }
 @keyframes fourth {
   0% {color:#D63230;}
-  20% {color:#8AB9B5;}
+  20% {color:#32BA88;}
   40% {color:#C8C2AE;}
-  60% {color:white;}
-  80% {color:#3097d1;}
+  60% {color:#3097d1;}
+  80% {color:#F39237;}
   100% {color:#D63230;}
 }
 
@@ -358,20 +396,20 @@ animation:fifth 5s infinite;
 
 @-webkit-keyframes fifth
 {
-0% {color:#8AB9B5;}
+0% {color:#32BA88;}
 20% {color:#C8C2AE;}
-40% {color:white;}
-60% {color:#3097d1;}
-80% {color:#F39237;}
-100% {color:#8AB9B5;}
+40% {color:#3097d1;}
+60% {color:#F39237;}
+80% {color:#D63230;}
+100% {color:#32BA88;}
 }
 @keyframes fifth {
-  0% {color:#8AB9B5;}
+  0% {color:#32BA88;}
   20% {color:#C8C2AE;}
-  40% {color:white;}
-  60% {color:#3097d1;}
-  80% {color:#F39237;}
-  100% {color:#8AB9B5;}
+  40% {color:#3097d1;}
+  60% {color:#F39237;}
+  80% {color:#D63230;}
+  100% {color:#32BA88;}
 }
 
 /*weather app styles*/
