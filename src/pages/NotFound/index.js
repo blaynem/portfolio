@@ -15,7 +15,7 @@ export default class Testimonials extends Component {
 		var whoops = {
 			fontSize: "3em",
 			textAlign: "center",
-			color:(this.props.route.mainColor)
+			color:(this.props.theColor)
 		}
 
 		var paraStyle = {

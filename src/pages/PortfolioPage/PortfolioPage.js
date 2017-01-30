@@ -8,7 +8,7 @@ export default class PortfolioPage extends Component {
 			marginBottom:"15px"
 		}
 		const headerStyle = {
-			color: (this.props.route.mainColor),
+			color: (this.props.theColor),
 			textAlign: "center"
 		}
 		const descripStyle = {
@@ -25,10 +25,10 @@ export default class PortfolioPage extends Component {
 		    backgroundImage: "url(images/jaredpic.png)"
 		}
 		const learnedStyles = {
-			color: (this.props.route.mainColor)
+			color: (this.props.theColor)
 		}
 		const ulStyle = {
-			color: (this.props.route.mainColor),
+			color: (this.props.theColor),
 			fontSize:"1.3em"
 		}
 		const liStyles = {
@@ -48,13 +48,13 @@ export default class PortfolioPage extends Component {
 								<li><span style={liStyles}>Gathering Data from an API</span></li>
 								<li><span style={liStyles}>A lot about reusability</span></li>
 							</ul>
-							<h3 style={descripStyle}>You can view the source code <a style={{color:(this.props.route.mainColor)}} href="https://github.com/blaynem/portfolio/tree/master/src/pages/PortfolioPage/weatherApp/components" target="_blank">here</a></h3>
+							<h3 style={descripStyle}>You can view the source code <a style={{color:(this.props.theColor)}} href="https://github.com/blaynem/portfolio/tree/master/src/pages/PortfolioPage/weatherApp/components" target="_blank">here</a></h3>
 						</div>
 					</div>
 					<div style={{padding:0}} className="col-md-6">
 						<WeatherApp
 							appSize=""
-							appColor={this.props.route.mainColor}
+							appColor={this.props.theColor}
 							startCity="Portland"/>
 					</div>
 				</div>
@@ -73,7 +73,7 @@ export default class PortfolioPage extends Component {
 								<li><span style={liStyles}>More about planning for reusability</span></li>
 								<li><span style={liStyles}>Implementing cool hover effects and stylings</span></li>
 							</ul>
-							<h3 style={descripStyle}>You can view the source code <a style={{color:(this.props.route.mainColor)}} href="https://github.com/blaynem/portfolio-instagram" target="_blank">here</a></h3>
+							<h3 style={descripStyle}>You can view the source code <a style={{color:(this.props.theColor)}} href="https://github.com/blaynem/portfolio-instagram" target="_blank">here</a></h3>
 						</div>
 					</div>
 				</div>

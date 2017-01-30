@@ -14,7 +14,7 @@ export default class Testimonials extends Component {
 		var whoops = {
 			fontSize: "4em",
 			textAlign: "center",
-			color:(this.props.route.mainColor)
+			color:(this.props.theColor)
 		}
 
 		var paraStyle = {
@@ -25,7 +25,7 @@ export default class Testimonials extends Component {
 		}
 
 		var pizzaz = {
-			color: (this.props.route.mainColor)
+			color: (this.props.theColor)
 		}
 
 		return(

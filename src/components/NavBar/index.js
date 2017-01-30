@@ -25,17 +25,17 @@ export default class NavBar extends Component {
       navStyle.background = this.props.baseColor;
     }
 
-    if (this.props.mainColor) {
-      titleStyle.color = this.props.mainColor;
+    if (this.props.theColor) {
+      titleStyle.color = this.props.theColor;
     }
 
     if (this.props.linkColor) {
       linkStyle.color = this.props.linkColor;
     }
 
-    const mainColor = (this.props.mainColor)
+    const theColor = (this.props.theColor)
     const createLinkItem = function(item, index) {
-      return <NavItem key={item.title + index} href={item.href} title={item.title} aStyle={linkStyle} mainColor={mainColor}/>;
+      return <NavItem key={item.title + index} href={item.href} title={item.title} aStyle={linkStyle} theColor={theColor}/>;
     }
     const nameStyleTitle = {
       margin: "2px 0 0 0"

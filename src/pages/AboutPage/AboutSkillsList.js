@@ -42,17 +42,17 @@ export default class AboutSkillsList extends Component {
 
 		if (showWebDevSkills) {
 			webDevStyle.display = "inline";
-			webDevBtnStyle.backgroundColor = (this.props.mainColor)
+			webDevBtnStyle.backgroundColor = (this.props.theColor)
 			webDevBtnStyle.color = "white"
 			qaStyle.display = "none"
 			qaBtnStyle.backgroundColor = "white"
-			qaBtnStyle.color = (this.props.mainColor)
+			qaBtnStyle.color = (this.props.theColor)
 		} else {
 			webDevStyle.display = "none"
 			webDevBtnStyle.backgroundColor = "white"
-			webDevBtnStyle.color = (this.props.mainColor)
+			webDevBtnStyle.color = (this.props.theColor)
 			qaStyle.display = "inline"
-			qaBtnStyle.backgroundColor = (this.props.mainColor)
+			qaBtnStyle.backgroundColor = (this.props.theColor)
 			qaBtnStyle.color = "white"
 		}
 
@@ -71,8 +71,8 @@ export default class AboutSkillsList extends Component {
 			listStyle: "none"
 		}
 		const listHeadingStyles = {
-			color: (this.props.mainColor),
-			borderBottom: `1px solid ${this.props.mainColor}`
+			color: (this.props.theColor),
+			borderBottom: `1px solid ${this.props.theColor}`
 		}
 		return(
 			<div id="AboutSkillsList" className="col-xs-12">

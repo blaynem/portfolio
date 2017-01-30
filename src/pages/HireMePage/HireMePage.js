@@ -13,7 +13,7 @@ export default class HireMePage extends Component {
 		var whoops = {
 			fontSize: "4em",
 			textAlign: "center",
-			color:(this.props.route.mainColor)
+			color:(this.props.theColor)
 		}
 
 		var paraStyle = {
@@ -24,12 +24,12 @@ export default class HireMePage extends Component {
 		}
 
 		var pizzaz = {
-			color: (this.props.route.mainColor)
+			color: (this.props.theColor)
 		}
 
 		var arrowStyle = {
 			margin: 0,
-			color: (this.props.route.mainColor),
+			color: (this.props.theColor),
 			textAlign: "center",
 			fontSize: "30px"
 		}

@@ -19,7 +19,7 @@ export default class AboutPage extends Component {
 
 		var headerStyle = {
 			textAlign: "center",
-			color:(this.props.route.mainColor)
+			color:(this.props.theColor)
 		}
 
 		const paragraphStyles = {
@@ -63,7 +63,7 @@ export default class AboutPage extends Component {
 							</div>
 						</div>
 						<div style={rowStyle} className="row">
-							<AboutSkillsList mainColor={this.props.route.mainColor}/>
+							<AboutSkillsList theColor={this.props.theColor}/>
 						</div>
 					</div>
 				</div>

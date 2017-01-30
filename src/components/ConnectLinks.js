@@ -39,12 +39,12 @@ export default class ConnectLinks extends Component {
 	render() {
 
 
-		var mainColor = (this.props.mainColor)
+		var theColor = (this.props.theColor)
 		// function that creates the social media icons
 		var createSocialIcons = function(item, index) {
 	      return (
 	      	<Link key={item.title + index} href={item.href} style={{padding:"0px 5px 0 0"}} className="btn">
-	      		<span style={{color:(mainColor)}} className={item.faClass + " " + faSize + " connectLinks"}/>
+	      		<span style={{color:(theColor)}} className={item.faClass + " " + faSize + " connectLinks"}/>
 	      	</Link>
 	      	);
 	    }

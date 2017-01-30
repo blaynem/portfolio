@@ -18,11 +18,11 @@ export default class Footer extends Component {
 		var connectStyle = {
 		}
 		
-		var mainColor = (this.props.mainColor)
+		var theColor = (this.props.theColor)
 		var createLinkItem = function(item, index) {
 	      return (
 	      	<div key={item.title + index} className="col-xs-2">
-		      	<NavItem href={item.href} title={item.title} content={item.content} mainColor={mainColor}/>
+		      	<NavItem href={item.href} title={item.title} content={item.content} theColor={theColor}/>
 	      	</div>
 	      	);
 	    }
@@ -30,7 +30,7 @@ export default class Footer extends Component {
 		return(
 			<div id="footer" style={rowStyle} className="row">
 				<div id="footerConnectLinks" style={connectStyle} className="col-xs-offset-0 col-xs-4">
-					<ConnectLinks mainColor={this.props.mainColor}/>
+					<ConnectLinks theColor={this.props.theColor}/>
 				</div>
 				<div id="footerParagraphs">
 					<ul>

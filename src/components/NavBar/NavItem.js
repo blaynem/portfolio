@@ -26,7 +26,7 @@ export default class NavItem extends Component{
 		}
 
 		if (this.state.hover){
-		  hoverText.color = (this.props.mainColor)
+		  hoverText.color = (this.props.theColor)
 		  hoverText.background = "rgba(0,0,0,0)"
 		  hoverText.textDecoration = "none"
 		  hoverText.boxShadow = "none"

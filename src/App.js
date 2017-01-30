@@ -72,6 +72,7 @@ export default class App extends Component{
 		  backgroundSize: "cover"
 		}
 
+
 		return (
 			<div style={background}>
 		        <div>
@@ -82,16 +83,16 @@ export default class App extends Component{
 		          	<button onClick={this.handleColorBlue}>Blue</button>
 		            <NavBar
 		              baseColor={this.props.route.baseColor}
-		              mainColor={theColor}
+		              theColor={theColor}
 		              navLinks={navLinks}/>
 		            </div>
 		          <div id="middleContainer">
-		            {React.cloneElement(this.props.children, {...this.props})}
+		            {React.cloneElement(this.props.children, { theColor }, )}
 		          </div>
 		          <div >
 		          	<Footer
 			          baseColor={this.props.route.baseColor}
-			          mainColor={theColor}
+			          theColor={theColor}
 			          navLinks={navLinks}/>
 		          </div>
 		        </div>
