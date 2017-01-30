@@ -7,6 +7,11 @@ export default class AboutSkillsList extends Component {
 			marginTop: "10px"
 		}
 
+		const headerStylerThinger = {
+			marginTop:"10px",
+			marginBottom:0
+		}
+
 		const paraStyle = {
 			color:"white"
 		}
@@ -19,10 +24,10 @@ export default class AboutSkillsList extends Component {
 			<div id="AboutSkillsList" className="col-xs-12">
 				<div>
 					<div style={paraStyle} className="col-xs-12">
-						<h3 style={{marginTop:"10px", marginBottom:0}} >Some of the skills I'm proficient with:</h3>
+						<h3 style={headerStylerThinger} >Some of the skills I'm proficient with:</h3>
 					</div>
 				</div>
-				<div style={paraStyle} className="col-xs-4">
+				<div style={paraStyle} className="col-xs-6">
 					<h3 style={skillHeaderStyle}>Web Development:</h3>
 					<ul style={ulStyles}>
 						<li><span>JavaScript</span></li>
@@ -35,7 +40,7 @@ export default class AboutSkillsList extends Component {
 						<li><span>Redux</span></li>
 					</ul>
 				</div>
-				<div style={paraStyle} className="col-xs-8">
+				<div style={paraStyle} className="col-xs-6">
 					<h3 style={skillHeaderStyle}>QA Testing:</h3>
 					<ul style={ulStyles}>
 						<li><span>Types:</span></li>
@@ -43,10 +48,10 @@ export default class AboutSkillsList extends Component {
 						<li><span>Black-Box</span></li>
 						<li><span>Data Driven</span></li>
 						<li><span>Automation</span></li>
-						<li><span>Regression(light)</span></li>
+						<li><span>Regression</span></li>
 					</ul>
 					<ul style={ulStyles}>
-						<li><span>Automation(least exp)</span>:</li>
+						<li><span>Automation</span>:</li>
 						<li><span>WATIR</span></li>
 						<li><span>Selenium</span></li>
 						<li><span>Firebug</span></li>

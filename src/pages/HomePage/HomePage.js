@@ -12,8 +12,7 @@ export default class HomePage extends Component {
       padding: 0,
       marginTop: 0,
       marginBottom: 0,
-      textAlign: "center",
-      fontSize:"4em"
+      textAlign: "center"
     }
     const resetMarginPadding = {
       margin:0,
@@ -21,7 +20,6 @@ export default class HomePage extends Component {
     }
     const liStyle = {
       margin: "0 10px 0 10px",
-      fontSize: ".65em",
       display: "inline-block",
       color: "white"
     }
@@ -30,10 +28,10 @@ export default class HomePage extends Component {
     }
 
     return(
-      <div style={borderTest} className="container">
+      <div id="homeContainer" style={borderTest} className="container">
         <div className="row">
           <div>
-            <h1 style={thingcolor}><span style={pizzaz}>Responsive</span> Front<span style={pizzaz}>-</span>End Development</h1>
+            <h1 id="homePageTitle" style={thingcolor}><span style={pizzaz}>Responsive</span> Front<span style={pizzaz}>-</span>End Development</h1>
           </div>
         </div>
         <div className="row">

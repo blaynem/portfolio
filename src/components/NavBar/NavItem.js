@@ -23,12 +23,6 @@ export default class NavItem extends Component{
 
 		var hoverText = {
 		  color: "#FFF",
-		  fontSize: "1.3em",
-		}
-
-		var paraStyle = {
-		  textShadow: "1px 1px 8px gray, 0 0 15px black",
-		  fontSize: ".8em",
 		}
 
 		if (this.state.hover){
@@ -38,14 +32,13 @@ export default class NavItem extends Component{
 		  hoverText.boxShadow = "none"
 		}
 		return (
-			<li
-			    style={listStyle}
+			<li style={listStyle}
 			    className={this.state.hover ? "active":""}
 			    onMouseOver={this.mouseOver}
 			    onMouseOut={this.mouseOut}>
 			    <Link className="linkWithHover" style={hoverText} to={this.props.href}>
 			      {this.props.title}
-			      <p style={paraStyle}>{this.props.content}</p>
+			      <p className="linkWithHoverParagraphs">{this.props.content}</p>
 			    </Link>
 			</li>
 		);

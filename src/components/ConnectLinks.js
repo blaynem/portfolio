@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 // change fasize to increase/decrease size of icons
 // add or remove icons by adding to socialMediaLinks 
-const faSize = "fa-3x"
+const faSize = "fa-2x"
 const socialMediaLinks = [
 	{
 	    title: "github",
@@ -43,15 +43,15 @@ export default class ConnectLinks extends Component {
 		// function that creates the social media icons
 		var createSocialIcons = function(item, index) {
 	      return (
-	      	<Link key={item.title + index} href={item.href} style={{padding:"10px 8px 0 0"}} className="btn">
-	      		<span style={{color:"(mainColor)"}} className={item.faClass + " " + faSize}/>
+	      	<Link key={item.title + index} href={item.href} style={{padding:"0px 5px 0 0"}} className="btn">
+	      		<span style={{color:(mainColor)}} className={item.faClass + " " + faSize + " connectLinks"}/>
 	      	</Link>
 	      	);
 	    }
 
 		return(
 			<div>
-				<div>
+				<div style={{paddingTop:"10px"}}>
 					{socialMediaLinks.map(createSocialIcons)}
 				</div>
 			</div>

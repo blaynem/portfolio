@@ -5,7 +5,7 @@ var HTTP = require('../services/httpservice');
 
 //starting city
 
-var city
+var city;
 var WeatherApp = React.createClass({
   // initializes the app with the base cities weather
   // base city can be changed by replacing var city
@@ -89,7 +89,8 @@ var WeatherApp = React.createClass({
 
     //removes the top padding from the panel body.
     var panelBodyStyle = {
-      paddingTop: "0"
+      paddingTop: 0,
+      paddingBottom: 0
     }
 
     if (this.props.appSize) {
@@ -100,7 +101,7 @@ var WeatherApp = React.createClass({
 
     return (
       <div className={appSize}>
-        <div className="panel panel-default">
+        <div style={{marginBottom:0}} className="panel panel-default">
             <WeatherToday
               headingColor={this.props.appColor}
               currentCity={this.state.location}

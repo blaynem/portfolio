@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 export default class Testimonials extends Component {
 	render() {
-
-		const container = {
-			minWidth: "100%",
+		var container = {
+			width: "100%",
 			overflowX: "hidden",
 			display: "inline-block",
 			background: "rgba(0,0,0,0.6)",
-			marginTop: "8%"
+			marginTop: "5vh"
 		}
 
-		const whoops = {
-			fontSize: "80px",
+		var whoops = {
+			fontSize: "4em",
 			textAlign: "center",
-			color: "white"
+			color:(this.props.route.mainColor)
 		}
 
-		const paraStyle = {
+		var paraStyle = {
 			color: "white",
-			textAlign: "center"
+			textAlign: "left",
+			margin: "0 0 10px 0",
+			fontSize: "1.5em"
+		}
+
+		var pizzaz = {
+			color: (this.props.route.mainColor)
 		}
 
 		return(
@@ -32,9 +38,9 @@ export default class Testimonials extends Component {
 				<div className="row">
 					<div className="col-lg-offset-3 col-lg-6">
 						<h3 style={paraStyle}>Looks like you navigated to a page that's not quite up yet. Sorry about that. 
-						Feel free to click on my name to take you back to the HomePage.</h3>
-						<h3 style={paraStyle}>I promise there will be great testimonials, the best testimonials. From only
-						the best people. They have such bigly things to say, it's going to be great let me tell you.</h3>
+						Feel free to click <Link style={pizzaz} to="/">here</Link> or on my name to take you back to the <Link style={pizzaz} to="/">HomePage.</Link></h3>
+						<h3 style={paraStyle}>I promise there will be <span style={pizzaz}>great</span> testimonials, the <span style={pizzaz}>best</span> testimonials. From only
+						the <span style={pizzaz}>best</span> people. They have such <span style={pizzaz}>bigly</span> things to say, it's going to be <span style={pizzaz}>great</span> let me tell you.</h3>
 					</div>
 				</div>
 			</div>

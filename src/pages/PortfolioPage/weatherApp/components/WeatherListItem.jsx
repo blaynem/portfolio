@@ -38,15 +38,12 @@ var WeatherListItem = React.createClass({
 
     var listStyle = {
       color: "BCBCBC",
-      height: "40px",
+      height: "60px",
       background: (this.props.listColor),
       textAlign: "center",
       fontSize: "1.4em"
     }
 
-    var fontSizes = {
-      fontSize: "1em"
-    }
     var cloudStyle = {
       padding: "10px 0 10px 0"
     }
@@ -56,14 +53,14 @@ var WeatherListItem = React.createClass({
     
     return (
       <div style={listStyle} className="row">
-        <div className="col-xs-4">
-          <h4 style={fontSizes} >{this.props.dateDay} {monthName(this.props.dateMonth)}</h4>
+        <div className="col-xs-5">
+          <h4 >{this.props.dateDay} {monthName(this.props.dateMonth)}</h4>
         </div>
-        <div className="col-xs-4">
+        <div className="col-xs-2">
           <i style={cloudStyle} className={cloudIconPic}></i>
         </div>
-        <div className="col-xs-4">
-          <h4 style={fontSizes} >{todaysTempC}&deg; / {todayTempF}&deg;</h4>
+        <div className="col-xs-5">
+          <h4>{todaysTempC}&deg; / {todayTempF}&deg;</h4>
         </div>
       </div>
     );

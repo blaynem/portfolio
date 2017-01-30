@@ -22,7 +22,6 @@ var WeatherToday = React.createClass({
 
     var currentCityh4 = {
       marginBottom: "0",
-      fontSize: "1.4em",
       fontWeight: "bold"
     }
 
@@ -33,7 +32,6 @@ var WeatherToday = React.createClass({
     var cloudSize = {
       textAlign: "left",
       paddingLeft: "40px"
-      // fontSize: "1.4em"
     }
 
     var tempStyle = {
@@ -45,7 +43,7 @@ var WeatherToday = React.createClass({
     }
 
     var currentTempStyle = {
-      fontSize: "8em"
+      fontSize: "6em"
     }
 
     var windStyle = {

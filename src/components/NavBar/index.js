@@ -13,7 +13,6 @@ export default class NavBar extends Component {
       margin: 0
     }
 
-    const titleStyle = {}
     const nameStyle = {
       color:"white",
       padding: "15px 0 0 0"
@@ -21,6 +20,7 @@ export default class NavBar extends Component {
     
     const linkStyle = {}
 
+    const titleStyle = {}
     if (this.props.baseColor) {
       navStyle.background = this.props.baseColor;
     }
@@ -37,24 +37,19 @@ export default class NavBar extends Component {
     const createLinkItem = function(item, index) {
       return <NavItem key={item.title + index} href={item.href} title={item.title} aStyle={linkStyle} mainColor={mainColor}/>;
     }
+    const nameStyleTitle = {
+      margin: "2px 0 0 0"
+    }
 	return (
       <div>
         <nav style={navStyle} className="navbar navbar-default">
-          <div className="navbar-header col-sm-offset-1 col-sm-2">
+          <div style={{zIndex:1}} className="navbar-header col-sm-offset-1 col-xs-3">
             <Link style={nameStyle} className="navbar-brand" to="/">
-              <span style={{fontSize:"1.3em"}}><span style={titleStyle}>Blayne</span>Marjama</span>
-              <p style={{fontSize:".7em", margin:0}}>Junior Developer</p>
+              <span><span style={titleStyle}>Blayne</span>Marjama</span>
+              <p style={nameStyleTitle}>ReactJS Developer</p>
             </Link>
-            <button type="button"
-              className="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#nav-collapse">
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
           </div>
-          <div className="collapse navbar-collapse" id="nav-collapse">
+          <div className="navbar">
             <ul className="nav navbar-nav navbar-right">{this.props.navLinks.map(createLinkItem)}</ul>
           </div>
         </nav>
@@ -62,3 +57,26 @@ export default class NavBar extends Component {
     );
 	}
 }
+
+      // <div>
+      //     <nav style={navStyle} className="navbar navbar-default">
+      //       <div className="navbar-header col-sm-offset-1 col-sm-2">
+      //         <Link style={nameStyle} className="navbar-brand" to="/">
+      //           <span><span style={titleStyle}>Blayne</span>Marjama</span>
+      //           <p style={nameStyleTitle}>Junior Developer</p>
+      //         </Link>
+      //         <button type="button"
+      //           className="navbar-toggle collapsed"
+      //           data-toggle="collapse"
+      //           data-target="#nav-collapse">
+      //           <span className="icon-bar"></span>
+      //           <span className="icon-bar"></span>
+      //           <span className="icon-bar"></span>
+      //         </button>
+      //       </div>
+      //       <div className="collapse navbar-collapse" id="nav-collapse">
+      //         <ul className="nav navbar-nav navbar-right">{this.props.navLinks.map(createLinkItem)}</ul>
+      //       </div>
+      //     </nav>
+      // </div>
+      //   

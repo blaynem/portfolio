@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 import App from './App';
 import HomePage from './pages/HomePage/HomePage';
@@ -9,13 +9,14 @@ import TestimonialsPage from './pages/TestimonialsPage/TestimonialsPage';
 import HireMePage from './pages/HireMePage/HireMePage';
 import NotFound from './pages/NotFound';
 
+
 const mainColor = "#3097d1"
 // const secondaryColor = ""
 const baseColor = "rgba(0,0,0,0)"
 const backgroundColor = "url('images/tunnels.jpg')"
 
 const Routes = (props) => (
-	<Router history={browserHistory}>
+	<Router history={hashHistory}>
 		<Route
 			baseColor={baseColor}
 			mainColor={mainColor}
@@ -39,12 +40,16 @@ const Routes = (props) => (
 		        component={PortfolioPage} />
 		    <Route
 		      	path="/testimonials"
+		      	mainColor={mainColor}
 		      	component={TestimonialsPage} />
 		    <Route
 		        path="/hire-me"
 		        mainColor={mainColor}
 		        component={HireMePage} />
-			<Route path="*" component={NotFound} />
+			<Route
+				path="*"
+				mainColor={mainColor}
+				component={NotFound} />
 		</Route>
 	</Router>
 );

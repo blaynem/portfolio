@@ -3,23 +3,26 @@ import React, { Component } from 'react';
 export default class Testimonials extends Component {
 	render() {
 
-		const container = {
-			minWidth: "100%",
+		var container = {
+			width: "100%",
 			overflowX: "hidden",
 			display: "inline-block",
 			background: "rgba(0,0,0,0.6)",
-			marginTop: "8%"
+			marginBottom: "35px",
+			marginTop: "15vh"
 		}
 
-		const whoops = {
-			fontSize: "80px",
+		var whoops = {
+			fontSize: "3em",
 			textAlign: "center",
-			color: "white"
+			color:(this.props.route.mainColor)
 		}
 
-		const paraStyle = {
+		var paraStyle = {
 			color: "white",
-			textAlign: "center"
+			textAlign: "left",
+			margin: "0 0 10px 0",
+			fontSize: "1.3em"
 		}
 
 		return(
