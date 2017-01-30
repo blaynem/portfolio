@@ -1,66 +1,143 @@
 import React, { Component } from 'react';
 
 export default class AboutSkillsList extends Component {
+	constructor(props) {
+		super(props);
+		this.handleWebDevSkills = this.handleWebDevSkills.bind(this);
+		this.handleQaSkills = this.handleQaSkills.bind(this);
+		this.state = {
+			showWebDevSkills:true,
+			showQaSkills:false
+		};
+	}
+	handleWebDevSkills(){
+		this.setState({
+			showWebDevSkills:true,
+			showQaSkills:false
+		});
+	}
+	handleQaSkills(){
+		this.setState({
+			showWebDevSkills:false,
+			showQaSkills:true
+		});
+	}
 	render() {
-		const skillHeaderStyle = {
-			color: (this.props.mainColor),
-			marginTop: "10px"
+		const showWebDevSkills = this.state.showWebDevSkills;
+		// const showQaSkills = this.state.showQaSkills;
+		const webDevStyle = {
+			margin:"auto"
+		}
+		const webDevBtnStyle = {
+			width:"100%",
+			borderRadius: 0,
+		}
+		const qaStyle = {
+			margin:"auto"
+		}
+		const qaBtnStyle = {
+			width:"100%",
+			borderRadius: 0,
+		}
+
+		if (showWebDevSkills) {
+			webDevStyle.display = "inline";
+			webDevBtnStyle.backgroundColor = (this.props.mainColor)
+			webDevBtnStyle.color = "white"
+			qaStyle.display = "none"
+			qaBtnStyle.backgroundColor = "white"
+			qaBtnStyle.color = (this.props.mainColor)
+		} else {
+			webDevStyle.display = "none"
+			webDevBtnStyle.backgroundColor = "white"
+			webDevBtnStyle.color = (this.props.mainColor)
+			qaStyle.display = "inline"
+			qaBtnStyle.backgroundColor = (this.props.mainColor)
+			qaBtnStyle.color = "white"
 		}
 
 		const headerStylerThinger = {
 			marginTop:"10px",
 			marginBottom:0
 		}
-
 		const paraStyle = {
-			color:"white"
+			padding: 0
 		}
 
 		const ulStyles = {
 			float: "left",
-			color: (this.props.mainColor)
+			color: "white",
+			fontSize: "1.3em",
+			listStyle: "none"
+		}
+		const listHeadingStyles = {
+			color: (this.props.mainColor),
+			borderBottom: `1px solid ${this.props.mainColor}`
 		}
 		return(
 			<div id="AboutSkillsList" className="col-xs-12">
 				<div>
-					<div style={paraStyle} className="col-xs-12">
+					<div style={{color:"white"}} className="col-xs-12">
 						<h3 style={headerStylerThinger} >Some of the skills I'm proficient with:</h3>
 					</div>
 				</div>
-				<div style={paraStyle} className="col-xs-6">
-					<h3 style={skillHeaderStyle}>Web Development:</h3>
-					<ul style={ulStyles}>
-						<li><span>JavaScript</span></li>
-						<li><span>HTML/CSS</span></li>
-						<li><span>APIs</span></li>
+				<div style={{paddingLeft:"15px", paddingRight:"15px"}} className="row">
+					<div style={paraStyle} className="col-xs-6">
+						<button
+							onClick={this.handleWebDevSkills}
+							style={webDevBtnStyle}
+							className="btn">Web Development:</button>
+					</div>
+					<div style={paraStyle} className="col-xs-6">
+						<button
+							onClick={this.handleQaSkills}
+							style={qaBtnStyle}
+							className="btn">QA Testing:</button>
+					</div>
+				</div>
+				<div style={webDevStyle} className="row">
+					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
+						<li><span style={listHeadingStyles}>Languages:</span></li>
+						<li>HTML</li>
+						<li>CSS</li>
+						<li>JavaScript</li>
 					</ul>
-					<ul style={ulStyles}>
-						<li><span>ReactJS</span></li>
-						<li><span>React-Router</span></li>
-						<li><span>Redux</span></li>
+					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
+						<li><span style={listHeadingStyles}>Libraries:</span></li>
+						<li>ReactJS</li>
+						<li>React-Router</li>
+						<li>Redux</li>
+						<li>JQuery</li>
+						<li>Bootstrap</li>
+					</ul>
+					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
+						<li><span style={listHeadingStyles}>Tools:</span></li>
+						<li>Git</li>
+						<li>APIs</li>
+						<li>Chrome Dev Tools</li>
+						<li>FireFox Dev Tools</li>
 					</ul>
 				</div>
-				<div style={paraStyle} className="col-xs-6">
-					<h3 style={skillHeaderStyle}>QA Testing:</h3>
-					<ul style={ulStyles}>
-						<li><span>Types:</span></li>
-						<li><span>Ad Hoc</span></li>
-						<li><span>Black-Box</span></li>
-						<li><span>Data Driven</span></li>
-						<li><span>Automation</span></li>
-						<li><span>Regression</span></li>
+				<div style={qaStyle} className="row">
+					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
+						<li><span style={listHeadingStyles}>Types:</span></li>
+						<li>Ad Hoc</li>
+						<li>Black-Box</li>
+						<li>Data Driven</li>
+						<li>Automation</li>
+						<li>Regression</li>
 					</ul>
-					<ul style={ulStyles}>
-						<li><span>Automation</span>:</li>
-						<li><span>WATIR</span></li>
-						<li><span>Selenium</span></li>
-						<li><span>Firebug</span></li>
-						<li><span>RSpec</span></li>
+					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
+						<li><span style={listHeadingStyles}>Automation:</span></li>
+						<li>WATIR</li>
+						<li>Selenium</li>
+						<li>Firebug</li>
+						<li>RSpec</li>
 					</ul>
-					<ul style={ulStyles}>
-						<li><span>Tools:</span></li>
-						<li><span>JIRA</span></li>
-						<li><span>DaPulse</span></li>
+					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
+						<li><span style={listHeadingStyles}>Tools:</span></li>
+						<li>JIRA</li>
+						<li>DaPulse</li>
 					</ul>
 				</div>
 			</div>
