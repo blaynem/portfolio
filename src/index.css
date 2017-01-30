@@ -268,10 +268,18 @@ animation:first 5s infinite;
 {
 0% {color:white;}
 20% {color:#3097d1;}
+40% {color:#F39237;}
+60% {color:#D63230;}
+80% {color:#8AB9B5;}
+100% {color:white;}
 }
 @keyframes first {
   0% {color:white;}
   20% {color:#3097d1;}
+  40% {color:#F39237;}
+  60% {color:#D63230;}
+  80% {color:#8AB9B5;}
+  100% {color:white;}
 }
 
 .second {
@@ -281,12 +289,20 @@ animation:second 5s infinite;
 
 @-webkit-keyframes second
 {
-20% {color:white;}
-40% {color:#3097d1;}
+0% {color:#3097d1;}
+20% {color:#F39237;}
+40% {color:#D63230;}
+60% {color:#8AB9B5;}
+80% {color:#C8C2AE;}
+100% {color:#3097d1;}
 }
 @keyframes second {
-  20% {color:white;}
-  40% {color:#3097d1;}
+  0% {color:#3097d1;}
+  20% {color:#F39237;}
+  40% {color:#D63230;}
+  60% {color:#8AB9B5;}
+  80% {color:#C8C2AE;}
+  100% {color:#3097d1;}
 }
 
 .third {
@@ -296,12 +312,20 @@ animation:third 5s infinite;
 
 @-webkit-keyframes third
 {
-40% {color:white;}
-60% {color:#3097d1;}
+0% {color:#F39237;}
+20% {color:#D63230;}
+40% {color:#8AB9B5;}
+60% {color:#C8C2AE;}
+80% {color:white;}
+100% {color:#F39237;}
 }
 @keyframes third {
-  40% {color:white;}
-  60% {color:#3097d1;}
+  0% {color:#F39237;}
+  20% {color:#D63230;}
+  40% {color:#8AB9B5;}
+  60% {color:#C8C2AE;}
+  80% {color:white;}
+  100% {color:#F39237;}
 }
 
 .fourth {
@@ -311,12 +335,20 @@ animation:fourth 5s infinite;
 
 @-webkit-keyframes fourth
 {
+0% {color:#D63230;}
+20% {color:#8AB9B5;}
+40% {color:#C8C2AE;}
 60% {color:white;}
 80% {color:#3097d1;}
+100% {color:#D63230;}
 }
 @keyframes fourth {
+  0% {color:#D63230;}
+  20% {color:#8AB9B5;}
+  40% {color:#C8C2AE;}
   60% {color:white;}
   80% {color:#3097d1;}
+  100% {color:#D63230;}
 }
 
 .fifth {
@@ -326,12 +358,20 @@ animation:fifth 5s infinite;
 
 @-webkit-keyframes fifth
 {
-80% {color:white;}
-100% {color:#3097d1;}
+0% {color:#8AB9B5;}
+20% {color:#C8C2AE;}
+40% {color:white;}
+60% {color:#3097d1;}
+80% {color:#F39237;}
+100% {color:#8AB9B5;}
 }
 @keyframes fifth {
-  80% {color:white;}
-  100% {color:#3097d1;}
+  0% {color:#8AB9B5;}
+  20% {color:#C8C2AE;}
+  40% {color:white;}
+  60% {color:#3097d1;}
+  80% {color:#F39237;}
+  100% {color:#8AB9B5;}
 }
 
 /*weather app styles*/

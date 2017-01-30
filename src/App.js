@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 
@@ -29,8 +29,40 @@ const navLinks = [
 
 
 
-const App = React.createClass({
+export default class App extends Component{
+	constructor(props){
+		super(props);
+		this.handleColorRed = this.handleColorRed.bind(this);
+		this.handleColorOrange = this.handleColorOrange.bind(this);
+		this.handleColorGreen = this.handleColorGreen.bind(this);
+		this.handleColorBlue = this.handleColorBlue.bind(this);
+
+		this.state = {
+			theColor:"#3097d1"
+		}
+	}
+	handleColorRed() {
+		this.setState({
+			theColor: "#D63230"
+		});
+	}
+	handleColorOrange() {
+		this.setState({
+			theColor: "#F39237"
+		});
+	}
+	handleColorGreen() {
+		this.setState({
+			theColor: "#8AB9B5"
+		});
+	}
+	handleColorBlue() {
+		this.setState({
+			theColor: "#3097d1"
+		});
+	}
 	render() {
+		const theColor = this.state.theColor;
 
 		const background = {
 		  background:(this.props.route.backgroundColor),
@@ -44,24 +76,26 @@ const App = React.createClass({
 			<div style={background}>
 		        <div>
 		          <div>
+		          	<button onClick={this.handleColorRed}>Red</button>
+		          	<button onClick={this.handleColorOrange}>Orange</button>
+		          	<button onClick={this.handleColorGreen}>Green</button>
+		          	<button onClick={this.handleColorBlue}>Blue</button>
 		            <NavBar
 		              baseColor={this.props.route.baseColor}
-		              mainColor={this.props.route.mainColor}
+		              mainColor={theColor}
 		              navLinks={navLinks}/>
 		            </div>
 		          <div id="middleContainer">
-		            {this.props.children}
+		            {React.cloneElement(this.props.children, {...this.props})}
 		          </div>
 		          <div >
 		          	<Footer
 			          baseColor={this.props.route.baseColor}
-			          mainColor={this.props.route.mainColor}
+			          mainColor={theColor}
 			          navLinks={navLinks}/>
 		          </div>
 		        </div>
 		    </div>
 		)
 	}
-});
-
-export default App;
+};

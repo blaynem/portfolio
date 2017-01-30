@@ -24,7 +24,7 @@ export default class HomePage extends Component {
       color: "white"
     }
     const pizzaz = {
-      color:(this.props.route.mainColor)
+      color:(this.props.theColor)
     }
 
     return(
@@ -49,3 +49,4 @@ export default class HomePage extends Component {
     );
   }
 }
+
