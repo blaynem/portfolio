@@ -52,9 +52,6 @@ export default class PortfolioPage extends Component {
 								<a style={{color:(this.props.theColor)}}
 								   href="https://github.com/blaynem/portfolio/tree/master/src/pages/PortfolioPage/weatherApp/components"
 								   target="_blank"> here</a></h3>
-							<p style={{color:"white"}}>p.s. something got changed with the openweathermap api, and now it's not
-							allowing me to grab data for the right days. I made a temporary fix, but it's not displaying the current
-							day or the following days correctly.</p>
 						</div>
 					</div>
 					<div style={{padding:0}} className="col-md-6">
