@@ -17,8 +17,8 @@ export default class PortfolioPage extends Component {
 		const storepics = {
 		    position: "relative",
 		    padding: 0,
-		    marginBottom: "15px",
-		    height: "600px",
+		    marginBottom: "0",
+		    height: "500px",
 		    backgroundPosition: "50% 50%",
 		    backgroundRepeat: "no-repeat",
 		    backgroundSize: "contain",
@@ -45,7 +45,7 @@ export default class PortfolioPage extends Component {
 			color: "white"
 		}
 		return (
-			<div style={{paddingTop:"55px"}}>
+			<div id="portfolioPageTopPadding">
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">
 					<a href="http://blaynestoretest.surge.sh/" target="_blank">
 						<div style={storepics} className="col-md-6"></div>

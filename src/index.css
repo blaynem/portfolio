@@ -83,6 +83,11 @@ body {
 
 #middleContainer {
   min-height: calc(100vh - 188px);
+
+}
+
+#portfolioPageTopPadding {
+  padding-top: 25px;
 }
 
 @media (max-width: 1363px) {
@@ -118,6 +123,9 @@ body {
   }
   .first, .second, .third, .fourth, .fifth {
     font-size: 1.55em;
+  }
+  #portfolioPageTopPadding {
+    padding-top: 0px;
   }
 }
 
