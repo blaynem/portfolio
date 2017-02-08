@@ -19,6 +19,12 @@ var WeatherApp = React.createClass({
   handleSearch: function(search) {
     HTTP.get(search)
       .then(function(data) {
+        for(var i=0; i<4; i++){
+          console.log(Math.round(data.list[i].main.temp - 273.15));
+          console.log(data.list[i].weather[0].id);
+          console.log(data.list[i].dt_txt.substring(8, 10));
+          console.log(data.list[i].dt_txt.substring(5, 7));
+        }
         this.setState({
           location: data.city.name,
           //This is for todays temperatures
@@ -49,6 +55,7 @@ var WeatherApp = React.createClass({
           dateMonth5: data.list[32].dt_txt.substring(5, 7)
         });
       }.bind(this));
+      
   },
   // this gathers the information from the API based on the starting city
   componentWillMount: function() {
@@ -65,7 +72,7 @@ var WeatherApp = React.createClass({
           dateYear1: data.list[0].dt_txt.substring(0, 4),
           windDirection: data.list[0].wind.deg,
 
-          //These are for the following days in the 5 day forecast.
+          // These are for the following days in the 5 day forecast.
           tempsDay2: Math.round(data.list[8].main.temp - 273.15),
           cloudIcon2: data.list[8].weather[0].id,
           dateDay2: data.list[8].dt_txt.substring(8, 10),
@@ -85,59 +92,60 @@ var WeatherApp = React.createClass({
         });
       }.bind(this));
   },
+  // makes it so every other list item changes color
+  // the num it recieves is from the mapping of [2,3,4,5]
+  listColor(num){
+    if (num % 2 === 0){
+      return "#EBEBEB"
+    }
+      return "#F5F5F5"
+  },
   render: function() {
 
+    // cleans up code by getting rid of calling "this.state" always
+    const { location, dateDay1, dateMonth1, dateYear1, cloudIcon1, tempsDay1, windDirection, windSpeed } = this.state;
+    // cleans up code by getting rid of calling "this.props" always
+    const { appColor, appSize } = this.props;
     //removes the top padding from the panel body.
     var panelBodyStyle = {
       paddingTop: 0,
       paddingBottom: 0
     }
 
-    if (this.props.appSize) {
-      var appSize = (this.props.appSize)
+    // maps through the 2-5 to push those into the 5-day forecast
+    const weatherList = ([2,3,4,5].map((number, i) => (
+        <WeatherListItem
+          key={number + i}
+          listColor={this.listColor(number)}
+          dateDay={this.state["dateDay" + number]}
+          dateMonth={this.state["dateMonth" + number]}
+          cloudIcon={this.state["cloudIcon" + number]}
+          temps={this.state["tempsDay" + number]}/>
+      ))
+    );
+
+    if (appSize) {
+      var appSizeClass = (appSize)
     } else {
-      appSize = "col-xs-12"
+      appSizeClass = "col-xs-12"
     };
 
     return (
-      <div className={appSize}>
+      <div className={appSizeClass}>
         <div style={{marginBottom:0}} className="panel panel-default">
             <WeatherToday
-              headingColor={this.props.appColor}
-              currentCity={this.state.location}
-              dateDay={this.state.dateDay1}
-              dateMonth={this.state.dateMonth1}
-              dateYear={this.state.dateYear1}
-              cloudIcon={this.state.cloudIcon1}
-              todayTemp={this.state.tempsDay1}
-              windDegrees={this.state.windDirection}
-              windSpeed={this.state.windSpeed} 
+              headingColor={appColor}
+              currentCity={location}
+              dateDay={dateDay1}
+              dateMonth={dateMonth1}
+              dateYear={dateYear1}
+              cloudIcon={cloudIcon1}
+              todayTemp={tempsDay1}
+              windDegrees={windDirection}
+              windSpeed={windSpeed} 
               searchNewCity={this.handleSearch} />
           <div style={panelBodyStyle} className="panel-body">
-            <WeatherListItem
-              listColor="#EBEBEB"
-              dateDay={this.state.dateDay2}
-              dateMonth={this.state.dateMonth2}
-              cloudIcon={this.state.cloudIcon2}
-              temps={this.state.tempsDay2}/>
-            <WeatherListItem
-              listColor="#F5F5F5"
-              dateDay={this.state.dateDay3}
-              dateMonth={this.state.dateMonth3}
-              cloudIcon={this.state.cloudIcon3}
-              temps={this.state.tempsDay3}/>
-            <WeatherListItem
-              listColor="#EBEBEB"
-              dateDay={this.state.dateDay4}
-              dateMonth={this.state.dateMonth4}
-              cloudIcon={this.state.cloudIcon4}
-              temps={this.state.tempsDay4}/>
-            <WeatherListItem
-              listColor="#F5F5F5"
-              dateDay={this.state.dateDay5}
-              dateMonth={this.state.dateMonth5}
-              cloudIcon={this.state.cloudIcon5}
-              temps={this.state.tempsDay5}/>
+            {weatherList}
           </div>
         </div>
       </div>
