@@ -103,6 +103,7 @@ export default class AboutSkillsList extends Component {
 						<li>HTML</li>
 						<li>CSS</li>
 						<li>JavaScript</li>
+						<li>SQL (Queries)</li>
 					</ul>
 					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
 						<li><span style={listHeadingStyles}>Libraries:</span></li>
@@ -115,7 +116,8 @@ export default class AboutSkillsList extends Component {
 					<ul style={ulStyles} className="col-xs-6 col-sm-4" >
 						<li><span style={listHeadingStyles}>Tools:</span></li>
 						<li>Git</li>
-						<li>APIs</li>
+						<li>RESTful APIs</li>
+						<li>AWS Lambda</li>
 						<li>Chrome Dev Tools</li>
 						<li>FireFox Dev Tools</li>
 					</ul>
