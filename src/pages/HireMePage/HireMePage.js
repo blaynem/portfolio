@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import ConnectLinks from '../../components/ConnectLinks';
+
 export default class HireMePage extends Component {
 	render() {
 
@@ -51,6 +53,7 @@ export default class HireMePage extends Component {
 						<h3 style={paraStyle}><span style={pizzaz}>Email: </span><a href="mailto:Blayne.Marjama@gmail.com" style={{color:"white"}}>Blayne.Marjama@gmail.com</a></h3>
 						<h3 style={paraStyle}>I can also be reached at one of the social media links below.</h3>
 						<h3 style={arrowStyle}><i className="glyphicon glyphicon-chevron-down"></i></h3>
+						<div style={{textAlign:"center"}}><ConnectLinks theColor={this.props.theColor}/></div>
 					</div>
 				</div>
 			</div>
