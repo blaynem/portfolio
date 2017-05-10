@@ -68,6 +68,7 @@ export default class AboutPage extends Component {
 								courses through CodeAcademy<span style={pizzaz}>/</span>Udemy, I knew I found the language for me.</h4>
 								<h4 style={paragraphStyles}>I can now be found in either the Portland<span style={pizzaz}>-</span>ReactJS Slack, or the Reactiflux Discord chats,
 								bombarding the other users with questions on best practices or what to learn next. (Slack/Discord Username: <span style={pizzaz}>blaynem</span>)</h4>
+								<h4 style={paragraphStyles}>You can check out some of my latest github commits <a href="https://github.com/blaynem/" target="_blank">here</a></h4>
 							</div>
 						</div>
 						<div style={rowStyle} className="row">

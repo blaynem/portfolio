@@ -39,9 +39,7 @@ export default class Testimonials extends Component {
 					<div className="col-lg-offset-3 col-lg-6">
 						<h3 style={paraStyle}>Looks like you navigated to a page that's not quite up yet. Sorry about that. 
 						Feel free to click <Link style={pizzaz} to="/">here</Link> or on my name to take you back to the <Link style={pizzaz} to="/">HomePage.</Link></h3>
-						<h3 style={paraStyle}>I promise there will be <span style={pizzaz}>great</span> testimonials, the <span style={pizzaz}>best</span> testimonials. From only
-						the <span style={pizzaz}>best</span> people. They have such <span style={pizzaz}>bigly</span> things to say, it's going to be
-						<span style={pizzaz}> great</span> let me tell you.</h3>
+						<h3 style={paraStyle}>This is where I'd put my testimonials... if I had some.</h3>
 					</div>
 				</div>
 			</div>
