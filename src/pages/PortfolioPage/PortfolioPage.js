@@ -22,7 +22,7 @@ export default class PortfolioPage extends Component {
 		    backgroundPosition: "50% 50%",
 		    backgroundRepeat: "no-repeat",
 		    backgroundSize: "contain",
-		    backgroundImage: "url(images/storepic.png)"
+		    backgroundImage: "url(images/storepic.jpg)"
 		}
 		const jaredPics = {
 		    position: "relative",
@@ -32,7 +32,7 @@ export default class PortfolioPage extends Component {
 		    backgroundPosition: "50% 50%",
 		    backgroundRepeat: "no-repeat",
 		    backgroundSize: "contain",
-		    backgroundImage: "url(images/jaredpic.png)"
+		    backgroundImage: "url(images/jaredpic.jpg)"
 		}
 		const learnedStyles = {
 			color: (this.props.theColor)
@@ -53,29 +53,28 @@ export default class PortfolioPage extends Component {
 					<div className="col-md-6">
 						<div style={descripDivStyle} className="col-xs-12">
 							<h1 style={headerStyle}>Web Store App (Current Project)</h1>
-							<h3 style={descripStyle}>Began creating a Web Store App project this weekend (2/4/17) because I really wanted to solidify
-							my knowledge of Redux, and work with ES6 more. I'll be doing constant push updates to the site, so make sure you come check
-							back later and see the updates.</h3>
+							<h3 style={descripStyle}>Created a mock store similar to the Polymer Shop App. The project was started because I wanted to understand
+							redux with something like a shopping carts functionality.</h3>
 							<div className="col-sm-6">>
 							<h3 style={learnedStyles}>Things I learned:</h3>
 							<ul style={ulStyle}>
-								<li><span style={liStyles}>Mocking API data</span></li>
-								<li><span style={liStyles}>Reusability (I repeat that a lot, but React is awesome like that)</span></li>
+								<li><span style={liStyles}>Mocking data, and structuring it.</span></li>
 								<li><span style={liStyles}>Redux/Stores</span></li>
+								<li><span style={liStyles}>React-Router v4</span></li>
 							</ul>
 							</div>
 							<div className="col-sm-6">>
 							<h3 style={learnedStyles}>Obstacles:</h3>
 							<ul style={ulStyle}>
-								<li><span style={liStyles}>Caching</span></li>
+								<li><span style={liStyles}>Caching -Still to come-</span></li>
 								<li><span style={liStyles}>Figuring out how to get cart working correctly</span></li>
-								<li><span style={liStyles}>Figuring out Check-out process</span></li>
+								<li><span style={liStyles}>Had a problem in my reducers that would remmove everything below the item you selected to delete.</span></li>
 								<li><span style={liStyles}>Had trouble figuring out exactly how to get the right data to places, but ultimately figured it out.</span></li>
 							</ul>
 							</div>
 							<h3 style={descripStyle}>You can view the source code
 								<a style={{color:(this.props.theColor)}}
-								   href="https://github.com/blaynem/store-prototype"
+								   href="https://github.com/blaynem/store-redo"
 								   target="_blank"> here</a></h3>
 						</div>
 					</div>
@@ -113,12 +112,12 @@ export default class PortfolioPage extends Component {
 						<div style={descripDivStyle} className="col-xs-12">
 							<h1 style={headerStyle}>Instagram-esque Portfolio</h1>
 							<h3 style={descripStyle}>I started a rough draft of this app for a chef friend of mine.
-							It helped me learn a lot about redux and stores. Though it's not quite finished and does
+							It helped me learn a lot about react and react-router. Though it's not quite finished and does
 							have a bunch of placeholder text, I'm pretty happy with how it's turned out so far.</h3>
 							<h3 style={learnedStyles}>Things I learned:</h3>
 							<ul style={ulStyle}>
-								<li><span style={liStyles}>Redux/Stores</span></li>
-								<li><span style={liStyles}>More about planning for reusability</span></li>
+								<li><span style={liStyles}>Using React-Router</span></li>
+								<li><span style={liStyles}>Planning of components</span></li>
 								<li><span style={liStyles}>Implementing cool hover effects and stylings</span></li>
 							</ul>
 							<h3 style={descripStyle}>You can view the source code
