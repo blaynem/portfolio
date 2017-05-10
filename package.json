@@ -19,6 +19,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "npm run build && surge -p ./build --domain blaynemarjama.surge.sh",
-    "deployTest": "npm run build && surge -p ./build --domain blayne-test.surge.sh"
+    "deployTest": "npm run build && surge -p ./build --domain blaynemarjamatest.surge.sh"
   }
 }
