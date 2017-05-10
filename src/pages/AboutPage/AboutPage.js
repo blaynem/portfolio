@@ -29,13 +29,13 @@ export default class AboutPage extends Component {
 		}
 
 		const backgroundstyle = {
-		    position: "relative",
-		    padding: 0,
-		    height: "700px",
-		    backgroundPosition: "50% 50%",
-		    backgroundRepeat: "no-repeat",
-		    backgroundSize: "contain",
-		    backgroundImage: "url(images/me.jpg)"
+	    position: "relative",
+	    padding: 0,
+	    height: "700px",
+	    backgroundPosition: "50% 50%",
+	    backgroundRepeat: "no-repeat",
+	    backgroundSize: "contain",
+	    backgroundImage: "url(images/me.jpg)"
 		}
 		const rowStyle = {
 			marginLeft:0,
@@ -66,6 +66,8 @@ export default class AboutPage extends Component {
 								I began flying through FreeCodeCamps challenges, helping out in the gitter chat channel as much as I possibly could.
 								While working on FreeCodeCamp projects, React<span style={pizzaz}>JS</span> caught my eye and after completing a few
 								courses through CodeAcademy<span style={pizzaz}>/</span>Udemy, I knew I found the language for me.</h4>
+								<h4 style={paragraphStyles}>I can now be found in either the Portland<span style={pizzaz}>-</span>ReactJS Slack, or the Reactiflux Discord chats,
+								bombarding the other users with questions on best practices or what to learn next. (Slack/Discord Username: <span style={pizzaz}>blaynem</span>)</h4>
 							</div>
 						</div>
 						<div style={rowStyle} className="row">
