@@ -4,9 +4,6 @@ import WeatherListItem from './WeatherListItem';
 import WeatherToday from './WeatherToday';
 import HTTP from '../services/httpservice'
 
-//starting city
-
-var city;
 class WeatherApp extends Component {
   // initializes the app with the base cities weather
   // base city can be changed by replacing var city
