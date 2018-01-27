@@ -2,48 +2,44 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
 export default class NavItem extends Component{
-	constructor(props, context) {
-		super(props, context);
-
-		this.state = {hover: false};
-		this.mouseOver =this.mouseOver.bind(this);
-		this.mouseOut =this.mouseOut.bind(this);
+	state = {
+		hover: false
 	}
-	mouseOver(e) {
+	mouseOver = (e) => {
 		this.setState({hover: true});
 	}
-	mouseOut(e) {
+	mouseOut = (e) => {
 		this.setState({hover: false});
 	}
 	render() {
+		const { hover } = this.state
+		const { content, href, title, theColor } = this.props
+
 		var listStyle = {
 			listStyleType:"none",
 			display: "inline-block"
 		}
 
 		var hoverText = {
-			color: "#FFF",
+			color: hover ? theColor: "#FFF",
+			background: "transparent"
 		}
 
 		const pizzaz = {
-			color:(this.props.theColor)
+			color:theColor
 		}
 
-		if (this.state.hover){
-		  hoverText.color = (this.props.theColor)
-		  hoverText.background = "rgba(0,0,0,0)"
-		  hoverText.textDecoration = "none"
-		  hoverText.boxShadow = "none"
-		}
+		const listClass = hover ? "active" : ""
+
 		return (
 			<li style={listStyle}
-			    className={this.state.hover ? "active":""}
-			    onMouseOver={this.mouseOver}
-			    onMouseOut={this.mouseOut}>
-			    <Link className="linkWithHover" style={hoverText} to={this.props.href}>
-			    	{this.props.title}
-			    	<p style={pizzaz} className="linkWithHoverParagraphs">{this.props.content}</p>
-			    </Link>
+				className={listClass}
+				onMouseOver={this.mouseOver}
+				onMouseOut={this.mouseOut}>
+				<Link className="linkWithHover" style={hoverText} to={href}>
+					{title}
+					<p style={pizzaz} className="linkWithHoverParagraphs">{content}</p>
+				</Link>
 			</li>
 		);
 	}
