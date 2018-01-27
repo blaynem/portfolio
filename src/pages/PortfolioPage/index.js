@@ -3,62 +3,49 @@ import React, { Component } from 'react';
 
 export default class PortfolioPage extends Component {
 	render() {
+		const { theColor } = this.props
 		const descripDivStyle = {
 			background: "rgba(0,0,0,.5)",
 			marginBottom:"15px"
 		}
 		const headerStyle = {
-			color: (this.props.theColor),
+			color: theColor,
 			textAlign: "center"
 		}
 		const descripStyle = {
 			color: "white"	
 		}
+		const backgroundBaseStyles = {
+			position: "relative",
+			padding: 0,
+			height: "500px",
+			backgroundRepeat: "no-repeat",
+			backgroundSize: "contain",
+			marginBottom: "0"
+		}
 		const posPics = {
-		    position: "relative",
-		    padding: 0,
-		    marginBottom: "0",
-		    height: "500px",
-		    backgroundPosition: "50% 50%",
-		    backgroundRepeat: "no-repeat",
-		    backgroundSize: "contain",
-		    backgroundImage: "url(images/pos-app.gif)"
+			...backgroundBaseStyles,
+			backgroundPosition: "50% 50%",
+			backgroundImage: "url(images/pos-app.gif)"
 		}
 		const storepics = {
-		    position: "relative",
-		    padding: 0,
-		    marginBottom: "0",
-		    height: "500px",
-		    backgroundPosition: "50% 50%",
-		    backgroundRepeat: "no-repeat",
-		    backgroundSize: "contain",
-		    backgroundImage: "url(images/storepic.jpg)"
+			...backgroundBaseStyles,
+			backgroundPosition: "50% 50%",
+			backgroundImage: "url(images/storepic.jpg)"
 		}
 		const craigslistPics = {
-		    position: "relative",
-		    padding: 0,
-		    marginBottom: "0",
-		    height: "500px",
-		    backgroundPosition: "50% 50%",
-		    backgroundRepeat: "no-repeat",
-		    backgroundSize: "contain",
-		    backgroundImage: "url(images/craigslist-app.png)"
+			...backgroundBaseStyles,
+			backgroundImage: "url(images/craigslist-app.png)"
 		}
 		const jaredPics = {
-		    position: "relative",
-		    padding: 0,
-		    marginBottom: "15px",
-		    height: "500px",
-		    backgroundPosition: "50% 50%",
-		    backgroundRepeat: "no-repeat",
-		    backgroundSize: "contain",
-		    backgroundImage: "url(images/jaredpic.jpg)"
+			...backgroundBaseStyles,
+			backgroundImage: "url(images/jaredpic.jpg)"
 		}
 		const learnedStyles = {
-			color: (this.props.theColor)
+			color: theColor
 		}
 		const ulStyle = {
-			color: (this.props.theColor),
+			color: theColor,
 			fontSize:"1.3em"
 		}
 		const liStyles = {
@@ -66,9 +53,7 @@ export default class PortfolioPage extends Component {
 		}
 		return (
 			<div id="portfolioPageTopPadding">
-
-
-
+				<h3 style={{color:"white", textAlign:"center"}}>Many projects may not be up here yet, so feel free to take a look at my <a rel="noopener noreferrer" target="_blank"href="https://github.com/blaynem">github</a> account.</h3>
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">
 					<a href="http://blaynepos.surge.sh/" target="_blank" rel="noopener noreferrer">
 						<div style={posPics} className="col-md-6"></div>
@@ -97,16 +82,13 @@ export default class PortfolioPage extends Component {
 							</ul>
 							</div>
 							<h3 style={descripStyle}>You can view the source code
-								<a style={{color:(this.props.theColor)}}
+								<a style={{color:theColor}}
 									 href="https://github.com/blaynem/pos-app"
 									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
 						</div>
 					</div>
 				</div>
-
-
-
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">
 					<div className="col-md-6">
 						<div style={descripDivStyle} className="col-xs-12">
@@ -131,7 +113,7 @@ export default class PortfolioPage extends Component {
 							</ul>
 							</div>
 							<h3 style={descripStyle}>You can view the source code
-								<a style={{color:(this.props.theColor)}}
+								<a style={{color:theColor}}
 									 href="https://github.com/blaynem/store-redo"
 									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
@@ -142,7 +124,7 @@ export default class PortfolioPage extends Component {
 					</a>
 				</div>
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">
-					<a href="http://blaynestoretest.surge.sh/" target="_blank" rel="noopener noreferrer">
+					<a href="https://craigslist-searcher-app.herokuapp.com/" target="_blank" rel="noopener noreferrer">
 						<div style={craigslistPics} className="col-md-6"></div>
 					</a>
 					<div className="col-md-6">
@@ -168,7 +150,7 @@ export default class PortfolioPage extends Component {
 							</ul>
 							</div>
 							<h3 style={descripStyle}>You can view the source code
-								<a style={{color:(this.props.theColor)}}
+								<a style={{color:theColor}}
 									 href="https://github.com/blaynem/craigslist-searcher"
 									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
@@ -189,7 +171,7 @@ export default class PortfolioPage extends Component {
 								<li><span style={liStyles}>A lot about reusability</span></li>
 							</ul>
 							<h3 style={descripStyle}>You can view the source code
-								<a style={{color:(this.props.theColor)}}
+								<a style={{color:theColor}}
 									 href="https://github.com/blaynem/portfolio/tree/master/src/pages/PortfolioPage/weatherApp/components"
 									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
@@ -198,7 +180,7 @@ export default class PortfolioPage extends Component {
 					<div style={{padding:0}} className="col-md-6">
 						{/* <WeatherApp
 							appSize=""
-							appColor={this.props.theColor}
+							appColor={theColor}
 							startCity="Portland"/> */}
 					</div>
 				</div>
@@ -219,7 +201,7 @@ export default class PortfolioPage extends Component {
 								<li><span style={liStyles}>Implementing cool hover effects and stylings</span></li>
 							</ul>
 							<h3 style={descripStyle}>You can view the source code
-								<a style={{color:(this.props.theColor)}}
+								<a style={{color:theColor}}
 									 href="https://github.com/blaynem/portfolio-instagram"
 									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
