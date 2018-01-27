@@ -3,6 +3,7 @@ import AboutSkillsList from './AboutSkillsList';
 
 export default class AboutPage extends Component {
 	render() {
+		const { theColor } = this.props;
 		var container = {
 			height: "700px",
 			paddingTop: "3vw",
@@ -19,7 +20,7 @@ export default class AboutPage extends Component {
 
 		var headerStyle = {
 			textAlign: "center",
-			color:(this.props.theColor)
+			color: theColor
 		}
 
 		const paragraphStyles = {
@@ -42,7 +43,7 @@ export default class AboutPage extends Component {
 			marginRight:0,
 		}
 		const pizzaz = {
-			color:(this.props.theColor)
+			color: theColor
 		}
 		return(
 			<div style={container}>
@@ -57,7 +58,7 @@ export default class AboutPage extends Component {
 						<div style={rowStyle} className="row">
 							<div className="col-xs-12">
 								<h3 style={paragraphStyles}>Web Developer<span style={pizzaz}>/</span>QA Tester</h3>
-								<h4 style={paragraphStyles}>I began learning web development around 2 years ago. It started off with HTML
+								<h4 style={paragraphStyles}>I began learning web development in 2015. It started off with HTML
 								<span style={pizzaz}>/</span>CSS and then expanded to learning the basics of JavaScript, Ruby, Rails, 
 								C<span style={pizzaz}>#</span>, and some Java for Android. I kept switching back and forth between what was
 								<span style={pizzaz}> "the best"</span> thing to learn for a beginner. The struggle most self<span style={pizzaz}>-</span>
@@ -72,7 +73,7 @@ export default class AboutPage extends Component {
 							</div>
 						</div>
 						<div style={rowStyle} className="row">
-							<AboutSkillsList theColor={this.props.theColor}/>
+							<AboutSkillsList theColor={theColor}/>
 						</div>
 					</div>
 				</div>
