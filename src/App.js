@@ -4,8 +4,6 @@ import { PageRoutes } from './PageRoutes';
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
-import "./App.css";
-
 const buttonColors = [
   {
     hex: "#D63230",
@@ -32,7 +30,7 @@ export default class App extends Component {
   state = {
     theColor: "#3097d1"
   };
-  
+
   handleColorChange = theColor => {
     this.setState({ theColor });
   };
