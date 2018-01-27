@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 export default class HomePage extends Component {
 
   render() {
+    const { theColor } = this.props
   	const borderTest = {
       paddingTop: "15vh"
   	}
@@ -23,7 +24,7 @@ export default class HomePage extends Component {
       color: "white"
     }
     const pizzaz = {
-      color:(this.props.theColor)
+      color:theColor
     }
 
     return(
