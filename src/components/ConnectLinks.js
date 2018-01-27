@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 // The 'Connect' component, allows a user to click on a social media icon to reach out to us.
 

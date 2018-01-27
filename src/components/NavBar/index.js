@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NavItem from './NavItem';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default class NavBar extends Component {
 	render() {
