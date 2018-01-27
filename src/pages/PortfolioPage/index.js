@@ -70,7 +70,7 @@ export default class PortfolioPage extends Component {
 
 
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">
-					<a href="http://blaynepos.surge.sh/" target="_blank">
+					<a href="http://blaynepos.surge.sh/" target="_blank" rel="noopener noreferrer">
 						<div style={posPics} className="col-md-6"></div>
 					</a>
 					<div className="col-md-6">
@@ -98,7 +98,8 @@ export default class PortfolioPage extends Component {
 							</div>
 							<h3 style={descripStyle}>You can view the source code
 								<a style={{color:(this.props.theColor)}}
-								   href="https://github.com/blaynem/pos-app"
+									 href="https://github.com/blaynem/pos-app"
+									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
 						</div>
 					</div>
@@ -131,16 +132,17 @@ export default class PortfolioPage extends Component {
 							</div>
 							<h3 style={descripStyle}>You can view the source code
 								<a style={{color:(this.props.theColor)}}
-								   href="https://github.com/blaynem/store-redo"
+									 href="https://github.com/blaynem/store-redo"
+									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
 						</div>
 					</div>
-					<a href="http://blaynestoretest.surge.sh/" target="_blank">
+					<a href="http://blaynestoretest.surge.sh/" target="_blank" rel="noopener noreferrer">
 						<div style={storepics} className="col-md-6"></div>
 					</a>
 				</div>
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">
-					<a href="http://blaynestoretest.surge.sh/" target="_blank">
+					<a href="http://blaynestoretest.surge.sh/" target="_blank" rel="noopener noreferrer">
 						<div style={craigslistPics} className="col-md-6"></div>
 					</a>
 					<div className="col-md-6">
@@ -167,7 +169,8 @@ export default class PortfolioPage extends Component {
 							</div>
 							<h3 style={descripStyle}>You can view the source code
 								<a style={{color:(this.props.theColor)}}
-								   href="https://github.com/blaynem/craigslist-searcher"
+									 href="https://github.com/blaynem/craigslist-searcher"
+									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
 						</div>
 					</div>
@@ -187,7 +190,8 @@ export default class PortfolioPage extends Component {
 							</ul>
 							<h3 style={descripStyle}>You can view the source code
 								<a style={{color:(this.props.theColor)}}
-								   href="https://github.com/blaynem/portfolio/tree/master/src/pages/PortfolioPage/weatherApp/components"
+									 href="https://github.com/blaynem/portfolio/tree/master/src/pages/PortfolioPage/weatherApp/components"
+									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
 						</div>
 					</div>
@@ -199,7 +203,7 @@ export default class PortfolioPage extends Component {
 					</div>
 				</div>
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">
-					<a href="http://grouchy-yard.surge.sh/" target="_blank">
+					<a href="http://grouchy-yard.surge.sh/" target="_blank" rel="noopener noreferrer">
 						<div style={jaredPics} className="col-md-6"></div>
 					</a>
 					<div className="col-md-6">
@@ -216,7 +220,8 @@ export default class PortfolioPage extends Component {
 							</ul>
 							<h3 style={descripStyle}>You can view the source code
 								<a style={{color:(this.props.theColor)}}
-								   href="https://github.com/blaynem/portfolio-instagram"
+									 href="https://github.com/blaynem/portfolio-instagram"
+									 rel="noopener noreferrer"
 								   target="_blank"> here</a></h3>
 						</div>
 					</div>

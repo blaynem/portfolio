@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
-// import HomePage from "./pages/HomePage";
-// import NavBar from './components/NavBar';
-// import Footer from './components/Footer';
+import HomePage from "./pages/HomePage";
+import AboutPage from './pages/AboutPage';
+import Portfolio from './pages/PortfolioPage';
+import NavBar from "./components/NavBar";
+import Footer from './components/Footer';
 
 import "./App.css";
 
@@ -29,6 +31,9 @@ const navLinks = [
     href: "hire-me"
   }
 ];
+
+const baseColor = "rgba(0,0,0,0)";
+const backgroundColor = "url('images/tunnels.jpg')";
 
 export default class App extends Component {
   constructor(props) {
@@ -65,9 +70,8 @@ export default class App extends Component {
   render() {
     const theColor = this.state.theColor;
 
-    const background = {
-      // background:(this.props.route.backgroundColor),
-      background: "gray",
+    const backgroundStyles = {
+      background: backgroundColor,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center center",
       backgroundAttachment: "fixed",
@@ -102,26 +106,28 @@ export default class App extends Component {
     };
 
     return (
-      <div style={background}>
+      <div style={backgroundStyles}>
         <div>
           <div>
-            {/* <NavBar
-              baseColor={"red"}
-              // baseColor={this.props.route.baseColor}
+            <NavBar
+              baseColor={baseColor}
               theColor={theColor}
               navLinks={navLinks}
-            /> */}
+            />
           </div>
           <div id="middleContainer">
-						{/* <Route pathname="/" component={HomePage} /> */}
-            {/* {React.cloneElement(this.props.children, { theColor }, )} */}
+            <Switch>
+              <Route exact path="/" component={() => <HomePage theColor={theColor} />}/>
+              <Route exact path="/about" component={() => <AboutPage theColor={theColor} />}/>
+              <Route exact path="/portfolio" component={() => <Portfolio theColor={theColor} />}/>
+            </Switch>
           </div>
           <div>
-            {/* <Footer
-									baseColor={"red"}
-				        	// baseColor={this.props.route.baseColor}
-				        	theColor={theColor}
-				        	navLinks={navLinks}/> */}
+            <Footer
+              baseColor={baseColor}
+              theColor={theColor}
+              navLinks={navLinks}
+            />
           </div>
           <div style={colorChangerRowStyle} className="row">
             <div className="col-xs-12 col-sm-4 colorChangeRow">
