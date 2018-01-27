@@ -18,12 +18,12 @@ class WeatherApp extends Component {
   handleSearch = (search) => {
     HTTP.get(search)
       .then(function(data) {
-        for(var i=0; i<4; i++){
-          console.log(Math.round(data.list[i].main.temp - 273.15));
-          console.log(data.list[i].weather[0].id);
-          console.log(data.list[i].dt_txt.substring(8, 10));
-          console.log(data.list[i].dt_txt.substring(5, 7));
-        }
+        // for(var i=0; i<4; i++){
+        //   console.log(Math.round(data.list[i].main.temp - 273.15));
+        //   console.log(data.list[i].weather[0].id);
+        //   console.log(data.list[i].dt_txt.substring(8, 10));
+        //   console.log(data.list[i].dt_txt.substring(5, 7));
+        // }
         this.setState({
           location: data.city.name,
           //This is for todays temperatures
