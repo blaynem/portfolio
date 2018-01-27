@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import NavItem from './NavItem';
 import { Link } from 'react-router-dom';
 
+import { NavLinks } from '../NavLinks';
+
 export default class NavBar extends Component {
 	render() {
 	const navStyle = {
@@ -50,7 +52,7 @@ export default class NavBar extends Component {
             </Link>
           </div>
           <div className="navbar">
-            <ul className="nav navbar-nav navbar-right">{this.props.navLinks.map(createLinkItem)}</ul>
+            <ul className="nav navbar-nav navbar-right">{NavLinks.map(createLinkItem)}</ul>
           </div>
         </nav>
       </div>

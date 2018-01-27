@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import NavItem from './NavBar/NavItem';
 import ConnectLinks from './ConnectLinks';
 
+import { NavLinks } from './NavLinks';
+
 
 export default class Footer extends Component {
 	render() {
@@ -34,7 +36,7 @@ export default class Footer extends Component {
 				</div>
 				<div id="footerParagraphs">
 					<ul>
-						{this.props.navLinks.map(createLinkItem)}
+						{NavLinks.map(createLinkItem)}
 					</ul>
 				</div>
 			</div>
