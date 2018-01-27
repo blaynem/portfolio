@@ -1,14 +1,15 @@
-var React = require('react');
-var SearchButton = require('./SearchButton.jsx');
+import React, { Component } from 'react';
 
-var WeatherToday = React.createClass({
+import SearchButton from './SearchButton';
+
+class WeatherToday extends Component {
 
   // handleSearch: function(search) {
   //   console.log(search);
   // },
 
 
-  render: function() {
+  render() {
 
     var headingstyles = {
       color: "white",
@@ -163,6 +164,6 @@ var WeatherToday = React.createClass({
       </div>
     );
   }
-});
+};
 
-module.exports = WeatherToday;
+export default WeatherToday;

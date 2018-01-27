@@ -1,17 +1,17 @@
-var React = require('react');
+import React, { Component } from 'react';
 
-var SearchButton = React.createClass ({
+class SearchButton extends Component {
 
 	// this takes the city typed into search bar, searches for it, then replaces it with 'search'
-	handleSubmit: function(e) {
+	handleSubmit = (e) => {
 		e.preventDefault();
 
 		this.props.searchNewCity(this.refs.searchInput.value);
     	this.refs.searchInput.value = '';
-	},
+	}
 
 
-	render: function() {
+	render() {
 
 		// the search buttons style
 		var searchButtonStyle = {
@@ -30,6 +30,6 @@ var SearchButton = React.createClass ({
 	        </div>
 		);
 	}
-});
+};
 
-module.exports = SearchButton;
+export default SearchButton;

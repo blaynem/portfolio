@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import WeatherApp from './weatherApp/components/WeatherApp.jsx';
+import WeatherApp from '../../apps/weatherApp/components/WeatherApp';
 
 export default class PortfolioPage extends Component {
 	render() {
@@ -178,10 +178,10 @@ export default class PortfolioPage extends Component {
 						</div>
 					</div>
 					<div style={{padding:0}} className="col-md-6">
-						{/* <WeatherApp
+						<WeatherApp
 							appSize=""
 							appColor={theColor}
-							startCity="Portland"/> */}
+							startCity="Portland"/>
 					</div>
 				</div>
 				<div style={{paddingTop:"15px", paddingBottom:"15px"}} className="col-xs-12">

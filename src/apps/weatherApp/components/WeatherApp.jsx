@@ -1,22 +1,24 @@
-var React = require('react');
-var WeatherListItem = require('./WeatherListItem.jsx');
-var WeatherToday = require('./WeatherToday.jsx');
-var HTTP = require('../services/httpservice');
+import React, { Component } from 'react';
+
+import WeatherListItem from './WeatherListItem';
+import WeatherToday from './WeatherToday';
+import HTTP from '../services/httpservice'
 
 //starting city
 
 var city;
-var WeatherApp = React.createClass({
+class WeatherApp extends Component {
   // initializes the app with the base cities weather
   // base city can be changed by replacing var city
-  getInitialState: function() {
-    city = (this.props.startCity)
-    return {
-      location: city
-    };
-  },
+  constructor(props){
+    super(props)
+
+    this.state = {
+      location: this.props.startCity
+    }
+  }
   // this gathers the information from the API based on the city that was searched for
-  handleSearch: function(search) {
+  handleSearch = (search) => {
     HTTP.get(search)
       .then(function(data) {
         for(var i=0; i<4; i++){
@@ -56,10 +58,11 @@ var WeatherApp = React.createClass({
         });
       }.bind(this));
       
-  },
+  }
   // this gathers the information from the API based on the starting city
-  componentWillMount: function() {
-    HTTP.get(city)
+  componentWillMount = () =>  {
+    const { startCity } = this.props
+    HTTP.get(startCity)
       .then(function(data) {
         this.setState({
           location: data.city.name,
@@ -91,7 +94,7 @@ var WeatherApp = React.createClass({
           dateMonth5: data.list[32].dt_txt.substring(5, 7)
         });
       }.bind(this));
-  },
+  }
   // makes it so every other list item changes color
   // the num it recieves is from the mapping of [2,3,4,5]
   listColor(num){
@@ -99,8 +102,21 @@ var WeatherApp = React.createClass({
       return "#EBEBEB"
     }
       return "#F5F5F5"
-  },
-  render: function() {
+  }
+
+  renderWeatherList = () => {
+    return [2,3,4,5].map((number, i) => (
+      <WeatherListItem
+        key={number + i}
+        listColor={this.listColor(number)}
+        dateDay={this.state["dateDay" + number]}
+        dateMonth={this.state["dateMonth" + number]}
+        cloudIcon={this.state["cloudIcon" + number]}
+        temps={this.state["tempsDay" + number]}/>
+    ))
+  }
+
+  render() {
 
     // cleans up code by getting rid of calling "this.state" always
     const { location, dateDay1, dateMonth1, dateYear1, cloudIcon1, tempsDay1, windDirection, windSpeed } = this.state;
@@ -112,18 +128,6 @@ var WeatherApp = React.createClass({
       paddingBottom: 0
     }
 
-    // maps through the 2-5 to push those into the 5-day forecast
-    const weatherList = ([2,3,4,5].map((number, i) => (
-        <WeatherListItem
-          key={number + i}
-          listColor={this.listColor(number)}
-          dateDay={this.state["dateDay" + number]}
-          dateMonth={this.state["dateMonth" + number]}
-          cloudIcon={this.state["cloudIcon" + number]}
-          temps={this.state["tempsDay" + number]}/>
-      ))
-    );
-
     if (appSize) {
       var appSizeClass = (appSize)
     } else {
@@ -133,24 +137,24 @@ var WeatherApp = React.createClass({
     return (
       <div className={appSizeClass}>
         <div style={{marginBottom:0}} className="panel panel-default">
-            <WeatherToday
-              headingColor={appColor}
-              currentCity={location}
-              dateDay={dateDay1}
-              dateMonth={dateMonth1}
-              dateYear={dateYear1}
-              cloudIcon={cloudIcon1}
-              todayTemp={tempsDay1}
-              windDegrees={windDirection}
-              windSpeed={windSpeed} 
-              searchNewCity={this.handleSearch} />
+          <WeatherToday
+            headingColor={appColor}
+            currentCity={location}
+            dateDay={dateDay1}
+            dateMonth={dateMonth1}
+            dateYear={dateYear1}
+            cloudIcon={cloudIcon1}
+            todayTemp={tempsDay1}
+            windDegrees={windDirection}
+            windSpeed={windSpeed} 
+            searchNewCity={this.handleSearch} />
           <div style={panelBodyStyle} className="panel-body">
-            {weatherList}
+            {this.renderWeatherList()}
           </div>
         </div>
       </div>
-    );
+    )
   }
-});
+}
 
-module.exports = WeatherApp;
+export default WeatherApp;

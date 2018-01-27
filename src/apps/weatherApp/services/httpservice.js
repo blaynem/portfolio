@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 var Fetch = require('whatwg-fetch');
-var baseUrl = 'http://api.openweathermap.org/data/2.5/forecast/weather?q=';
+var baseUrl = 'http://api.openweathermap.org/data/2.5/forecast?q=';
 var apiUrl = '&APPID=a07f627d8d593dfe2e91c117ba8f195d';
 
 var service = {

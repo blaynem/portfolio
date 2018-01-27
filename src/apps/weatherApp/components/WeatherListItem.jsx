@@ -1,7 +1,7 @@
-var React = require('react');
+import React, { Component } from 'react';
 
-var WeatherListItem = React.createClass({
-  render: function() {
+class WeatherListItem extends Component {
+  render() {
 
     // changes degrees from Celsius to Fahrenheit
     var todaysTempC = (this.props.temps);
@@ -65,6 +65,7 @@ var WeatherListItem = React.createClass({
       </div>
     );
   }
-});
+};
 
-module.exports = WeatherListItem;
+
+export default WeatherListItem
